@@ -4,12 +4,12 @@ from django.db import models
 
 class Member(models.Model):
     member_id = models.IntegerField()
-    company_name = models.CharField()
-    company_address = models.CharField()
+    company_name = models.CharField(max_length = 50)
+    company_address = models.CharField(max_length = 50)
     company_tel = models.IntegerField()
-    menber_org = models.CharField()
-    menber_name = models.CharField()
-    mail = models.CharField()
+    menber_org = models.CharField(max_length = 50)
+    menber_name = models.CharField(max_length = 50)
+    mail = models.CharField(max_length = 50)
     payment = models.IntegerField()
     
 class Reserve(models.Model):
@@ -17,18 +17,18 @@ class Reserve(models.Model):
     date = models.DateField(blank=False,null=False)
     start_time = models.IntegerField()
     end_time = models.IntegerField()
-    name_rsvMR = models.CharField()
-    name_rsvFcl = models.CharField()
+    name_rsvMR = models.CharField(max_length = 50)
+    name_rsvFcl = models.CharField(max_length = 50)
     charge_rsv = models.IntegerField()
     
 class MeetingRoom(models.Model):
-    name_MR = models.CharField()
+    name_MR = models.CharField(max_length = 50)
     availability = models.IntegerField()
     charge_MR = models.IntegerField()
     
 class Facility(models.Model):
-    name_facility = models.CharField()
-    stock = models.CharField()
+    name_facility = models.CharField(max_length = 50)
+    stock = models.CharField(max_length = 50)
     charge_fcl = models.IntegerField()
     
 class Billing(models.Model):
