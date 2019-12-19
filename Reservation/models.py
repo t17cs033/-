@@ -16,6 +16,7 @@ class Member(models.Model):
     
 class Reserve(models.Model):
     rsv_number = models.IntegerField()
+    rsv_cmpID = models.IntegerField()
     date = models.DateField(blank=False,null=False)
     start_time = models.IntegerField()
     end_time = models.IntegerField()
