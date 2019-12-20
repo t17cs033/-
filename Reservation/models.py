@@ -23,6 +23,7 @@ class Reserve(models.Model):
     mrName = models.CharField(max_length = 50)      #会議室名
     fclName = models.CharField(max_length = 50)     #付属設備名
     charge = models.IntegerField()                  #料金
+
     def __str__(self):
         return self.number
     

@@ -1,0 +1,21 @@
+{%extends "base.html"%}
+
+{% block title %} 請求ページ {% endblock %}
+
+{%block main %}
+<div style="position:absolute; left:200px;">
+<font color="red"><h1>Bill </h1></font>
+
+ {% if billing %}
+ <dl>
+ <dt>請求</dt><dd>{{ billing.bill_id }}</dd>
+ <dt>個数</dt><dd>{{ billing.amount }}</dd>
+ <dt>期日</dt><dd>{{ billing.remain }}</dd>
+ </dl>
+ {% endif %}
+
+ <ul>
+ <li><a href="{% url 'billing' %}">一覧へ戻るとはいっていない</a></li>
+ </ul>
+ </div>
+ {% endblock %} 
