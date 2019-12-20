@@ -3,47 +3,47 @@ from django.db import models
 # Create your models here.
 
 class Member(models.Model):
-    member_id = models.IntegerField()
-    company_name = models.CharField(max_length = 50)
-    company_address = models.CharField(max_length = 50)
-    company_tel = models.IntegerField()
-    menber_org = models.CharField(max_length = 50)
-    menber_name = models.CharField(max_length = 50)
-    mail = models.CharField(max_length = 50)
-    payment = models.IntegerField()
+    cmpId = models.IntegerField()               #ID
+    cmpName = models.CharField(max_length = 50) #企業名
+    address = models.CharField(max_length = 50) #住所
+    tel = models.IntegerField()                 #電話番号
+    section = models.CharField(max_length = 50) #担当部署
+    name = models.CharField(max_length = 50)    #担当者名
+    mail = models.CharField(max_length = 50)    #メールアドレス
+    pay = models.IntegerField()                 #支払金額
     def __str__(self):
-        return self.company_name
+        return self.cmpName
     
 class Reserve(models.Model):
-    rsv_number = models.IntegerField()
-    rsv_cmpID = models.IntegerField()
-    date = models.DateField(blank=False,null=False)
-    start_time = models.IntegerField()
-    end_time = models.IntegerField()
-    name_rsvMR = models.CharField(max_length = 50)
-    name_rsvFcl = models.CharField(max_length = 50)
-    charge_rsv = models.IntegerField()
+    number = models.IntegerField()                  #予約番号
+    date = models.DateField(blank=False,null=False) #日付
+    start_time = models.IntegerField()              #利用開始時間
+    end_time = models.IntegerField()                #利用終了時間
+    mrName = models.CharField(max_length = 50)      #会議室名
+    fclName = models.CharField(max_length = 50)     #付属設備名
+    charge = models.IntegerField()                  #料金
     def __str__(self):
-        return self.rsv_number
+        return self.number
     
 class MeetingRoom(models.Model):
-    name_MR = models.CharField(max_length = 50)
-    availability = models.IntegerField()
-    charge_MR = models.IntegerField()
+    mrName= models.CharField(max_length = 50)   #会議室名
+    avail = models.IntegerField()               #空き数
+    charge = models.IntegerField()              #料金
     def __str__(self):
-        return self.name_MR
+        return self.meetingRoom
     
 class Facility(models.Model):
-    name_facility = models.CharField(max_length = 50)
-    stock = models.CharField(max_length = 50)
-    charge_fcl = models.IntegerField()
+    fclName = models.CharField(max_length = 50) #付属設備名
+    stock = models.CharField(max_length = 50)   #在庫数
+    charge = models.IntegerField()              #料金
+    
     def __str__(self):
-        return self.name_facility
+        return self.facility
     
 class Billing(models.Model):
-    bill_id = models.IntegerField()
-    amount = models.IntegerField()
-    remain = models.IntegerField()
+    cmpId = models.IntegerField()   #ID
+    amount = models.IntegerField()  #請求額
+    remain = models.IntegerField()  #残高
     def __str__(self):
-        return self.bill_id
+        return self.bId
     
