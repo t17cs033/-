@@ -6,5 +6,5 @@ from Reservation.views import BillingView
 appname='Reservation'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('bill',BillingView.as_view(),name='bill'),
+    path('Bill',BillingView.as_view(),name='billing'),
 ]
