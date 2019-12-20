@@ -16,6 +16,7 @@ class Member(models.Model):
     
 class Reserve(models.Model):
     number = models.IntegerField()                  #予約番号
+    cmpId = models.IntegerField()                   #ID
     date = models.DateField(blank=False,null=False) #日付
     start_time = models.IntegerField()              #利用開始時間
     end_time = models.IntegerField()                #利用終了時間
