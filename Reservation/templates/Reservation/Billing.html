@@ -8,14 +8,14 @@
 
  {% if billing %}
  <dl>
- <dt>請求</dt><dd>{{ billing.bill_id }}</dd>
+ <dt>請求</dt><dd>{{ billing.id }}</dd>
  <dt>個数</dt><dd>{{ billing.amount }}</dd>
  <dt>期日</dt><dd>{{ billing.remain }}</dd>
  </dl>
  {% endif %}
 
  <ul>
- <li><a href="{% url 'billing' %}">一覧へ戻るとはいっていない</a></li>
+ <li><a href="{% url 'index' %}">一覧へ戻るとはいっていない</a></li>
  </ul>
  </div>
  {% endblock %} 
