@@ -1,0 +1,21 @@
+<html>
+{% block title %} 会議室一覧 {% endblock %}
+
+{% block main %}
+
+<div style="position:absolute; left:200px;">
+
+<form action="{% url 'mrshow'%} method="post">
+
+<ul>
+<li><a href="{% url 'mrbig' %}">大会議室</a></li>
+<li><a href="{% url 'mrmid' %}">中会議室</a></li>
+<li><a href="{% url 'mrsml' %}">小会議室</a></li>
+<li><a href="{% url 'cora' %}">コーナーA</a></li>
+<li><a href="{% url 'corb' %}">コーナーB</a></li>
+</ul>
+
+</div>
+
+{% endblock %}
+</html>
