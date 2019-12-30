@@ -13,7 +13,7 @@ class Member(models.Model):
     pay = models.CharField(max_length = 50)     #支払金額
     def __str__(self):
         return self.cmpName
-    
+
 class Reserve(models.Model):
     number = models.IntegerField()                  #予約番号
     cmpId = models.IntegerField()                   #ID
@@ -24,27 +24,26 @@ class Reserve(models.Model):
     fclName = models.CharField(max_length = 50)     #付属設備名
     charge = models.CharField(max_length = 50)      #料金
     def __str__(self):
-        return self.number
-    
+        return str(self.number)
+
 class MeetingRoom(models.Model):
     mrName= models.CharField(max_length = 50)   #会議室名
     avail = models.IntegerField()               #空き数
     charge = models.CharField(max_length = 50)  #料金
     def __str__(self):
         return self.mrName
-    
+
 class Facility(models.Model):
     fclName = models.CharField(max_length = 50) #付属設備名
     stock = models.CharField(max_length = 50)   #在庫数
     charge = models.CharField(max_length = 50)  #料金
-    
+
     def __str__(self):
         return self.fclName
-    
+
 class Billing(models.Model):
     cmpId = models.IntegerField()               #ID
     amount = models.CharField(max_length = 50)  #請求額
     remain = models.CharField(max_length = 50)  #残高
     def __str__(self):
-        return self.cmpId
-    
+        return str(self.cmpId)
