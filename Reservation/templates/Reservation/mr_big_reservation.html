@@ -5,6 +5,9 @@
 
 {% block title %} 大会議室 {% endblock %}
 
+{% load static %}
+<img src="{% static "Reservation/大会議室.jpg %}" alt="大会議室">
+
 <div style="position:absolute; left:200px;">
 
 <form action="{% url 'mrbig'%} method="post">
