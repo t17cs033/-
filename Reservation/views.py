@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from .models import Billing
+from django.views.generic.list import ListView
+from django.views.generic.base import TemplateView
 
 # Create your views here.
 
@@ -9,14 +11,11 @@ def index(request):
     return HttpResponse("Hello, world. ")
 
 
-class BillingView(TemplateView):
+
+class BillingBase(ListView):
     model = Billing
-    template_name = 'Reservation/Billing.html'
+    template_name = "Reservation/BillBase.html"
     
-    def post(self,request,*arg,**kwargs):
-        billing_id = self.request.POST.get('billing_id')
-        billing = Billing.objects.get(pk=billing_id)
-        context = super().get_context_data(**kwargs)
-        context['billing'] = billing
-        return self.render_to_response(context)
-    
+class BillingView(DetailView):
+    model = Billing
+    template_name = "Reservation/Billing.html"

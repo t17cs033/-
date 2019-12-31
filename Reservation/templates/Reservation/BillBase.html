@@ -25,34 +25,25 @@ display: inline-block; margin-bottom: 10px; margin-left: 450px; border: 2px doub
 </script>
 </div>
 <table border="1" style="border-collapse: collapse" width = "500">
-    <body class="billbase">  
+    <body>  
 
-      <!--   <tr>
+   
+    
+        {% for billbase in object_list %}
+    
+        <tr>
           <th> 請求先ID </th>
             <td>
-            {{ billing.cmpId }}
+              {{ billbase.cmpId }}
             </td>
-        </tr> -->
-
-        <tr>
-          <th> 残額 </th>
-            <td>
-            {{ billing.remain }}
-            </td>
-        </tr>
-
-        <tr>
-        <th> 当月分 </th>
-          <td>
-          {{ billing.amount }}</td>
         </tr>
 
         <tr>
           <th>合計</th>
           <td>
             <script>
-              re = {{ billing.remain }};
-              am = {{ billing.amount }};
+              re = {{ billbase.remain }};
+              am = {{ billbase.amount }};
               document.write(re+am);
             </script>
 
@@ -60,7 +51,8 @@ display: inline-block; margin-bottom: 10px; margin-left: 450px; border: 2px doub
         </tr>
 
         <tr><th></th><td></td></tr>
-
+        
+        {% endfor %}
     </body>
     </table>
  
