@@ -5,6 +5,11 @@
 
 {% block title %} コーナーA {% endblock %}
 
+<div>
+{% load static %}
+<img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="400" height="250">
+</div>
+
 <div style="position:absolute; left:200px;">
 
 <form action="{% url 'cora'%} method="post">

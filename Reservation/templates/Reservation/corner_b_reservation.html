@@ -3,7 +3,12 @@
 <title>コーナーB</title>
 </head>
 
-{% block title %} コーナーA {% endblock %}
+{% block title %} コーナーB {% endblock %}
+
+<div>
+{% load static %}
+<img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="400" height="250">
+</div>
 
 <div style="position:absolute; left:200px;">
 
