@@ -3,17 +3,36 @@
 
 {% block main %}
 
-<div style="position:absolute; left:200px;">
+<div>
+
+{% load static %}
+<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200"><img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200"><img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200">
+
+</div>
+
+<div>
 
 <form action="{% url 'mrshow'%} method="post">
 
-<ul>
-<li><a href="{% url 'mrbig' %}">大会議室</a></li>
-<li><a href="{% url 'mrmid' %}">中会議室</a></li>
-<li><a href="{% url 'mrsml' %}">小会議室</a></li>
-<li><a href="{% url 'cora' %}">コーナーA</a></li>
-<li><a href="{% url 'corb' %}">コーナーB</a></li>
-</ul>
+<a href="{% url 'mrbig' %}">大会議室</a>
+<a href="{% url 'mrmid' %}">中会議室</a>
+<a href="{% url 'mrsml' %}">小会議室</a>
+
+</div>
+
+<div>
+
+{% load static %}
+<img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200">
+
+</div>
+
+<div>
+
+<form action="{% url 'mrshow'%} method="post">
+
+<a href="{% url 'cora' %}">コーナーA</a>
+<a href="{% url 'corb' %}">コーナーB</a>
 
 </div>
 
