@@ -4,7 +4,7 @@ from . import views
 from .views import MRShowView, BigMRReservationView, MiddleMRReservationView, SmallMRReservationView
 from .views import ACornerReservationView, BCornerReservationView
 
-app_name = 'Reservation'
+appname = 'Reservation'
 urlpatterns = [
     path('', views.index, name='index'),
     path('mrshow', MRShowView.as_view(),name='mrshow'),
@@ -13,4 +13,4 @@ urlpatterns = [
     path('mrsml', SmallMRReservationView.as_view(),name='mrsml'),
     path('cora', ACornerReservationView.as_view(),name='cora'),
     path('corb', BCornerReservationView.as_view(),name='corb'),
-]
+] 
