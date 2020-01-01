@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block main %}
+  <div align="center">
+    {% block title %} 料金案内 {% endblock %}
+    <br>
+    <a href="{% url 'index' %}">
+      <div align="left">
+        <button type="button">戻る</button>
+    </a>
+      </div>
+    <br>
+
+    <table border="1" style="border-collapse: collapse" width = "500">
+    <body>  
+
+   
+    
+        <tr>
+          <th> 会議室名＼料金 </th>
+          <th> 時間貸し </th>
+          <th> 半日貸し </th>
+          <th> 一日貸し </th>
+        </tr>
+        {% for guide in object_list %}
+        <tr>
+          <th>
+            {{ guide.mrName }}
+          </th>
+        </tr>
+        <td>
+        {{ guide.charge }}
+        </td>
+        {% endfor %}
+        
+
+        {% for guide in extra %}
+        {{ guide.fclName }}
+        
+        {% endfor %}    
+    </body>
+    </table>
+ 
+  </div>
+ {% endblock %} 
