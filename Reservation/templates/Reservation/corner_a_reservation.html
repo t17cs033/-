@@ -7,15 +7,20 @@
 
 <div>
 {% load static %}
+<br>
 <img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="400" height="250">
 </div>
 
-<div style="position:absolute; left:200px;">
+<div>
 
 <form action="{% url 'cora'%} method="post">
 
 <body>
-<p>Hello, world</p>
+<br>
+<br>
+<button type="button" value="一時間">一時間</button>
+<button type="button" value="半日">半日</button>
+<button type="button" value="一日">一日</button>
 </body>
 
 </div>

@@ -5,3 +5,4 @@ class MeetingRoom(forms.ModelForm):
     class Meta:
         model = MeetingRoom
         fields = ['mrName', 'avail', 'charge']
+
