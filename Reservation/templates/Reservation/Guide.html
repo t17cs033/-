@@ -13,9 +13,20 @@
 
     <table border="1" style="border-collapse: collapse" width = "500">
     <body>  
-
-   
-    
+      <script type="text/javascript">
+        str = "hello";
+        function getter() {
+          return str;
+        }
+        function setter(name){
+          str = name;
+        }
+        function classifer(before, after){
+          if (before != after) {
+            return true;
+          }
+        }
+      </script>
         <tr>
           <th> 会議室名＼料金 </th>
           <th> 時間貸し </th>
@@ -24,22 +35,17 @@
         </tr>
         {% for guide in object_list %}
         <tr>
-          <th>
-            {{ guide.mrName }}
-          </th>
+          <th>　{{guide.mrName}}　</th>
         </tr>
-        <td>
-        {{ guide.charge }}
-        </td>
         {% endfor %}
-        
 
         {% for guide in extra %}
         {{ guide.fclName }}
         
-        {% endfor %}    
+        {% endfor %}
     </body>
     </table>
+
  
   </div>
  {% endblock %} 
