@@ -10,23 +10,9 @@
     </a>
       </div>
     <br>
-
+    会議室，コーナーの料金表
     <table border="1" style="border-collapse: collapse" width = "500">
-    <body>  
-      <script type="text/javascript">
-        str = "hello";
-        function getter() {
-          return str;
-        }
-        function setter(name){
-          str = name;
-        }
-        function classifer(before, after){
-          if (before != after) {
-            return true;
-          }
-        }
-      </script>
+    <body> 
         <tr>
           <th> 会議室名＼料金 </th>
           <th> 時間貸し </th>
@@ -36,15 +22,33 @@
         {% for guide in object_list %}
         <tr>
           <th>　{{guide.mrName}}　</th>
+          <td> {{guide.timeCharge}} </td>
+          <td> {{guide.halfCharge}} </td>
+          <td> {{guide.dayCharge}} </td>
         </tr>
-        {% endfor %}
-
-        {% for guide in extra %}
-        {{ guide.fclName }}
-        
         {% endfor %}
     </body>
     </table>
+    <br>
+    付属設備の料金表
+    <table border="1" style="border-collapse: collapse" width = "500">
+    <body> 
+        <tr>
+          <th>  </th>
+          <th> 在庫 </th>
+          <th> 料金 </th>
+        </tr>
+        {% for guide in extra %}
+        <tr>
+          <th>　{{guide.fclName}} </th>
+          <td> {{guide.stock}} </td>
+          <td> {{guide.charge}} </td>
+        </tr>
+        {% endfor %}
+    </body>
+    </table>
+
+
 
  
   </div>
