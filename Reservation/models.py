@@ -45,6 +45,6 @@ class Billing(models.Model):
     cmpId = models.IntegerField()               #ID
     amount = models.CharField(max_length = 50)  #請求額
     remain = models.CharField(max_length = 50)  #残高
-    def __str__(self):
+    def __int__(self):
         return self.cmpId
     
