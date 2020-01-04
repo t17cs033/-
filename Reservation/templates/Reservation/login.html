@@ -1,14 +1,30 @@
- {% block main %}
+{% extends "base.html" %} {% block main %}
 
- <font color="red"><h1>ログイン </h1></font>
- <form action="{% url 'Reservation:select' %}"  method="post">
+<div class="box5">
+	<font color="red"><h1 align="center">ログイン</h1></font>
+</div>
 
- {% csrf_token %}
- {{ form_id}}
+<td><a href="http://127.0.0.1:8000/admin/login/?next=/admin/" class="btn-square">管理者</a></td>
 
- <input type="submit" value ="確定">
- </form>
- <td><a href = "http://127.0.0.1:8000/admin/login/?next=/admin/">管理者</a></td>
+<div align="center">
+	<form action="{% url 'login' %}" method="post">
+		{% csrf_token %} {{ form_id}} <input type="submit" value="確定">
+	</form>
+</div>
+
+{% if member %}
+<p align="center">ID:{{member.cmpId}} の {{member.cmpName}}
+	さんでよろしいですね？</p>
+<p align="center">
+	<a href="{% url 'select' %}/{{member.cmpId}}" >
+		<button type="button" style="width: 200px; height: 100px">
+			<font size="6">ログイン</font>
+		</button>
+	</a>
+</p>
+{% endif %}
+
+
 
 <!-- <table class="table">
 <thead class="thead-dark">
@@ -40,4 +56,4 @@
  </tbody>
  </table>
  -->
- {% endblock %}
+{% endblock %}
