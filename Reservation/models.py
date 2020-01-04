@@ -27,9 +27,11 @@ class Reserve(models.Model):
         return str(self.number)
     
 class MeetingRoom(models.Model):
-    mrName= models.CharField(max_length = 50)   #会議室名
-    avail = models.IntegerField()               #空き数
-    charge = models.CharField(max_length = 50)  #料金
+    mrName= models.CharField(max_length = 50)       #会議室名
+    avail = models.IntegerField()                   #空き数
+    timeCharge = models.CharField(max_length = 50)  #時間貸し料金
+    halfCharge = models.CharField(max_length = 50)  #半日貸し料金
+    dayCharge = models.CharField(max_length = 50)   #一日貸し料金
     def __str__(self):
         return self.mrName
     
