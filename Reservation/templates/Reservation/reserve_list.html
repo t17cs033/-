@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+{% block title %} 予約一覧 {% endblock %}
+
+<table border="1">
+    <body>  
+    <tr>  
+    <th> 予約番号 </th>
+    <th> 日付 </th>
+    <th> 開始時間 </th>
+    <th> 終了時間 </th>
+    <th> 会議室 </th>
+    <th> </th>
+    </tr>
+    
+        {% for reserve in object_list %}
+        <tr>
+    
+    	 <td>{{ reserve.number }}</td>
+    	 <td>{{ reserve.date }}</td>	
+        <td>{{ reserve.start_time }}</td>
+        <td>{{ reserve.end_time }}</td>
+        <td>{{ reserve.mrName}}</td>
+        <th><a href= "{% url 'reserve_detail' reserve.pk %}"> 詳細 </a></th>
+        
+        </tr>
+        {% endfor %}
+    </body>
+    </table>
+<a href= "{% url "index" %}"> 戻る </a>
+<html>
