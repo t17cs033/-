@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import MeetingRoom
+from .models import MeetingRoom, Reserve
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
 # Create your views here.
 
 def index(request):
@@ -11,8 +12,9 @@ class MRShowView(TemplateView):
     model = MeetingRoom
     template_name = 'Reservation/mr_show.html'
     
-class BigMRReservationView(TemplateView):
+class BigMRReservationView(CreateView):
     model = MeetingRoom
+    fiels = ('mrName')
     template_name = 'Reservation/mr_big_reservation.html'
     
 class MiddleMRReservationView(TemplateView):
