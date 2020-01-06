@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from Reservation.models import Reserve
-from .forms import MeetingRoomForm, MRChargeForm
+from .forms import ReserveForm, ReserveTime
 # Create your views here.
 
 def index(request):
@@ -17,10 +17,12 @@ class MRShowView(TemplateView):
     template_name = 'Reservation/mr_show.html'
     
 class BigMRReservationView(CreateView):
-    model = MeetingRoom
-    fields = ('mrName', 'avail', 'timeCharge', 'halfCharge', 'dayCharge')
+    model = Reserve
+    forms_class = ReserveTime
+    fields = ('date', 'start_time', 'end_time', 'mrName')
     template_name = 'Reservation/mr_big_reservation.html'
-                
+    success_url = 'mrshow/'      
+    
 class MiddleMRReservationView(CreateView):
     model = MeetingRoom
     template_name = 'Reservation/mr_middle_reservation.html'
