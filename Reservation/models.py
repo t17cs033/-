@@ -18,8 +18,8 @@ class Reserve(models.Model):
     number = models.IntegerField()                  #予約番号
     cmpId = models.IntegerField()                   #ID
     date = models.DateField(blank=False,null=False) #日付
-    start_time = models.CharField(max_length = 50)  #利用開始時間
-    end_time = models.CharField(max_length = 50)    #利用終了時間
+    start_time = models.TimeField()                 #利用開始時間
+    end_time = models.TimeField()                   #利用終了時間
     mrName = models.CharField(max_length = 50)      #会議室名
     fclName = models.CharField(max_length = 50)     #付属設備名
     charge = models.CharField(max_length = 50)      #料金
@@ -27,9 +27,11 @@ class Reserve(models.Model):
         return str(self.number)
     
 class MeetingRoom(models.Model):
-    mrName= models.CharField(max_length = 50)   #会議室名
-    avail = models.IntegerField()               #空き数
-    charge = models.CharField(max_length = 50)  #料金
+    mrName= models.CharField(max_length = 50)       #会議室名
+    avail = models.IntegerField()                   #空き数
+    timeCharge = models.CharField(max_length = 50)  #時間貸し料金
+    halfCharge = models.CharField(max_length = 50)  #半日貸し料金
+    dayCharge = models.CharField(max_length = 50)   #一日貸し料金
     def __str__(self):
         return self.mrName
     

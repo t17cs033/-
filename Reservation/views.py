@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from .models import MeetingRoom, Reserve
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from Reservation.models import Reserve
 # Create your views here.
 
 def index(request):
@@ -14,21 +17,27 @@ class MRShowView(TemplateView):
     
 class BigMRReservationView(CreateView):
     model = MeetingRoom
-    fiels = ('mrName')
+    fields = ('name', 'avail', 'timeCharge', 'halfCharge', 'dayCharge')
     template_name = 'Reservation/mr_big_reservation.html'
-    
-class MiddleMRReservationView(TemplateView):
+                
+class MiddleMRReservationView(CreateView):
     model = MeetingRoom
     template_name = 'Reservation/mr_middle_reservation.html'
     
-class SmallMRReservationView(TemplateView):
+class SmallMRReservationView(CreateView):
     model = MeetingRoom
     template_name = 'Reservation/mr_small_reservation.html'
     
-class ACornerReservationView(TemplateView):
+class ACornerReservationView(CreateView):
     model = MeetingRoom
     template_name = 'Reservation/corner_a_reservation.html'
     
-class BCornerReservationView(TemplateView):
+class BCornerReservationView(CreateView):
     model = MeetingRoom
     template_name = 'Reservation/corner_b_reservation.html'
+
+class ReserveList(ListView):
+    model = Reserve
+    
+class ReserveDetal(DetailView):    
+    model = Reserve
