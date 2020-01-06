@@ -6,6 +6,7 @@
 {% block title %} 大会議室 {% endblock %}
 
 <div>
+<br>
 <a href="{% url 'mrshow' %}">戻る</a>
 </div>
 
@@ -16,16 +17,13 @@
 </div>
 
 <div>
-
 <form action="{% url 'mrbig'%} method="post">
-{% csrf_token &}
-
+{% csrf_token %}
 <br>
 <br>
 <input type="button" name="button_time" value="一時間">
 <input type="button" name="button_half" value="半日">
 <input type="button" name="button_day" value="一日">
-
 </form>
 </div>
 

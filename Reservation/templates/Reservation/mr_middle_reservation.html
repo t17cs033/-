@@ -6,6 +6,11 @@
 {% block title %} 中会議室 {% endblock %}
 
 <div>
+<br>
+<a href="{% url 'mrshow' %}">戻る</a>
+</div>
+
+<div>
 {% load static %}
 <img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="400" height="250">
 </div>
@@ -13,15 +18,12 @@
 <div>
 
 <form action="{% url 'mrmid'%} method="post">
-
-<body>
+{% csrf_token %}
 <br>
 <br>
 <button type="button" value="一時間">一時間</button>
 <button type="button" value="半日">半日</button>
 <button type="button" value="一日">一日</button>
-</body>
-
 </div>
 
 </html>

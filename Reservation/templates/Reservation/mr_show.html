@@ -1,40 +1,37 @@
+<!doctype html>
 <html>
 {% block title %} 会議室一覧 {% endblock %}
 
 {% block main %}
 
 <div>
-
-{% load static %}
 <br>
-<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200" hspace="10">
-
+<a href="{% url 'index' %}">戻る</a>
 </div>
 
 <div>
+{% load static %}
+<br>
+<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200" hspace="10">
+</div>
 
+<div>
 <form action="{% url 'mrshow'%} method="post">
-
 <br>
 <a href="{% url 'mrbig' %}">大会議室</a>
 <a href="{% url 'mrmid' %}">中会議室</a>
 <a href="{% url 'mrsml' %}">小会議室</a>
-
 </div>
 
 <div style="position:absolute; left:200px;">
-
 {% load static %}
 <br>
 <img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200" hspace="10"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200" hspace="10">
-
 <br>
 <br>
 <a href="{% url 'cora' %}">コーナーA</a>
 <a href="{% url 'corb' %}">コーナーB</a>
-
 </div>
-
 </form>
 
 {% endblock %}
