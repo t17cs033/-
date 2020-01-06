@@ -4,7 +4,8 @@
 	<font color="red"><h1 align="center">ログイン</h1></font>
 </div>
 
-<td><a href="http://127.0.0.1:8000/admin/login/?next=/admin/" class="btn-square">管理者</a></td>
+<td><a href="http://127.0.0.1:8000/admin/login/?next=/admin/"
+	class="btn-square">管理者</a></td>
 
 <div align="center">
 	<form action="{% url 'login' %}" method="post">
@@ -16,44 +17,13 @@
 <p align="center">ID:{{member.cmpId}} の {{member.cmpName}}
 	さんでよろしいですね？</p>
 <p align="center">
-	<a href="{% url 'select' %}/{{member.cmpId}}" >
-		<button type="button" style="width: 200px; height: 100px">
-			<font size="6">ログイン</font>
-		</button>
+	<a href="{% url 'select' %}/{{member.cmpId}}" class="btn-square-so-pop">
+		<font size="4">ログイン</font>
 	</a>
 </p>
-{% endif %}
 
-
-
-<!-- <table class="table">
-<thead class="thead-dark">
-<tr>
-<th>id</th>
-<th>企業名</th>
-<th>住所</th>
-<th>電話</th>
-<th>部署</th>
-<th>担当名</th>
-<th>メール</th>
-<th>支払い</th>
-</tr>
-</thead>
-
-<tbody>
- {% for member in object_list %}
- <tr>
-<td> {{member.cmpId}}</td>
-<td> {{member.cmpName}}</td>
-<td> {{member.address}}</td>
-<td> {{member.tel}}</td>
-<td> {{member.section}}</td>
-<td> {{member.name}}</td>
-<td> {{member.mail}}</td>
-<td> {{member.pay}}</td>
-</tr>
- {% endfor %}
- </tbody>
- </table>
- -->
-{% endblock %}
+<p align="center">
+	<a href="{% url 'login' %}"> <font size="2">入力のやり直し</font>
+	</a>
+</p>
+{% endif %} {% endblock %}
