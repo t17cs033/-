@@ -6,7 +6,7 @@ from .views import MRShowView, BigMRReservationView, MiddleMRReservationView, Sm
 from .views import ACornerReservationView, BCornerReservationView
 
 from django.urls.conf import path
-from Reservation.views import ReserveList, ReserveDetal, ReserveTime
+from Reservation.views import ReserveList, ReserveDetal
 
 appname = 'Reservation'
 urlpatterns = [
