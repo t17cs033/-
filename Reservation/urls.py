@@ -17,7 +17,6 @@ urlpatterns = [
     path('mrsml/', SmallMRReservationView.as_view(),name='mrsml'),
     path('cora/', ACornerReservationView.as_view(),name='cora'),
     path('corb/', BCornerReservationView.as_view(),name='corb'),
-    path('<str:pk>/time/', ReserveTime.as_view(), name='reservetime'),
     path('reserve_list/', ReserveList.as_view(), name = 'reserve_list'),
     path('reserve_list/<int:pk>/', ReserveDetal.as_view(), name = 'reserve_detail'),
 ]

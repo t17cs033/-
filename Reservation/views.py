@@ -39,9 +39,6 @@ class BCornerReservationView(CreateView):
     model = MeetingRoom
     template_name = 'Reservation/corner_b_reservation.html'
     
-class ReserveTime(CreateView):
-    model = Reserve
-
 class ReserveList(ListView):
     model = Reserve
     
