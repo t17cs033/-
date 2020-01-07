@@ -3,19 +3,19 @@ from django.http import HttpResponse
 from django.urls import reverse
 from .models import MeetingRoom, Reserve
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from Reservation.models import Reserve
-from .forms import ReserveForm, ReserveTime
-from django.http.response import HttpResponseRedirect
+from .forms import ReserveForm, ReserveTime, ReserveCmpIDForm
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 def index(request):
     return HttpResponse("Hello, world. ")
 
 class MRShowView(TemplateView):
-    model = MeetingRoom
+    model = Reserve
     template_name = 'Reservation/mr_show.html'
         
 class BigMRReservationView(CreateView):
@@ -23,19 +23,49 @@ class BigMRReservationView(CreateView):
     fields = ('cmpId', 'date', 'mrName')
     template_name = 'Reservation/mr_big_reservation.html'
     success_url = 'mrshow/'
-    
+  
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
-        reserve = get_object_or_404(Reserve, pk=cmpId)
         start_time = self.request.POST.get('reserve_stime')
         end_time = self.request.POST.get('reserve_etime')
+        
+        reserve = get_object_or_404(Reserve, pk=cmpId)
         reserve.stime = start_time
         reserve.etime = end_time
         reserve.save()
         return HttpResponseRedirect(reverse('mrshow'))
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)        
+        context = super().get_context_data(**kwargs)
+        context['form'] = ReserveForm()
+        context['form_time'] = ReserveTime()
+        return context
+        
+    
+class BigMRReservationUpdateView(UpdateView):
+    model = Reserve
+    fields = ('cmpId', 'date', 'mrName')
+    template_name = 'Reservation/mr_big_reservation.html'
+    success_url = 'mrshow/'
+    
+    def post(self, request, *args, **kwargs):
+        cmp_Id = self.request.POST.get('cmpId')
+        res_date = self.request.POST.get('date')
+        mr_Name = self.request.POST.get('mrName')
+        start_time = self.request.POST.get('reserve_stime')
+        end_time = self.request.POST.get('reserve_etime')
+        
+        reserve = get_object_or_404(Reserve, pk=cmp_Id)
+        reserve.cmpId = cmp_Id
+        reserve.date = res_date
+        reserve.mrName = mr_Name
+        reserve.stime = start_time
+        reserve.etime = end_time
+        reserve.save()
+        return HttpResponseRedirect(reverse('mrshow'))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['form'] = ReserveForm()
         context['form_time'] = ReserveTime()
         return context

@@ -1,11 +1,8 @@
-from django.urls import path
-
+from django.urls.conf import path
 from . import views
 
 from .views import MRShowView, BigMRReservationView, MiddleMRReservationView, SmallMRReservationView
-from .views import ACornerReservationView, BCornerReservationView
-
-from django.urls.conf import path
+from .views import ACornerReservationView, BCornerReservationView
 from Reservation.views import ReserveList, ReserveDetal
 
 appname = 'Reservation'
