@@ -3,6 +3,8 @@
 	background-size: cover;
 	background-attachment: fixed;
 }*/
+ 
+body {background-color: #FFEEFF;}
 
 .box5 { /*文字を囲う（二重）*/
 	padding: 0;

@@ -16,7 +16,8 @@ class LoginView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
-        member = Member.objects.get(pk = cmpId)
+        #member = Member.objects.get(pk = cmpId)
+        member =get_object_or_404(Member, pk=cmpId)
         context = super().get_context_data(**kwargs)
         context['form_id'] = MemberIdForm()
         context['member'] = member
@@ -40,7 +41,7 @@ class SelectView(TemplateView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_id'] = MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
+        context['form_id'] = MemberIdForm()
         context['form'] = MemberForm()
         return context
 
