@@ -9,6 +9,8 @@ from django.views.generic.detail import DetailView
 from Reservation.models import Reserve
 from .forms import ReserveForm, ReserveTime, ReserveCmpIDForm
 from django.http import HttpResponseRedirect
+from Reservation.models import Reserve
+
 # Create your views here.
 
 def index(request):
