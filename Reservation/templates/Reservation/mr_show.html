@@ -23,7 +23,7 @@
 <a href="{% url 'mrsml' %}">小会議室</a>
 </div>
 
-<div style="position:absolute; left:200px;">
+<div>
 {% load static %}
 <br>
 <img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200" hspace="10"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200" hspace="10">
@@ -31,17 +31,29 @@
 <br>
 <a href="{% url 'cora' %}">コーナーA</a>
 <a href="{% url 'corb' %}">コーナーB</a>
+<br>
+<br>
 </div>
+</form>
 
-<tbody style="position:absolute; top:200px; left:1000px;">
+<div>
+<table border="1">
+<tr>
+<th>会議室名</th>
+<th>開始時間</th>
+<th>終了時間</th>
+</tr>
+
+<tbody>
 {% for reserve in object_list %}
-<p>{{ reserve.mrName }}</p>
-<p>{{ reserve.start_time }}</p>
-<p>{{ reserve.end_time }}</p>
+<tr>
+<td>{{ reserve.mrName }}</td>
+<td>{{ reserve.start_time }}</td>
+<td>{{ reserve.end_time }}</td>
 {% endfor %}
 </tbody>
-
-</form>
+</table>
+</div>
 
 {% endblock %}
 </html>

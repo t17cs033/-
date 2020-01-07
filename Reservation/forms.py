@@ -24,13 +24,16 @@ class ReserveTime(forms.Form):
     
     reserve_stime = forms.ChoiceField(label='開始時間',widget=forms.Select,choices=stime)
     reserve_etime = forms.ChoiceField(label='終了時間',widget=forms.Select,choices=etime)
-    
-class ReserveCmpIDForm(forms.Form):
-    reserve_cmpId = forms.IntegerField(label='企業ID')
-    reserve_date = forms.DateField(label='日付')
-    reserve_mr = forms.CharField(label='会議室名')
-    
+ 
 class ReserveForm(forms.ModelForm):
     class Meta:
         model = Reserve
-        fields = ['cmpId', 'date', 'mrName']
+        fields = ['number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time']
+        labels = {
+            'number': '予約番号',
+            'cmpId': '企業ID',
+            'date': '日付',
+            'mrName': '会議室名',
+            'start_time': '開始時間',
+            'end_time': '終了時間',
+             }
