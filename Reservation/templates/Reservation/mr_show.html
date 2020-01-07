@@ -32,15 +32,6 @@
 <a href="{% url 'cora' %}">コーナーA</a>
 <a href="{% url 'corb' %}">コーナーB</a>
 </div>
-
-<tbody style="position:absolute; top:200px; left:1000px;">
-{% for reserve in object_list %}
-<p>{{ reserve.mrName }}</p>
-<p>{{ reserve.start_time }}</p>
-<p>{{ reserve.end_time }}</p>
-{% endfor %}
-</tbody>
-
 </form>
 
 {% endblock %}
