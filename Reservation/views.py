@@ -7,18 +7,22 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from Reservation.models import Reserve
-from .forms import ReserveForm, ReserveTime, ReserveCmpIDForm
+from .forms import ReserveForm, ReserveTime
 from django.http import HttpResponseRedirect
-from Reservation.models import Reserve
 
 # Create your views here.
 
 def index(request):
     return HttpResponse("Hello, world. ")
 
-class MRShowView(TemplateView):
+class MRShowView(ListView):
     model = Reserve
     template_name = 'Reservation/mr_show.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ReserveForm()
+        return context
         
 class BigMRReservationView(CreateView):
     model = Reserve
@@ -32,37 +36,8 @@ class BigMRReservationView(CreateView):
         end_time = self.request.POST.get('reserve_etime')
         
         reserve = get_object_or_404(Reserve, pk=cmpId)
-        reserve.stime = start_time
-        reserve.etime = end_time
-        reserve.save()
-        return HttpResponseRedirect(reverse('mrshow'))
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = ReserveForm()
-        context['form_time'] = ReserveTime()
-        return context
-        
-    
-class BigMRReservationUpdateView(UpdateView):
-    model = Reserve
-    fields = ('cmpId', 'date', 'mrName')
-    template_name = 'Reservation/mr_big_reservation.html'
-    success_url = 'mrshow/'
-    
-    def post(self, request, *args, **kwargs):
-        cmp_Id = self.request.POST.get('cmpId')
-        res_date = self.request.POST.get('date')
-        mr_Name = self.request.POST.get('mrName')
-        start_time = self.request.POST.get('reserve_stime')
-        end_time = self.request.POST.get('reserve_etime')
-        
-        reserve = get_object_or_404(Reserve, pk=cmp_Id)
-        reserve.cmpId = cmp_Id
-        reserve.date = res_date
-        reserve.mrName = mr_Name
-        reserve.stime = start_time
-        reserve.etime = end_time
+        reserve.start_time = start_time
+        reserve.end_time = end_time
         reserve.save()
         return HttpResponseRedirect(reverse('mrshow'))
     
