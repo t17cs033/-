@@ -10,8 +10,6 @@ from Reservation.models import MeetingRoom, Facility
 def index(request):
     return HttpResponse("Hello, world. ")
 
-
-
 class BillingBase(ListView):
     model = Billing
     template_name = "Reservation/BillBase.html"
