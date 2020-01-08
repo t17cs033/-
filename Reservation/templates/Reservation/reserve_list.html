@@ -10,8 +10,8 @@
     <th> 日付 </th>
     <th> 開始時間 </th>
     <th> 終了時間 </th>
-    <th> 会議室 </th>
     <th> </th>
+    <th></th>
     </tr>
     
         {% for reserve in object_list %}
@@ -21,8 +21,8 @@
     	 <td>{{ reserve.date }}</td>	
         <td>{{ reserve.start_time }}</td>
         <td>{{ reserve.end_time }}</td>
-        <td>{{ reserve.mrName}}</td>
         <th><a href= "{% url 'reserve_detail' reserve.pk %}"> 詳細 </a></th>
+        <th><a href= "{% url 'delete' reserve.pk %}">キャンセル</a></th>
         
         </tr>
         {% endfor %}
