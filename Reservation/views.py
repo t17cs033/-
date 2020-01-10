@@ -1,14 +1,12 @@
-from django.shortcuts import render
 from .models import Member
 from django.views.generic.base import TemplateView
 from Reservation.forms import MemberIdForm, MemberForm
 from django.shortcuts import get_object_or_404
-from django.views.generic.list import ListView
-from django.http.response import HttpResponseRedirect
-from audioop import reverse
 from django.views.generic.edit import UpdateView
-
-# Create your views here.
+from django.http import HttpResponse
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from Reservation.models import Reserve
 
 class LoginView(TemplateView):
     template_name = 'Reservation/login.html'
@@ -106,3 +104,13 @@ class ReservationTest(UpdateView):
         context = super().get_context_data(**kwargs)
         context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
         return context
+    
+def index(request):
+    return HttpResponse("Hello, world. ")
+
+class ReserveList(ListView):
+    model = Reserve
+    
+class ReserveDetal(DetailView):
+    
+    model = Reserve
