@@ -55,4 +55,3 @@ class Billing(models.Model):
     remain = models.CharField(max_length = 50)  #残高
     def __str__(self):
         return str(self.cmpId)
-    
