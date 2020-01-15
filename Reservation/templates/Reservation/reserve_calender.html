@@ -1,0 +1,59 @@
+{% extends 'calenderbase.html' %}
+ 
+{% block content %}
+<table width= "900">
+<tr>
+<td>
+{{ month_current | date:"Y年m月" }}<br>
+    <a href="{% url 'month' month_previous.year month_previous.month %}">前月</a>
+   <a href="{% url 'reserve_calender'  %}">今月</a>
+    <a href="{% url 'month' month_next.year month_next.month %}">次月</a>
+   
+    
+    <table class="table">
+ 
+        <thead>
+        <tr>
+            {% for w in week_names %}
+                <th>{{ w }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for week in month_days %}
+            <tr>
+                {% for day in week %}
+                   <td>
+		
+                {% if month_current.month != day.month %}
+                   <a href="{% url 'date' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
+                {% else %}
+                   <a href="{% url 'date' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
+                {% endif %}
+   
+                </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </td>
+    <td>
+    
+   Today:{{now}}<br> 
+  
+      {% for reserve in object_list  %}
+   {%if reserve.cmpId == pk%}
+   	 {{ reserve.date }}に予約が有ります<br>
+   	{%endif%}
+     {% endfor %}
+   
+     
+ 
+    <a href="{% url 'reserve_calender'  %}">戻る</a>
+     <a href="{% url 'reserve_list'  %}">一覧</a>
+     
+     </td>
+   </tr>
+   </table>
+{% endblock %}
