@@ -5,9 +5,9 @@
 <tr>
 <td>
 {{ month_current | date:"Y年m月" }}<br>
-    <a href="{% url 'month' month_previous.year month_previous.month %}">前月</a>
+    <a href="{% url 'month' pk month_previous.year month_previous.month %}">前月</a>
    <a href="{% url 'reserve_calender'  %}">今月</a>
-    <a href="{% url 'month' month_next.year month_next.month %}">次月</a>
+    <a href="{% url 'month' pk month_next.year month_next.month %}">次月</a>
    
     
     <table class="table">
