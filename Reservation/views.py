@@ -108,9 +108,23 @@ class ReservationTest(UpdateView):
 def index(request):
     return HttpResponse("Hello, world. ")
 
+class ReserveDelete(DeleteView):
+    model = Reserve
+    success_url = reverse_lazy('reserve_list')
+    
 class ReserveList(ListView):
-    model = Reserve
+    queryset = Reserve.objects.filter(cmpId = 1)
     
-class ReserveDetal(DetailView):
-    
+class ReserveDetail(DetailView):
     model = Reserve
+
+def fcl(request):
+    form = forms.FclForm(request.POST)
+    if form.is_valid():
+        message = "成功しました"
+    else:
+        message = "失敗しました"
+    d = {
+        'form' : form,
+        }
+    return render(request, 'Reservation/fcl_add.html', d)
