@@ -23,23 +23,14 @@
         {% for week in month_days %}
             <tr>
                 {% for day in week %}
-                    {% if now == day %}
-                        <td class="table-success">
-                            {% else %}
-                        <td>
-                    {% endif %}
-{%if reserve.pk != null%}
+                   <td>
+		
                 {% if month_current.month != day.month %}
-                   <a href="{% url 'date' reserve.pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
+                   <a href="{% url 'date' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
                 {% else %}
-                   <a href="{% url 'date' reserve.pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
+                   <a href="{% url 'date' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
                 {% endif %}
-                {% else %}
- 					{% if month_current.month != day.month %}
-                   <a href="{% url 'date' 1 month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
-                {% else %}
-                   <a href="{% url 'date' 1 month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
-{%endif%}{%endif%}
+   
                 </td>
                 {% endfor %}
             </tr>
@@ -50,9 +41,9 @@
     <td>
     
    Today:{{now}}<br> 
-   {{reserve.pk}}
-      {% for reserve in object_list %}
-   {%if reserve.cmpId == reserve.pk%}
+  
+      {% for reserve in object_list  %}
+   {%if reserve.cmpId == pk%}
    	 {{ reserve.date }}に予約が有ります<br>
    	{%endif%}
      {% endfor %}

@@ -26,7 +26,6 @@ class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
     template_name = 'Reservation/reserve_calender.html'
     model = Reserve
     
-    form_class = LoginningUser
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
@@ -34,12 +33,14 @@ class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
         date = self.request.POST.get('date')
         number = self.request.POST.get('number')
         member.save()
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('reserve_list'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         calendar_context = self.get_month_calendar()
+       #$ cmpId = Reserve.objects.get(id = self.kwargs['pk'])
+        context['pk'] = self.kwargs.get('pk')#html内でpkとして使える
         context.update(calendar_context)
-        
         return context
+    
    
