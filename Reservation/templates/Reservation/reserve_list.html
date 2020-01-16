@@ -2,11 +2,12 @@
 <!doctype html>
 <html>
 
-{% block title %} 予約一覧 {% endblock %}
+{% block title %} <h1 align="center" class ="box5">予約一覧 </h1>{% endblock %}
 
-<table border="1">
+<div align="center">
+<table  border="1" class ="t1">
     <body>  
-    <tr>  
+    <tr >  
     <th> 予約番号 </th>
     <th> 日付 </th>
     <th> 開始時間 </th>
@@ -22,13 +23,15 @@
     	 <td>{{ reserve.date }}</td>	
         <td>{{ reserve.start_time }}</td>
         <td>{{ reserve.end_time }}</td>
-        <th><a href= "{% url 'reserve_detail' reserve.pk %}"> 詳細 </a></th>
-        <th><a href= "{% url 'delete' reserve.pk %}">キャンセル</a></th>
+        <td><a href= "{% url 'reserve_detail' reserve.pk %}"> 詳細 </font></a></td>
+        <td><a href= "{% url 'delete' reserve.pk %}">キャンセル</a></td>
         
         </tr>
         {% endfor %}
     </body>
     </table>
-<a href= "{% url "index" %}"> 戻る </a>
+</div>
+<a href= "{% url "index" %}" class ="btn-animation-02"> <span>戻る<span> </a>
+
 <html>
 {% endblock %}

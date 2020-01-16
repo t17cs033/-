@@ -18,7 +18,6 @@ class LoginView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
-        #member = Member.objects.get(pk = cmpId)
         member =get_object_or_404(Member, pk=cmpId)
         context = super().get_context_data(**kwargs)
         context['form_id'] = MemberIdForm()

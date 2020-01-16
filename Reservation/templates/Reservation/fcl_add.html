@@ -1,17 +1,22 @@
+{% extends "base.html" %}{% block main %}
 <!doctype html>
 <html>
 
+{% block title %} <h1 class ="box5" align="center"> 附属設備 </h1>{% endblock %}
+
 {% block body %}
+<div align="center">
   <form method="get" action="">
+  <p>
     {{ form.fcl_a.label }}：
     {{ form.fcl_a }}
-    <hr>
-    
+  </p>
+  <p>      
     {{ form.fcl_b.label }}：
     {{ form.fcl_b }}
-    <hr>
-    
-
+  </p>
   </form>
+<div>
 {% endblock %}
 </html>
+{% endblock %}
