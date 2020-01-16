@@ -4,12 +4,12 @@ from django.views.generic.detail import DetailView
 from .models import Billing
 from django.views.generic.list import ListView
 from Reservation.models import MeetingRoom, Facility
+from Reservation.models import Reserve
 
 # Create your views here.
 
 def index(request):
     return HttpResponse("Hello, world. ")
-
 class BillingBase(ListView):
     model = Billing
     template_name = "Reservation/BillBase.html"
@@ -31,3 +31,10 @@ class GuideView(ListView):
             }
         )
         return ctx
+    
+class ReserveList(ListView):
+    model = Reserve
+    
+class ReserveDetal(DetailView):
+    
+    model = Reserve
