@@ -19,10 +19,5 @@ import Reservation.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-    path('Reservation/',include('Reservation.urls'),name='Reservation'),
-    
-=======
     path('Reservation/', include('Reservation.urls'),name ='Reservation'),
->>>>>>> branch 'css' of https://github.com/itsys-cs2019/T04.git
 ]
