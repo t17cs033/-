@@ -56,11 +56,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-<<<<<<< HEAD
-            os.path.join(BASE_DIR,'templates'),
-=======
             os.path.join(BASE_DIR, 'templates'),
->>>>>>> branch 'css' of https://github.com/itsys-cs2019/T04.git
             ],
         'APP_DIRS': True,
         'OPTIONS': {
