@@ -17,8 +17,8 @@ class Reserve(models.Model):
     number = models.IntegerField()                  #予約番号
     cmpId = models.IntegerField()                   #ID
     date = models.DateField(blank=False,null=False) #日付
-    start_time = models.TimeField()                 #利用開始時間
-    end_time = models.TimeField()                   #利用終了時間
+    start_time = models.TimeField('開始時間')                 #利用開始時間
+    end_time = models.TimeField('終了時間')                   #利用終了時間
     mrName = models.CharField(max_length = 50)      #会議室名
     fclName = models.CharField(max_length = 50)     #付属設備名
     charge = models.CharField(max_length = 50)      #料金
