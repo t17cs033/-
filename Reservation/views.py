@@ -133,6 +133,10 @@ class GuideView(ListView):
             }
         )
         return ctx
+    
+class ReserveDelete(DeleteView):
+    model = Reserve
+    success_url = reverse_lazy('reserve_list')
    
 class ReserveList(ListView):
     queryset = Reserve.objects.filter(cmpId = 1)
