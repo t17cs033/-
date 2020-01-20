@@ -5,8 +5,10 @@ from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from Reservation.models import Reserve
-from django.urls.base import reverse_lazy
+from django.urls.base import reverse_lazy, reverse
 from django.contrib import messages
+from django.http.response import HttpResponseRedirect
+from django.views.generic.base import TemplateView
 
 # Create your views here.
 
@@ -16,7 +18,8 @@ def index(request):
 class MRShowView(ListView):
     model = Reserve
     template_name = 'Reservation/mr_show.html'
-        
+
+
 class BigMRReservationView(CreateView):
     model = Reserve
     fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')
@@ -36,30 +39,36 @@ class BigMRReservationView(CreateView):
     
 class MiddleMRReservationView(CreateView):
     model = Reserve
-    fields = ('start_time', 'end_time')
+    fields = ('number', 'mrName', 'start_time', 'end_time')
     template_name = 'Reservation/mr_middle_reservation.html'    
-    success_url = reverse_lazy('mrshow')
-
+    
+    def get_form(self):
+        form = super(MiddleMRReservationView, self).get_form()
+        form.initial['mrName'] = '中会議室'
+        form.initial['number'] = {'cmpId'}
+        return form
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cmpId'] = self.request.POST.get('cmpId')
+        #context['cmpId'] = get_object_or_404(Reserve, pk=self.kwargs['pk'])
+        context['pk'] = self.kwargs.get('pk')
         return context
     
     def form_valid(self, form):
-        cmpId = self.request.POST.get('cmpId')
+        cmpId = self.kwargs.get('cmpId')
         date = self.kwargs.get('date')
         mrName = self.kwargs.get('mrName')
-        start = self.kwargs.get('start_time')
-        end = self.kwargs.get('end_time')
-        if Reserve.objects.filter(mrName=mrName, date=date, start=start, end=end).exists():
+        start_time = self.kwargs.get('start_time')
+        end_time = self.kwargs.get('end_time')
+        if Reserve.objects.filter(date=date, mrName=mrName, start_time=start_time, end_time=end_time):
             messages.error(self.request, 'すでに予約が入っています')
         else:
             reserve = form.save(commit=False)
-            reserve.start_time = start
-            reserve.end_time = end
-            reserve.save()
-        return redirect('mrshow', cmpId=cmpId, date=date, mrName=mrName, start=start, end=end)
-                 
+            reserve.cmpId = cmpId
+            reserve.date = date
+            reserve.save()        
+        return redirect('mrbig:mrshow', pk=cmpId.pk, date=date)
+               
 class SmallMRReservationView(CreateView):
     model = Reserve
     fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')

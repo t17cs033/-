@@ -28,7 +28,7 @@ class ReserveTime(forms.Form):
 class ReserveForm(forms.ModelForm):
     class Meta:
         model = Reserve
-        fields = ['number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time']
+        fields = ['number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time', 'fclName', 'charge']
         labels = {
             'number': '予約番号',
             'cmpId': '企業ID',
