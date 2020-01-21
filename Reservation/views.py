@@ -4,13 +4,15 @@ from .models import Member
 from django.views.generic.base import TemplateView
 from Reservation.forms import MemberIdForm, MemberForm
 from django.shortcuts import get_object_or_404
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
 from Reservation.models import Reserve
+from django.urls.base import reverse_lazy
+from . import forms
 
 class LoginView(TemplateView):
     template_name = 'Reservation/login.html'

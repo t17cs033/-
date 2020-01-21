@@ -2,10 +2,12 @@ from django.urls import path
 from . import views
 from .views import BillingView, BillingBase, GuideView
 from django.urls.conf import path
-from Reservation.views import LoginView,SelectView,Select,BillingTestView, BillingTest, ReservationTestView,ReservationTest,ReserveList, ReserveDetail,ReserveDelete
+from Reservation.views import LoginView,SelectView,Select,BillingTestView, BillingTest, ReservationTestView,ReservationTest,ReserveList,ReserveDetail,ReserveDelete
 from . import views
-urlpatterns = [
 
+appname = "Reservation"
+
+urlpatterns = [
     path('login/',LoginView.as_view(),name='login'),
     path('select',SelectView.as_view(),name ='select'),
     path('select/<int:pk>',Select.as_view(),name='sel'),

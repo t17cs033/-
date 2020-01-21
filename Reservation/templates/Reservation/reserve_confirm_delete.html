@@ -1,3 +1,5 @@
+{% extends "base.html" %}{% block main %}
+
 <!DOCTYPE html>
 <html>
 
@@ -6,13 +8,16 @@
     <title>DeleteViewサンプル</title>
 </head>
 
-<body>
-    <h1>削除確認画面</h1>
+<body align="center">
+    <h1 class ="box5" align="center">削除確認画面</h1>
     <form method="post">
         {% csrf_token %}
-        <p>{{ reserve.date }} : {{ reserve.start_time }} ~ {{ reserve.end_time }}の予約をキャンセルしますか？</p>
-        <input type="submit" value="確認">
+        <p class ="box4" align="center">{{ reserve.date }} : {{ reserve.start_time }} ~ {{ reserve.end_time }}の予約をキャンセルしますか？</p>
+        <div align="center"><input type="submit" value="確認" class="radius-pixel-30" ></div>
     </form>
 </body>
 
+<a href= "{% url "reserve_list" %}" class ="btn-animation-02"> <span>戻る<span> </a>
 </html>
+
+{% endblock %}
