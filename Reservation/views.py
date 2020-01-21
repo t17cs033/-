@@ -38,7 +38,7 @@ class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         calendar_context = self.get_month_calendar()
-        #$ cmpId = Reserve.objects.get(id = self.kwargs['pk'])
+       #$ cmpId = Reserve.objects.get(id = self.kwargs['pk'])
         context['pk'] = self.kwargs.get('pk')#html内でpkとして使える
         context.update(calendar_context)
         return context
