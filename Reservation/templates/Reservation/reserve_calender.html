@@ -5,10 +5,21 @@
 <tr>
 <td>
 {{ month_current | date:"Y年m月" }}<br>
-    <a href="{% url 'month' month_previous.year month_previous.month %}">前月</a>
-   <a href="{% url 'reserve_calender'  %}">今月</a>
-    <a href="{% url 'month' month_next.year month_next.month %}">次月</a>
-   
+
+{%if month_current.month == month_max%}
+	  <a href="{% url 'month' pk month_previous.year month_previous.month %}">前月</a>
+  	  <a href="{% url 'reserve_calender' pk  %}">今月</a>
+ {%elif month_current.month == month_min%}
+ 	&emsp;&emsp;
+ 	 <a href="{% url 'reserve_calender' pk  %}">今月</a>
+    <a href="{% url 'month' pk month_next.year month_next.month %}">次月</a>
+  
+  {%else%}
+    <a href="{% url 'month' pk month_previous.year month_previous.month %}">前月</a>
+   <a href="{% url 'reserve_calender' pk  %}">今月</a>
+    <a href="{% url 'month' pk month_next.year month_next.month %}">次月</a>
+  {%endif%}
+ 
     
     <table class="table">
  
@@ -23,15 +34,28 @@
         {% for week in month_days %}
             <tr>
                 {% for day in week %}
-                   <td>
-		
+                <td>
+                  {%for reserve in object_list%}
+                  		{%if reserve.date.month == day.month	and reserve.date.day == day.day%}
+                  				△
+                  				
+                   			{%endif%}
+                   {%endfor%}	
+				{%if month_current.month >= now.month and month_current.year >= now.year%}	
                 {% if month_current.month != day.month %}
                    <a href="{% url 'date' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
                 {% else %}
                    <a href="{% url 'date' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
                 {% endif %}
-   
+ 					{%else%}
+ 					 {% if month_current.month != day.month %}
+                    {{ day | date:"m/d" }}
+                {% else %}
+                    {{ day.day }}
+                 {%endif%}
+                 {%endif%}
                 </td>
+             	
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -43,9 +67,11 @@
    Today:{{now}}<br> 
   
       {% for reserve in object_list  %}
-   {%if reserve.cmpId == pk%}
+   		{%if reserve.cmpId == pk and reserve.date >= now%}
+  
    	 {{ reserve.date }}に予約が有ります<br>
    	{%endif%}
+   
      {% endfor %}
    
      
