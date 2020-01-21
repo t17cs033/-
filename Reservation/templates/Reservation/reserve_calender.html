@@ -6,6 +6,7 @@
 <td>
 {{ month_current | date:"Y年m月" }}<br>
 
+
 {%if month_current.month == month_max%}
 	  <a href="{% url 'month' pk month_previous.year month_previous.month %}">前月</a>
   	  <a href="{% url 'reserve_calender' pk  %}">今月</a>
@@ -20,6 +21,8 @@
     <a href="{% url 'month' pk month_next.year month_next.month %}">次月</a>
   {%endif%}
  
+
+
     
     <table class="table">
  
