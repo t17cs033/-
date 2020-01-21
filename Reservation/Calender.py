@@ -58,8 +58,16 @@ class MonthCalendarMixin(BaseCalendarMixin):
 
     def get_month_calendar(self):
         """月間カレンダー情報の入った辞書を返す"""
+       
         self.setup_calendar()
         current_month = self.get_current_month()
+        now = datetime.date.today();
+        max = now.month + 3
+        min =now.month - 3
+        if now.month + 3 > 13 :
+            max = now.month +3 -12 
+        elif now.month -3 < 0 :
+            min = now.month -3 + 12 
         calendar_data = {
             'now': datetime.date.today(),
             'month_days': self.get_month_days(current_month),
@@ -67,5 +75,8 @@ class MonthCalendarMixin(BaseCalendarMixin):
             'month_previous': self.get_previous_month(current_month),
             'month_next': self.get_next_month(current_month),
             'week_names': self.get_week_names(),
+            'month_max':max,
+            'month_min':min,
         }
         return calendar_data
+    
