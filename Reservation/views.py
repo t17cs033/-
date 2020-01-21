@@ -20,7 +20,6 @@ class LoginView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
-        #member = Member.objects.get(pk = cmpId)
         member =get_object_or_404(Member, pk=cmpId)
         context = super().get_context_data(**kwargs)
         context['form_id'] = MemberIdForm()
@@ -61,7 +60,7 @@ class Select(UpdateView):
 
 class BillingTestView(TemplateView):
     model = Member
-    template_name = 'Reservation/test_billing.html'
+    template_name = 'Reservation/BillBase.html'
 
     def post(self,request,*args,**kwargs):
         cmpId =self.request.POST.get('cmpId')
@@ -77,7 +76,7 @@ class BillingTestView(TemplateView):
 
 class BillingTest(UpdateView):
     model = Member
-    template_name = 'Reservation/test_billing.html'
+    template_name = 'Reservation/BillBase.html'
     fields = ('cmpId','cmpName','address','tel','section','name','mail','pay')
 
     def get_context_data(self, **kwargs):
@@ -120,7 +119,7 @@ class BillingBase(ListView):
     
 class BillingView(DetailView):
     model = Billing
-    template_name = "Reservation/Billing.html"
+    template_name = "Reservation/BillBase.html"
     
 class GuideView(ListView):
     model = MeetingRoom

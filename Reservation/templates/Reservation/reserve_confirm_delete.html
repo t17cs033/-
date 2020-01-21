@@ -9,7 +9,7 @@
 </head>
 
 <body align="center">
-    <h1 class ="box5" align="center">削除確認画面</h1>
+    <font color="teal"><h1  align="center"><span>削除確認画面</span></h1></font>
     <form method="post">
         {% csrf_token %}
         <p class ="box4" align="center">{{ reserve.date }} : {{ reserve.start_time }} ~ {{ reserve.end_time }}の予約をキャンセルしますか？</p>

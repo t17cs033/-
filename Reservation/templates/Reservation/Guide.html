@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 
 {% block main %}
-  <div align="center">
-    {% block title %} 料金案内 {% endblock %}
-    <br>
-    <a href="{% url 'index' %}">
-      <div align="left">
-        <button type="button">戻る</button>
-    </a>
-      </div>
-    <br>
-    会議室，コーナーの料金表
-    <table border="1" style="border-collapse: collapse" width = "500">
+	<font color="teal"><h1 align="center"><span>料金案内</span></h1></font>
+ 
+ 
+ <div align="center">
+    <div class="kakomi-box13"><span class="title-box13">会議室，コーナーの料金表</span>
+    <table class ="t3">
     <body> 
         <tr>
           <th> 会議室名＼料金 </th>
@@ -29,9 +24,10 @@
         {% endfor %}
     </body>
     </table>
+    </div>
     <br>
-    付属設備の料金表
-    <table border="1" style="border-collapse: collapse" width = "500">
+    <div class="kakomi-box14"><span class="title-box14">付属設備の料金表</span>
+    <table class ="t3">
     <body> 
         <tr>
           <th>  </th>
@@ -47,9 +43,10 @@
         {% endfor %}
     </body>
     </table>
+    </div>
+</div>
 
-
-
- 
-  </div>
+  <div align="left" >
+<a href="{% url 'index' %}" class ="btn-animation-02"><span>戻る</span></a>
+</div>
  {% endblock %} 

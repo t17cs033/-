@@ -1,38 +1,31 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div align="center">
-{% block title %} 請求ページ {% endblock %}
+
+<font color="teal"><h1 align="center"><span>請求ページ</span></h1></font>
 <br>
-<a href="{% url 'index' %}">
-  <div align="left">
-  <button type="button">戻る</button>
-</a>
-</div>
-<br>
-<div align="right" style="
-display: inline-block; margin-bottom: 10px; margin-left: 450px; border: 2px double #000000; border-radius: 5px; padding: 5px;">
+<div class = "kakomi-te1 float"  >
+
+
+<div align="right" class = "kakomi-te1">
+
+<span class ="title-maru4"><script>
+document.write("Today <br>");
+</script></span>
 
 <script>
   today = new Date();
   year = today.getFullYear();
   month = today.getMonth()+1;
   day = today.getDate();
-  document.write("Today <br>");
   document.write(year,"年");
   document.write(month,"月");
   document.write(day,"日");
 </script>
+
 </div>
 <table border="1" style="border-collapse: collapse" width = "500">
     <body class="billbase">  
-
-      <!--   <tr>
-          <th> 請求先ID </th>
-            <td>
-            {{ billing.cmpId }}
-            </td>
-        </tr> -->
 
         <tr>
           <th> 残額 </th>
@@ -65,4 +58,11 @@ display: inline-block; margin-bottom: 10px; margin-left: 450px; border: 2px doub
     </table>
  
  </div>
+ <br>
+ <br>
+ <br>
+ <br>
+ <div align="left">
+<a href="{% url 'index' %}" class ="btn-animation-02"><span>戻る</span></a>
+</div>
  {% endblock %} 
