@@ -123,7 +123,6 @@ class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
         context.update(calendar_context)
         return context
     
-   
 
 class GuideView(ListView):
     model = MeetingRoom
