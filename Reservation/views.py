@@ -1,16 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Member
+from .models import Member, Billing, MeetingRoom, Facility, Reserve
+from django.urls.base import reverse_lazy
 from django.views.generic.base import TemplateView
-from Reservation.forms import MemberIdForm, MemberForm
+from Reservation.forms import MemberIdForm, MemberForm, FclForm
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import UpdateView
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .models import Billing
-from Reservation.models import MeetingRoom, Facility
-from Reservation.models import Reserve
+from django.views.generic import DeleteView
 
 class LoginView(TemplateView):
     template_name = 'Reservation/login.html'
@@ -29,7 +28,6 @@ class LoginView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['form_id'] = MemberIdForm()
         return context
-
 
 class SelectView(TemplateView):
     model = Member
