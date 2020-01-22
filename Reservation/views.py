@@ -1,20 +1,25 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Member
+from Reservation.models import Reserve,Member
 from django.views.generic.base import TemplateView
-from Reservation.forms import MemberIdForm, MemberForm
+from Reservation.forms import MemberIdForm, MemberForm,LoginningUser
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import UpdateView
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views import generic
+from . import Calender
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
-from Reservation.models import Reserve
+
 
 class LoginView(TemplateView):
     template_name = 'Reservation/login.html'
     model = Member
+
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
@@ -120,6 +125,32 @@ class BillingView(DetailView):
     model = Billing
     template_name = "Reservation/Billing.html"
     
+    
+    
+class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
+    """月間カレンダーを表示するビュー"""
+    template_name = 'Reservation/reserve_calender.html'
+    model = Reserve
+    
+
+    def post(self, request, *args, **kwargs):
+        cmpId = self.request.POST.get('cmpId')
+        member = get_object_or_404(Reserve, pk=cmpId)
+        date = self.request.POST.get('date')
+        number = self.request.POST.get('number')
+        member.save()
+        return HttpResponseRedirect(reverse('reserve_list'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        calendar_context = self.get_month_calendar()
+       #$ cmpId = Reserve.objects.get(id = self.kwargs['pk'])
+        context['pk'] = self.kwargs.get('pk')#html内でpkとして使える
+        context.update(calendar_context)
+        return context
+    
+   
+
 class GuideView(ListView):
     model = MeetingRoom
     template_name = "Reservation/Guide.html"
@@ -155,3 +186,4 @@ def fcl(request):
         'form' : form,
         }
     return render(request, 'Reservation/fcl_add.html', d)
+

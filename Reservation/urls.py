@@ -6,6 +6,11 @@ from Reservation.views import LoginView,SelectView,Select,BillingTestView, Billi
 from . import views
 urlpatterns = [
 
+
+    
+  
+    
+
     path('login/',LoginView.as_view(),name='login'),
     path('select',SelectView.as_view(),name ='select'),
     path('select/<int:pk>',Select.as_view(),name='sel'),
@@ -23,4 +28,10 @@ urlpatterns = [
     path('Billing/',BillingBase.as_view(),name='billbase'),
     path('Billing/<int:pk>/',BillingView.as_view(),name='billing'),
     path('PriceGuide',GuideView.as_view(),name='guide'),
+  
+    path('month/<int:pk>/<int:year>/<int:month>/', views.ReserveCalendar.as_view(), name='month'),
+    path('reserve_calender/', ReserveCalendar.as_view(), name = 'reserve_calender'),
+    path('reserve_calender/<int:pk>/', ReserveCalendar.as_view(), name = 'reserve_calender'),
+    path('date/<int:pk>/<int:year>-<int:month>-<int:date>/', views.ReserveList.as_view(), name='date'),
 ]
+
