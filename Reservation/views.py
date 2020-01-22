@@ -57,33 +57,7 @@ class Select(UpdateView):
         context = super().get_context_data(**kwargs)
         context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
         return context
-
-class BillingTestView(TemplateView):
-    model = Member
-    template_name = 'Reservation/BillBase.html'
-
-    def post(self,request,*args,**kwargs):
-        cmpId =self.request.POST.get('cmpId')
-        context = super().get_context_data(**kwargs)
-        context['member'] = MemberForm()
-        return self.render_to_response(context)
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form_id'] = MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
-        context['form'] = MemberForm()
-        return context
-
-class BillingTest(UpdateView):
-    model = Member
-    template_name = 'Reservation/BillBase.html'
-    fields = ('cmpId','cmpName','address','tel','section','name','mail','pay')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
-        return context
-
+    
 class ReservationTestView(TemplateView):
     model = Member
     template_name = 'Reservation/test_reservation.html'
@@ -119,7 +93,7 @@ class BillingBase(ListView):
     
 class BillingView(DetailView):
     model = Billing
-    template_name = "Reservation/BillBase.html"
+    template_name = "Reservation/Billing.html"
     
 class GuideView(ListView):
     model = MeetingRoom

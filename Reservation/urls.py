@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import BillingView, BillingBase, GuideView
 from django.urls.conf import path
-from Reservation.views import LoginView,SelectView,Select,BillingTestView, BillingTest, ReservationTestView,ReservationTest,ReserveList,ReserveDetail,ReserveDelete
+from Reservation.views import LoginView,SelectView,Select, ReservationTestView,ReservationTest,ReserveList,ReserveDetail,ReserveDelete
 from . import views
 
 appname = "Reservation"
@@ -11,8 +11,8 @@ urlpatterns = [
     path('login/',LoginView.as_view(),name='login'),
     path('select',SelectView.as_view(),name ='select'),
     path('select/<int:pk>',Select.as_view(),name='sel'),
-    #path('billing',BillingTestView.as_view(),name ='billing'),
-    #path('billing/<int:pk>',BillingTest.as_view(),name='t_b'),
+    path('Billing',BillingBase.as_view(),name='billbase'),
+    path('Billing/<int:pk>/',BillingView.as_view(),name='billing'),
     path('reservation',ReservationTestView.as_view(),name='reservation'),
     path('reservation/<int:pk>',ReservationTest.as_view(),name='reser'),
 
@@ -22,7 +22,5 @@ urlpatterns = [
     path('reserve_list/<int:pk>/delete/', ReserveDelete.as_view(), name = 'delete'),
     path('fcl_add/',views.fcl, name = 'fcl'),
     
-    path('Billing',BillingTestView.as_view(),name='billbase'),
-    path('Billing/<int:pk>/',BillingTest.as_view(),name='billing'),
     path('PriceGuide',GuideView.as_view(),name='guide'),
 ]
