@@ -4,12 +4,10 @@ from .models import Reserve
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from Reservation.models import Reserve, Member
-from django.urls.base import reverse_lazy, reverse
+from Reservation.models import Reserve
+from django.urls.base import reverse
 from django.contrib import messages
-from django.http.response import HttpResponseRedirect
-from django.views.generic.base import TemplateView
-from .forms import ReserveTime
+from .forms import ReserveForm
 import datetime
 
 # Create your views here.
@@ -31,7 +29,7 @@ class MRShowView(ListView):
 
 class BigMRReservationView(CreateView):
     model = Reserve
-    fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')
+    form_class = ReserveForm
     template_name = 'Reservation/mr_big_reservation.html'    
 
     def get_form(self):
@@ -61,7 +59,7 @@ class BigMRReservationView(CreateView):
     
 class MiddleMRReservationView(CreateView):
     model = Reserve
-    fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')
+    form_class = ReserveForm
     template_name = 'Reservation/mr_middle_reservation.html' 
     
     def get_form(self):
@@ -87,40 +85,10 @@ class MiddleMRReservationView(CreateView):
    
     def get_success_url(self):
         return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
-
-'''
-    def form_valid(self, form, request, *args, **kwargs):
-        cmpId = self.kwargs.get('pk')
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        start_time = self.request.POST.get('start_time')
-        end_time = self.request.POST.get('end_time')
-        time = end_time - start_time
-        if Reserve.objects.filter(date=date, start_time=start_time, end_time=end_time).exists():
-            messages.error(self.request, 'すでに予約が入っています')
-        else:
-            reserve = form.save(commit=False)
-            reserve.cmpId = cmpId
-            reserve.date = date
-            reserve.start_time = start_time
-            reserve.end_time = end_time 
-            if time == '7':
-                reserve.charge = '1500'
-            if time == '8':
-                reserve.charge = '3000'
-            if time == '9':
-                reserve.charge = '4000'
-            if time == '13':
-                reserve.charge = '7500'
-            reserve.save()        
-        return redirect('mrbig:mrshow', pk=cmpId, year=year, month=month, day=day)
-'''
                
 class SmallMRReservationView(CreateView):
     model = Reserve
-    fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')
+    form_class = ReserveForm
     template_name = 'Reservation/mr_small_reservation.html'    
 
     def get_form(self):
@@ -150,7 +118,7 @@ class SmallMRReservationView(CreateView):
     
 class ACornerReservationView(CreateView):
     model = Reserve
-    fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')
+    form_class = ReserveForm
     template_name = 'Reservation/corner_a_reservation.html'    
 
     def get_form(self):
@@ -180,7 +148,7 @@ class ACornerReservationView(CreateView):
     
 class BCornerReservationView(CreateView):
     model = Reserve
-    fields = ('number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time')
+    form_class = ReserveForm
     template_name = 'Reservation/corner_b_reservation.html'    
 
     def get_form(self):

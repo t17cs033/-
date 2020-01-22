@@ -1,33 +1,13 @@
 from django import forms
 from .models import MeetingRoom, Reserve
+import datetime as dt
 
-class ReserveTime(forms.Form):
-    stime = (
-        (0,'9:00'),
-        (1,'10:00'),
-        (2,'11:00'),
-        (3,'12:00'),
-        (4,'13:00'),
-        (5,'14:00'),
-        (6,'15:00'),
-        )
-    
-    etime = (
-        (7,'10:00'),
-        (8,'11:00'),
-        (9,'12:00'),
-        (10,'13:00'),
-        (11,'14:00'),
-        (12,'15:00'),
-        (13,'16:00'),
-        )
-    reserve_stime = forms.ChoiceField(label='開始時間',widget=forms.Select,choices=stime)
-    reserve_etime = forms.ChoiceField(label='終了時間',widget=forms.Select,choices=etime)
-    
-class CmpIdForm(forms.Form):
-    cmp_id = forms.CharField()
+SHOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(9,16)]
+EHOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(10,17)]
  
 class ReserveForm(forms.ModelForm):
     class Meta:
         model = Reserve
-        fields = ['number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time', 'fclName', 'charge']
+        fields = ['number', 'cmpId', 'date', 'mrName', 'start_time', 'end_time']
+        widgets = {'start_time': forms.Select(choices=SHOUR_CHOICES), 'end_time': forms.Select(choices=EHOUR_CHOICES)}
+                

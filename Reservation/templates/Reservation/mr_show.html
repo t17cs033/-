@@ -44,9 +44,11 @@
 
 <tbody>
 {% for reserve in object_list %}
+{% if reserve.cmpId == pk %}
 <td>{{ reserve.mrName }}</td>
 <td>{{ reserve.start_time }}</td>
 <td>{{ reserve.end_time }}</td>
+{% endif %}
 {% endfor %}
 </tbody>
 </table>
