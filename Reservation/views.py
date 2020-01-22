@@ -72,7 +72,7 @@ class MiddleMRReservationView(CreateView):
         form.initial['mrName'] = '中会議室'
         form.initial['number'] = cmpId
         form.initial['cmpId'] = cmpId
-        form.initial['date'] = date       
+        form.initial['date'] = date
         return form
 
     def get_context_data(self, **kwargs):
@@ -80,8 +80,8 @@ class MiddleMRReservationView(CreateView):
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
-        context['pk'] = self.kwargs.get('pk')     
-        return context    
+        context['pk'] = self.kwargs.get('pk')
+        return context
    
     def get_success_url(self):
         return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
@@ -157,6 +157,7 @@ class BCornerReservationView(CreateView):
         day = self.kwargs.get('day')
         date = datetime.date(year=year, month=month, day=day)
         cmpId = self.kwargs.get('pk')
+        start_time = Reserve.objects.filter()
         form = super(BCornerReservationView, self).get_form()
         form.initial['mrName'] = 'コーナーB'
         form.initial['number'] = cmpId
