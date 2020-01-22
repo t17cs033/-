@@ -7,7 +7,7 @@
 
 <div>
 <br>
-<a href="{% url 'mrshow' %}">戻る</a>
+<a href="{% url 'Reservation:mrshow' pk year month day %}">戻る</a>
 </div>
 
 <div>
@@ -15,8 +15,8 @@
 <img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="400" height="250">
 </div>
 
+<form action="{% url 'Reservation:mrmid' pk year month day %}" method="post">
 <div style="position:absolute; top:100px; left:500px;">
-<form action="{% url 'mrmid'%}" method="post">
 {% csrf_token %}
 <br>
 <br>
@@ -27,7 +27,6 @@
 
 <div style="position:absolute; top:300px; left:700px;">
 <input type = "submit" value="確定">
-</form>
 </div>
-
+</form>
 </html>
