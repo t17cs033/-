@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator,MinValueValidator
 
 # Create your models here.
 
@@ -21,7 +22,12 @@ class Reserve(models.Model):
     start_time = models.TimeField()                 #利用開始時間
     end_time = models.TimeField()                   #利用終了時間
     mrName = models.CharField(max_length = 50)      #会議室名
-    fclName = models.CharField(max_length = 50)     #付属設備名
+    whiteboard = models.IntegerField(default = 0,
+                validators=[MinValueValidator(0),
+                            MaxValueValidator(10)]) #ホワイトボード
+    projector = models.IntegerField(default = 0,
+                validators=[MinValueValidator(0),
+                            MaxValueValidator(5)])  #プロジェクター
     charge = models.CharField(max_length = 50)      #料金
     def __str__(self):
         return str(self.number)
@@ -49,4 +55,3 @@ class Billing(models.Model):
     remain = models.CharField(max_length = 50)  #残高
     def __str__(self):
         return str(self.cmpId)
-    

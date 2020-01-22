@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block main %}
+
+<div class="box5">
+	<font color="red"><h1 align="center">ログイン</h1></font>
+</div>
+
+<td><a href="http://127.0.0.1:8000/admin/login/?next=/admin/"
+	class="btn-square">管理者</a></td>
+
+<div align="center">
+	<form action="{% url 'login' %}" method="post">
+		{% csrf_token %} {{ form_id}} <input type="submit" value="確定">
+	</form>
+</div>
+
+{% if member %}
+<p align="center">ID:{{member.cmpId}} の {{member.cmpName}}
+	さんでよろしいですね？</p>
+<p align="center">
+   <a href="{% url 'select' %}/{{member.cmpId}}" class="btn-square-so-pop">
+		<font size="4">ログイン</font>
+   </a>
+</p>
+
+<p align="center">
+	<a href="{% url 'login' %}"> <font size="2">入力のやり直し</font>
+	</a>
+</p>
+{% endif %} {% endblock %}
