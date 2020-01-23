@@ -22,8 +22,6 @@
   {%endif%}
  
 
-
-    
     <table class="table">
  
         <thead>
@@ -38,12 +36,65 @@
             <tr>
                 {% for day in week %}
                 <td>
-                  {%for reserve in object_list%}
-                  		{%if reserve.date.month == day.month	and reserve.date.day == day.day%}
-                  				△	
-                  				
-                   			{%endif%}
-                   {%endfor%}	
+                {%if month_current.month >= now.month and month_current.year >= now.year%}	
+                
+                <script>
+                	var flag = 5;
+                
+                	var Max = 6;
+                	var Min = 6;
+                	var Mid = 6;
+                	var A = 7;
+                	var B = 7;
+                  var start_time = 0;
+                  var end_time = 0;
+               	var sum = 0;
+               	
+             	{%for reserve in object_list%}
+ 						
+ 						
+                 	  {%if reserve.date.month == day.month	and reserve.date.day == day.day%}
+                	    start_time = {{reserve.start_time.hour}}
+                	    end_time = {{reserve.end_time.hour}}
+                	  	flag =flag-1;
+                	 
+                	 		
+            if(start_time == "9"){
+            	if(end_time == "16"){
+        	sum = sum + 7;
+          }else{
+          var diff = end_time-start_time;
+      		sum = sum+diff;
+          }
+          }else{
+          var diff = end_time-start_time;
+      		sum = sum+diff;
+      		}
+              
+                		
+                	{%endif%}
+                	{%endfor%}
+                	
+          
+           
+         
+      
+                if(sum > 32){
+                	document.write("☓");
+                	}else if(flag != 5){
+              		document.write("△");
+              	}
+              	else if(flag == 5)
+              		document.write("○");
+                	
+                	</script>
+                		
+                 	{%endif%}
+                 	
+                  	
+                 
+              
+                   
 				{%if month_current.month >= now.month and month_current.year >= now.year%}	
                 {% if month_current.month != day.month %}
                    <a href="{% url 'date' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
@@ -66,6 +117,7 @@
     </table>
     </td>
     <td>
+    
     
    Today:{{now}}<br> 
   
