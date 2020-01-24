@@ -19,6 +19,8 @@ from django.urls import reverse
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
 from Reservation import forms
+from django.db.models import Max
+import ast
 
 
 class LoginView(TemplateView):
@@ -140,25 +142,39 @@ class BigMRReservationView(CreateView):
     template_name = 'Reservation/mr_big_reservation.html'    
 
     def get_form(self):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        cmpId = self.kwargs.get('pk')
         form = super(BigMRReservationView, self).get_form()
-        form.initial['mrName'] = '大会議室'
-        form.initial['number'] = cmpId
-        form.initial['cmpId'] = cmpId
-        form.initial['date'] = date       
+        form.initial['mrName'] = '大会議室'     
         return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
         context['pk'] = self.kwargs.get('pk')     
-        return context    
+        return context 
+    
+    def form_valid(self, form):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        pk = self.kwargs.get('pk')
+        mrName = self.request.POST.get('mrName')
+        start_time = self.request.POST.get('start_time')
+        end_time = self.request.POST.get('end_time')
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+        else:
+            reserve = form.save(commit=False)
+            reserve.start_time = start_time 
+            reserve.end_time = end_time 
+            reserve.number = pk
+            reserve.cmpId = pk
+            reserve.date = date
+            reserve.save()    
+        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))   
    
     def get_success_url(self):
         return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
@@ -170,25 +186,39 @@ class MiddleMRReservationView(CreateView):
     template_name = 'Reservation/mr_middle_reservation.html' 
     
     def get_form(self):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        cmpId = self.kwargs.get('pk')
         form = super(MiddleMRReservationView, self).get_form()
         form.initial['mrName'] = '中会議室'
-        form.initial['number'] = cmpId
-        form.initial['cmpId'] = cmpId
-        form.initial['date'] = date
         return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
         context['pk'] = self.kwargs.get('pk')
         return context
+
+    def form_valid(self, form):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        pk = self.kwargs.get('pk')
+        mrName = self.request.POST.get('mrName')
+        start_time = self.request.POST.get('start_time')
+        end_time = self.request.POST.get('end_time')
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+        else:
+            reserve = form.save(commit=False)
+            reserve.start_time = start_time 
+            reserve.end_time = end_time 
+            reserve.number = pk
+            reserve.cmpId = pk
+            reserve.date = date
+            reserve.save()    
+        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
         return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
@@ -199,24 +229,38 @@ class SmallMRReservationView(CreateView):
     template_name = 'Reservation/mr_small_reservation.html'    
 
     def get_form(self):
+        form = super(SmallMRReservationView, self).get_form()
+        form.initial['mrName'] = '小会議室'
+        return form
+   
+    def form_valid(self, form):
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
         day = self.kwargs.get('day')
         date = datetime.date(year=year, month=month, day=day)
-        cmpId = self.kwargs.get('pk')
-        form = super(SmallMRReservationView, self).get_form()
-        form.initial['mrName'] = '小会議室'
-        form.initial['number'] = cmpId
-        form.initial['cmpId'] = cmpId
-        form.initial['date'] = date       
-        return form
+        pk = self.kwargs.get('pk')
+        mrName = self.request.POST.get('mrName')
+        start_time = self.request.POST.get('start_time')
+        end_time = self.request.POST.get('end_time')
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+        else:
+            reserve = form.save(commit=False)
+            reserve.start_time = start_time 
+            reserve.end_time = end_time 
+            reserve.number = pk
+            reserve.cmpId = pk
+            reserve.date = date
+            reserve.save()    
+        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
-        context['pk'] = self.kwargs.get('pk')     
+        context['pk'] = self.kwargs.get('pk')
         return context    
    
     def get_success_url(self):
@@ -229,25 +273,39 @@ class ACornerReservationView(CreateView):
     template_name = 'Reservation/corner_a_reservation.html'    
 
     def get_form(self):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        cmpId = self.kwargs.get('pk')
         form = super(ACornerReservationView, self).get_form()
-        form.initial['mrName'] = 'コーナーA'
-        form.initial['number'] = cmpId
-        form.initial['cmpId'] = cmpId
-        form.initial['date'] = date       
+        form.initial['mrName'] = 'コーナーA'    
         return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
         context['pk'] = self.kwargs.get('pk')     
         return context    
+
+    def form_valid(self, form):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        pk = self.kwargs.get('pk')
+        mrName = self.request.POST.get('mrName')
+        start_time = self.request.POST.get('start_time')
+        end_time = self.request.POST.get('end_time')
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+        else:
+            reserve = form.save(commit=False)
+            reserve.start_time = start_time 
+            reserve.end_time = end_time 
+            reserve.number = pk
+            reserve.cmpId = pk
+            reserve.date = date
+            reserve.save()    
+        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
         return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
@@ -259,26 +317,39 @@ class BCornerReservationView(CreateView):
     template_name = 'Reservation/corner_b_reservation.html'    
 
     def get_form(self):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        cmpId = self.kwargs.get('pk')
-        start_time = Reserve.objects.filter()
         form = super(BCornerReservationView, self).get_form()
-        form.initial['mrName'] = 'コーナーB'
-        form.initial['number'] = cmpId
-        form.initial['cmpId'] = cmpId
-        form.initial['date'] = date       
+        form.initial['mrName'] = 'コーナーB'   
         return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
         context['pk'] = self.kwargs.get('pk')     
         return context    
+
+    def form_valid(self, form):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        pk = self.kwargs.get('pk')
+        mrName = self.request.POST.get('mrName')
+        start_time = self.request.POST.get('start_time')
+        end_time = self.request.POST.get('end_time')
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+        else:
+            reserve = form.save(commit=False)
+            reserve.start_time = start_time 
+            reserve.end_time = end_time 
+            reserve.number = pk
+            reserve.cmpId = pk
+            reserve.date = date
+            reserve.save()    
+        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
         return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})

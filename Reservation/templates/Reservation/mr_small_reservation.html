@@ -1,33 +1,45 @@
 <html>
 <head>
-<title>小会議室</title>
+ <title>小会議室</title>
 </head>
 
 {% block title %} 小会議室 {% endblock %}
 
-<div>
-<br>
-<a href="{% url 'Reservation:mrshow' pk year month day %}">戻る</a>
+{% block main %}
+ <div>
+  <br>
+  <h1>{{ year }}年 {{ month }}月 {{ day }}日</h1>
+    <a href="{% url 'Reservation:mrshow' pk year month day %}">戻る</a>
+ </div>
+
+ <div>
+  {% load static %}
+  <img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="400" height="250">
+ </div>
+
+<div style="position:absolute; top:120px; left:500px;">
+  <form action="{% url 'Reservation:mrsml' pk year month day %}" method="POST">
+     {% csrf_token %}
+     <br>
+     <br>
+     <table>
+        <p>企業名：{{ member }}</p>
+        {{ form.as_table }} 
+     </table>
 </div>
 
-<div>
-{% load static %}
-<img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="400" height="250">
+<div style="position:absolute; top:320px; left:700px;">
+  <input type = "submit" value="確定">
+ </form>
 </div>
+{% endblock %}
 
-<div style="position:absolute; top:100px; left:500px;">
-<form action="{% url 'Reservation:mrsml' pk year month day %}" method="post">
-{% csrf_token %}
-<br>
-<br>
-<table>
-{{ form.as_table }} 
-</table>
-</div>
-
-<div style="position:absolute; top:300px; left:700px;">
-<input type = "submit" value="確定">
+<!-- <h1>予約できません</h1>
+<form action="{% url 'Reservation:mrsml' pk year month day %}" method="POST">
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
 </form>
-</div>
+-->
 
 </html>
