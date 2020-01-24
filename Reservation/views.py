@@ -21,6 +21,7 @@ from Reservation.models import MeetingRoom, Facility
 from Reservation import forms
 from django.db.models import Max
 import ast
+from token import STAR
 
 
 class LoginView(TemplateView):
@@ -120,9 +121,6 @@ class ReservationTest(UpdateView):
         context = super().get_context_data(**kwargs)
         context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
         return context
-    
-def index(request):
-    return HttpResponse("Hello, world. ")
 
 class MRShowView(ListView):
     model = Reserve
@@ -130,6 +128,7 @@ class MRShowView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
@@ -186,7 +185,14 @@ class MiddleMRReservationView(CreateView):
     template_name = 'Reservation/mr_middle_reservation.html' 
     
     def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
         form = super(MiddleMRReservationView, self).get_form()
+        reserve = Reserve.objects.filter(mrName='中会議室', date=date)
+        for time in reserve:
+            form.initial['start_time'] = time.start_time
         form.initial['mrName'] = '中会議室'
         return form
 
@@ -210,6 +216,8 @@ class MiddleMRReservationView(CreateView):
         end_time = self.request.POST.get('end_time')
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
+        if Reserve.objects.filter(start_time__lt=start_time).exists() and Reserve.objects.filter(end_time__lte=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')            
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 

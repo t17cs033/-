@@ -5,6 +5,12 @@
 
 {% block title %} 中会議室 {% endblock %}
 
+<form action="{% url 'Reservation:mrsml' pk year month day %}" method="POST">
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+</form>
+
 {% block main %}
  <div>
     <br>
@@ -17,7 +23,7 @@
    <img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="400" height="250">
  </div>
 
- <form action="{% url 'Reservation:mrmid' pk year month day %}" method="post">
+ <form action="{% url 'Reservation:mrmid' pk year month day %}" method="POST">
     <div style="position:absolute; top:100px; left:500px;">
        {% csrf_token %}
        <br>
