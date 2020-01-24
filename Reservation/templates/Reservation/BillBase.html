@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div align="center">
+{% block title %} 請求ページ {% endblock %}
+<br>
+<a href="{% url 'index' %}">
+  <div align="left">
+  <button type="button">戻る</button>
+</a>
+</div>
+<br>
+<div align="right" style="
+display: inline-block; margin-bottom: 10px; margin-left: 450px; border: 2px double #000000; border-radius: 5px; padding: 5px;">
+
+<script type="text/javascript">
+  today = new Date();
+  year = today.getFullYear();
+  month = today.getMonth()+1;
+  day = today.getDate();
+  document.write("Today <br>");
+  document.write(year,"年");
+  document.write(month,"月");
+  document.write(day,"日");
+</script>
+</div>
+<table border="1" style="border-collapse: collapse" width = "500">
+    <body>  
+
+   
+    
+        {% for billbase in object_list %}
+    
+        <tr>
+          <th> 請求先ID </th>
+            <td>
+              {{ billbase.cmpId }}
+            </td>
+        </tr>
+
+        <tr>
+          <th>合計</th>
+          <td>
+            <script type="text/javascript">
+              re = {{ billbase.remain }};
+              am = {{ billbase.amount }};
+              document.write(re+am);
+            </script>
+
+          </td>
+        </tr>
+
+        <tr><th></th><td></td></tr>
+        
+        {% endfor %}
+    </body>
+    </table>
+ 
+ </div>
+ {% endblock %} 
