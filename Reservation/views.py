@@ -62,32 +62,6 @@ class Select(UpdateView):
         context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
         return context
     
-class ReservationTestView(TemplateView):
-    model = Member
-    template_name = 'Reservation/test_reservation.html'
-
-    def post(self,request,*args,**kwargs):
-        cmpId =self.request.POST.get('cmpId')
-        context = super().get_context_data(**kwargs)
-        context['member'] = MemberForm()
-        return self.render_to_response(context)
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form_id'] = MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
-        context['form'] = MemberForm()
-        return context
-
-class ReservationTest(UpdateView):
-    model = Member
-    template_name = 'Reservation/test_reservation.html'
-    fields = ('cmpId','cmpName','address','tel','section','name','mail','pay')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
-        return context
-    
 def index(request):
     return HttpResponse("Hello, world. ")
 
@@ -98,8 +72,6 @@ class BillingBase(ListView):
 class BillingView(DetailView):
     model = Billing
     template_name = "Reservation/Billing.html"
-    
-    
     
 class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
     """月間カレンダーを表示するビュー"""
@@ -143,7 +115,7 @@ class ReserveDelete(DeleteView):
     success_url = reverse_lazy('reserve_list')
    
 class ReserveList(ListView):
-    queryset = Reserve.objects.filter(cmpId = 1)
+    #queryset = Reserve.objects.filter(cmpId = 1)
     model = Reserve
     
 class ReserveDetail(DetailView):

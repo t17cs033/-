@@ -1,7 +1,7 @@
 {% extends 'calenderbase.html' %}
  
 {% block main %}
-<div align="center">
+
 	<div class ="clip-box-b float">
 		{{ month_current | date:"Y年m月" }}<br>
 	</div>
@@ -31,7 +31,7 @@
 	</ul>
 	</div>
 
-	<div>
+	<div class ="float" >
 	<table class="cal" width= "1400" height ="300">
  
 	<thead>
@@ -73,18 +73,24 @@
         
    	</table>
 	</div>   
-</div>
 
-<div>
+    <div align="right">
   	{% for reserve in object_list  %}
+  	
    		{%if reserve.cmpId == pk and reserve.date >= now%}
+   		<div class ="kakomi-tape2">
    		 {{ reserve.date }}に予約が有ります<br>
+   		 </div>
    		{%endif%}
+   	
    	{% endfor %}
-   	<a href="{% url 'reserve_list' %}/{{pk}}">一覧</a>
-</div>   
+   	</div>  
+   	
+   	<div align="center">
+   	<a href="{% url 'reserve_list' %}/{{pk}}" class="btn-flat-vertical-border">一覧</a>
+    </div>
      
-<div align="left "> 
+<div align="left" class ="po1"> 
     <a href="{% url 'select' %}/{{pk}}" class ="btn-animation-02"><span>戻る</span></a>
 </div>
      
