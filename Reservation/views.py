@@ -1,19 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from Reservation.models import Reserve,Member
-from django.views.generic.base import TemplateView
-from Reservation.forms import MemberIdForm, MemberForm,LoginningUser
-from django.shortcuts import get_object_or_404
-from django.views.generic.edit import UpdateView
-from django.http import HttpResponse
+from .models import Reserve,Member
+from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from Reservation.models import Reserve
+from django.urls.base import reverse,reverse_lazy
+from django.contrib import messages
+from .forms import ReserveForm
+import datetime
+from django.views.generic.base import TemplateView
+from Reservation.forms import MemberIdForm, MemberForm,LoginningUser
+from django.views.generic.edit import UpdateView,DeleteView
 from django.views import generic
 from . import Calender
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
+from Reservation import forms
 
 
 class LoginView(TemplateView):
@@ -117,6 +122,167 @@ class ReservationTest(UpdateView):
 def index(request):
     return HttpResponse("Hello, world. ")
 
+class MRShowView(ListView):
+    model = Reserve
+    template_name = 'Reservation/mr_show.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = self.kwargs.get('year')
+        context['month'] = self.kwargs.get('month')
+        context['day'] = self.kwargs.get('day')
+        context['pk'] = self.kwargs.get('pk')     
+        return context
+
+class BigMRReservationView(CreateView):
+    model = Reserve
+    form_class = ReserveForm
+    template_name = 'Reservation/mr_big_reservation.html'    
+
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        form = super(BigMRReservationView, self).get_form()
+        form.initial['mrName'] = '大会議室'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date       
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = self.kwargs.get('year')
+        context['month'] = self.kwargs.get('month')
+        context['day'] = self.kwargs.get('day')
+        context['pk'] = self.kwargs.get('pk')     
+        return context    
+   
+    def get_success_url(self):
+        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+
+    
+class MiddleMRReservationView(CreateView):
+    model = Reserve
+    form_class = ReserveForm
+    template_name = 'Reservation/mr_middle_reservation.html' 
+    
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        form = super(MiddleMRReservationView, self).get_form()
+        form.initial['mrName'] = '中会議室'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = self.kwargs.get('year')
+        context['month'] = self.kwargs.get('month')
+        context['day'] = self.kwargs.get('day')
+        context['pk'] = self.kwargs.get('pk')
+        return context
+   
+    def get_success_url(self):
+        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+               
+class SmallMRReservationView(CreateView):
+    model = Reserve
+    form_class = ReserveForm
+    template_name = 'Reservation/mr_small_reservation.html'    
+
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        form = super(SmallMRReservationView, self).get_form()
+        form.initial['mrName'] = '小会議室'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date       
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = self.kwargs.get('year')
+        context['month'] = self.kwargs.get('month')
+        context['day'] = self.kwargs.get('day')
+        context['pk'] = self.kwargs.get('pk')     
+        return context    
+   
+    def get_success_url(self):
+        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+
+    
+class ACornerReservationView(CreateView):
+    model = Reserve
+    form_class = ReserveForm
+    template_name = 'Reservation/corner_a_reservation.html'    
+
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        form = super(ACornerReservationView, self).get_form()
+        form.initial['mrName'] = 'コーナーA'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date       
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = self.kwargs.get('year')
+        context['month'] = self.kwargs.get('month')
+        context['day'] = self.kwargs.get('day')
+        context['pk'] = self.kwargs.get('pk')     
+        return context    
+   
+    def get_success_url(self):
+        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+
+    
+class BCornerReservationView(CreateView):
+    model = Reserve
+    form_class = ReserveForm
+    template_name = 'Reservation/corner_b_reservation.html'    
+
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        start_time = Reserve.objects.filter()
+        form = super(BCornerReservationView, self).get_form()
+        form.initial['mrName'] = 'コーナーB'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date       
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = self.kwargs.get('year')
+        context['month'] = self.kwargs.get('month')
+        context['day'] = self.kwargs.get('day')
+        context['pk'] = self.kwargs.get('pk')     
+        return context    
+   
+    def get_success_url(self):
+        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+
 class BillingBase(ListView):
     model = Billing
     template_name = "Reservation/BillBase.html"
@@ -186,4 +352,3 @@ def fcl(request):
         'form' : form,
         }
     return render(request, 'Reservation/fcl_add.html', d)
-
