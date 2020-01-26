@@ -7,7 +7,7 @@
 
 <div>
 <br>
-<a href="{% url 'Reservation:mrshow' pk year month day %}">戻る</a>
+<a href="{% url 'mrshow' pk year month day %}">戻る</a>
 </div>
 
 <div>
@@ -16,12 +16,12 @@
 </div>
 
 <div style="position:absolute; top:100px; left:500px;">
-<form action="{% url 'Reservation:mrsml' pk year month day %}" method="post">
+<form action="{% url 'mrsml' pk year month day %}" method="post">
 {% csrf_token %}
 <br>
 <br>
 <table>
-{{ form.as_table }} 
+{{ form.as_table }}
 </table>
 </div>
 

@@ -1,25 +1,42 @@
+{% extends "base.html" %}{% block main %}
 <!doctype html>
 <html>
-{% block title %} 会議室一覧 {% endblock %}
+ <div class = "kokuban-s2" align="center" ><p>会議室一覧 </p></div>
 
-{% block main %}
 <div>
 <br>
-<a href="{% url 'Reservation:reserve_calender' %}">戻る</a>
+<a href="{% url 'reserve_calender' %}">戻る</a>
 </div>
 
 <div>
 {% load static %}
 <br>
-<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200" hspace="10">
+<div class ="float">
+<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200" hspace="10">
+<br>
+<div align="center">
+<a href="{% url 'mrbig' pk year month day %}">大会議室</a>
+</div>
 </div>
 
-<div>
+<div class ="float">
+<img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200" hspace="10">
 <br>
-<a href="{% url 'Reservation:mrbig' pk year month day %}">大会議室</a>
-<a href="{% url 'Reservation:mrmid' pk year month day %}">中会議室</a>
-<a href="{% url 'Reservation:mrsml' pk year month day %}">小会議室</a>
+<div align="center">
+<a href="{% url 'mrmid' pk year month day %}">中会議室</a>
 </div>
+</div>
+
+<div class ="float">
+<img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200" hspace="10">
+<br>
+<div align="center">
+<a href="{% url 'mrsml' pk year month day %}">小会議室</a>
+</div>
+</div>
+</div>
+
+
 
 <div>
 {% load static %}
@@ -27,8 +44,8 @@
 <img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200" hspace="10"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200" hspace="10">
 <br>
 <br>
-<a href="{% url 'Reservation:cora' pk year month day %}">コーナーA</a>
-<a href="{% url 'Reservation:corb' pk year month day %}">コーナーB</a>
+<a href="{% url 'cora' pk year month day %}">コーナーA</a>
+<a href="{% url 'corb' pk year month day %}">コーナーB</a>
 <br>
 <br>
 </div>
@@ -59,6 +76,5 @@
 <div style="position:absolute; top:500px; left:1200px;">
 <input type = "submit"  value="予約確定">
 </div>
-
-{% endblock %}
 </html>
+{% endblock %}

@@ -22,7 +22,7 @@
  		{%elif month_current.month == month_min%}
  			&emsp;&emsp;
  	 		<li><a href="{% url 'reserve_calender' pk  %}"><span>今月</span></a></li>
-    		<a href="{% url 'month' pk month_next.year month_next.month %}"><span>次月</span></a></li>
+    		<li><a href="{% url 'month' pk month_next.year month_next.month %}"><span>次月</span></a></li>
 	  	{%else%}
     		<li class="pre"><a href="{% url 'month' pk month_previous.year month_previous.month %}"><span>前月</span></a></li>
    			<li><a href="{% url 'reserve_calender' pk  %}"><span>今月</span></a></li>

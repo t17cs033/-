@@ -5,7 +5,7 @@ from Reservation.views import LoginView,SelectView,Select, ReserveList, ReserveD
 from django.urls import path
 from . import views
 
-app_name = 'Reservation'
+appname = 'Reservation'
 
 urlpatterns = [
 
