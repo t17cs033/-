@@ -1,5 +1,5 @@
 {% extends 'calenderbase.html' %}
- 
+
 {% block main %}
 
 	<div class ="clip-box-b float">
@@ -33,7 +33,7 @@
 
 	<div class ="float" >
 	<table class="cal" width= "1400" height ="300">
- 
+
 	<thead>
    	<tr>
 	{% for w in week_names %}
@@ -41,18 +41,18 @@
 	{% endfor %}
 	</tr>
    	</thead>
-        
+
 	{% for week in month_days %}
 	<tr>
 		{% for day in week %}
 			<td>
           	{%for reserve in object_list%}
           		{%if reserve.date.month == day.month	and reserve.date.day == day.day%}
-                  				△	
-                  				
+                  				△
+
              	{%endif%}
-          	{%endfor%}	
-			{%if month_current.month >= now.month and month_current.year >= now.year%}	
+          	{%endfor%}
+			{%if month_current.month >= now.month and month_current.year >= now.year%}
           		{% if month_current.month != day.month %}
                    <a href="{% url 'date' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
               {% else %}
@@ -66,33 +66,35 @@
               {%endif%}
           	{%endif%}
      		</td>
-             	
+
       	{% endfor %}
  	</tr>
    	{% endfor %}
-        
+
    	</table>
-	</div>   
+
+	<div align="left" class="po1">
+		<a href="{% url 'select' %}/{{pk}}" class="btn-animation-02"><span>戻る</span></a>
+	</div>
+</div>
 
     <div align="right">
   	{% for reserve in object_list  %}
-  	
+
    		{%if reserve.cmpId == pk and reserve.date >= now%}
    		<div class ="kakomi-tape2">
    		 {{ reserve.date }}に予約が有ります<br>
    		 </div>
    		{%endif%}
-   	
+
    	{% endfor %}
-   	</div>  
-   	
-   	<div align="center">
+
+   	<div class="po2">
    	<a href="{% url 'reserve_list' %}/{{pk}}" class="btn-flat-vertical-border">一覧</a>
     </div>
-     
-<div align="left" class ="po1"> 
-    <a href="{% url 'select' %}/{{pk}}" class ="btn-animation-02"><span>戻る</span></a>
-</div>
-     
-   
+    </div>
+
+
+
+
 {% endblock %}

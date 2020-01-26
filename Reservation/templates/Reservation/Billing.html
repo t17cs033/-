@@ -1,16 +1,16 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block main %}
 
-{% block main %}
-
-<font color="teal"><h1 align="center"><span>請求ページ</span></h1></font>
+<font color="teal"><h1 align="center">
+		<span>請求ページ</span>
+	</h1></font>
 <br>
-<div class = "kakomi-te1 float"  >
+<div class="kakomi-te1 float">
 
-<span class ="title-maru4"><script>
+	<span class="title-maru4"><script>
 document.write("Today <br>");
 </script></span>
 
-<script>
+	<script>
   today = new Date();
   year = today.getFullYear();
   month = today.getMonth()+1;
@@ -21,45 +21,38 @@ document.write("Today <br>");
 </script>
 
 </div>
-<div class = "float1">
-<table class ="t2_2" align="center">
-    <body >  
+<div class="float1">
+	<table class="t2_2" align="center">
+		<body>
+		<tr>
+			<th>残額</th>
+			<td>{{ billing.remain }}</td>
+		</tr>
 
-        <tr>
-          <th> 残額 </th>
-            <td>
-            {{ billing.remain }}
-            </td>
-        </tr>
+		<tr>
+			<th>当月分</th>
+			<td>{{ billing.amount }}</td>
+		</tr>
 
-        <tr>
-        <th> 当月分 </th>
-          <td>
-          {{ billing.amount }}</td>
-        </tr>
-
-        <tr>
-          <th>合計</th>
-          <td>
-            <script>
+		<tr>
+			<th>合計</th>
+			<td><script>
               re = {{ billing.remain }};
               am = {{ billing.amount }};
               document.write(re+am);
-            </script>
+            </script></td>
+		</tr>
 
-          </td>
-        </tr>
+		</body>
+	</table>
 
-    </body>
-    </table>
- 
- </div>
- <br>
- <br>
- <br>
- <br>
- <div align="left">
-<a href="{% url 'select' %}/{{4}}" class ="btn-animation-02"><span>戻る</span></a>
-<!-- デバック用に4を代入する -->
 </div>
- {% endblock %} 
+<br>
+<br>
+<br>
+<br>
+<div align="left">
+	<a href="{% url 'select' %}/{{4}}" class="btn-animation-02"><span>戻る</span></a>
+	<!-- デバック用に4を代入する -->
+</div>
+{% endblock %}

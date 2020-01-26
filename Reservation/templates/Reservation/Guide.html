@@ -1,52 +1,54 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block main %}
+<font color="teal"><h1 align="center">
+		<span>料金案内</span>
+	</h1></font>
 
-{% block main %}
-	<font color="teal"><h1 align="center"><span>料金案内</span></h1></font>
- 
- 
- <div align="center">
-    <div class="kakomi-box13"><span class="title-box13">会議室，コーナーの料金表</span>
-    <table class ="t3">
-    <body> 
-        <tr>
-          <th> 会議室名＼料金 </th>
-          <th> 時間貸し </th>
-          <th> 半日貸し </th>
-          <th> 一日貸し </th>
-        </tr>
-        {% for guide in object_list %}
-        <tr>
-          <th>　{{guide.mrName}}　</th>
-          <td> {{guide.timeCharge}} </td>
-          <td> {{guide.halfCharge}} </td>
-          <td> {{guide.dayCharge}} </td>
-        </tr>
-        {% endfor %}
-    </body>
-    </table>
-    </div>
-    <br>
-    <div class="kakomi-box14"><span class="title-box14">付属設備の料金表</span>
-    <table class ="t3">
-    <body> 
-        <tr>
-          <th>  </th>
-          <th> 在庫 </th>
-          <th> 料金 </th>
-        </tr>
-        {% for guide in extra %}
-        <tr>
-          <th>　{{guide.fclName}} </th>
-          <td> {{guide.stock}} </td>
-          <td> {{guide.charge}} </td>
-        </tr>
-        {% endfor %}
-    </body>
-    </table>
-    </div>
+
+<div align="center">
+	<div class="kakomi-box13">
+		<span class="title-box13">会議室，コーナーの料金表</span>
+		<table class="t3">
+			<body>
+			<tr>
+				<th>会議室名＼料金</th>
+				<th>時間貸し</th>
+				<th>半日貸し</th>
+				<th>一日貸し</th>
+			</tr>
+			{% for guide in object_list %}
+			<tr>
+				<th>{{guide.mrName}}</th>
+				<td>{{guide.timeCharge}}</td>
+				<td>{{guide.halfCharge}}</td>
+				<td>{{guide.dayCharge}}</td>
+			</tr>
+			{% endfor %}
+			</body>
+		</table>
+	</div>
+	<br>
+	<div class="kakomi-box14">
+		<span class="title-box14">付属設備の料金表</span>
+		<table class="t3">
+			<body>
+			<tr>
+				<th></th>
+				<th>在庫</th>
+				<th>料金</th>
+			</tr>
+			{% for guide in extra %}
+			<tr>
+				<th>{{guide.fclName}}</th>
+				<td>{{guide.stock}}</td>
+				<td>{{guide.charge}}</td>
+			</tr>
+			{% endfor %}
+			</body>
+		</table>
+	</div>
 </div>
 
-  <div align="left" >
-<a href="{% url 'index' %}" class ="btn-animation-02"><span>戻る</span></a>
+<div align="left">
+	<a href="{% url 'index' %}" class="btn-animation-02"><span>戻る</span></a>
 </div>
- {% endblock %} 
+{% endblock %}

@@ -2,45 +2,46 @@
 <!doctype html>
 <html>
 
-<font color="teal"><h1 align="center"><span>予約詳細</span></h1></font>
+<font color="teal"><h1 align="center">
+		<span>予約詳細</span>
+	</h1></font>
 
 <dvi align="center">
-    <table class ="t2" align="center">
-        <tr>
-          <th>予約番号</th>
-          <td>{{ reserve.number }}</td>
-        </tr>
-        <tr>
-          <th>日時</th>
-          <td>{{ reserve.date }}</td>
-        </tr>
-        <tr>
-          <th>開始時間</th>
-          <td>{{ reserve.start_time }}</td>
-        </tr>
-    	 <tr>
-          <th>終了時間</th>
-          <td>{{ reserve.end_time }}</td>
-        </tr>
-        <tr>
-          <th>会議室</th>
-          <td>{{ reserve.mrName }}</td>
-        </tr>
-        <tr>
-          <th>ホワイトボード</th>
-          <td>{{ reserve.whiteboard }}</td>
-        </tr>
-        <tr>
-          <th>プロジェクター</th>
-          <td>{{ reserve.projector }}</td>
-        </tr>
-         <tr>
-          <th>料金</th>
-          <td>{{ reserve.charge }}</td>
-        </tr>
-    </table>
+<table class="t2" align="center">
+	<tr>
+		<th>予約番号</th>
+		<td>{{ reserve.number }}</td>
+	</tr>
+	<tr>
+		<th>日時</th>
+		<td>{{ reserve.date }}</td>
+	</tr>
+	<tr>
+		<th>開始時間</th>
+		<td>{{ reserve.start_time }}</td>
+	</tr>
+	<tr>
+		<th>終了時間</th>
+		<td>{{ reserve.end_time }}</td>
+	</tr>
+	<tr>
+		<th>会議室</th>
+		<td>{{ reserve.mrName }}</td>
+	</tr>
+	<tr>
+		<th>ホワイトボード</th>
+		<td>{{ reserve.whiteboard }}</td>
+	</tr>
+	<tr>
+		<th>プロジェクター</th>
+		<td>{{ reserve.projector }}</td>
+	</tr>
+	<tr>
+		<th>料金</th>
+		<td>{{ reserve.charge }}</td>
+	</tr>
+</table>
 </div>
-<a href= "{% url "reserve_list" %}" class ="btn-animation-02"> <span>戻る<span> </a>
+<a href="{% url " reserve_list" %}" class="btn-animation-02"> <span>戻る<span></a>
 
-<html>
-{% endblock %}
+<html>{% endblock %}
