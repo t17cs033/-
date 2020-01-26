@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+{% block title %} 会議室一覧 {% endblock %}
+
+{% block main %}
+<div>
+<br>
+<a href="{% url 'Reservation:reserve_calender' %}">戻る</a>
+</div>
+
+<div>
+{% load static %}
+<br>
+<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200" hspace="10">
+</div>
+
+<div>
+<br>
+<a href="{% url 'Reservation:mrbig' pk year month day %}">大会議室</a>
+<a href="{% url 'Reservation:mrmid' pk year month day %}">中会議室</a>
+<a href="{% url 'Reservation:mrsml' pk year month day %}">小会議室</a>
+</div>
+
+<div>
+{% load static %}
+<br>
+<img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200" hspace="10"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200" hspace="10">
+<br>
+<br>
+<a href="{% url 'Reservation:cora' pk year month day %}">コーナーA</a>
+<a href="{% url 'Reservation:corb' pk year month day %}">コーナーB</a>
+<br>
+<br>
+</div>
+</form>
+
+<div style="position:absolute; top:100px; left:1100px;">
+<table border="1">
+<tr>
+<th>会議室名</th>
+<th>開始時間</th>
+<th>終了時間</th>
+</tr>
+
+<tbody>
+{% for reserve in object_list %}
+{% if reserve.cmpId == pk %}
+<tr>
+<td>{{ reserve.mrName }}</td>
+<td>{{ reserve.start_time }}</td>
+<td>{{ reserve.end_time }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<div style="position:absolute; top:500px; left:1200px;">
+<input type = "submit"  value="予約確定">
+</div>
+
+{% endblock %}
+</html>
