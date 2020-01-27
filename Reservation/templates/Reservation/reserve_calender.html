@@ -32,7 +32,7 @@
 	</div>
 
 	<div class ="float" >
-	<table class="cal" width= "1400" height ="300">
+	<table class="cal" width= "1400" height ="300" style="table-layout: fixed;">
 
 	<thead>
    	<tr>
@@ -46,6 +46,19 @@
             <tr>
                 {% for day in week %}
                 <td>
+                {%if month_current.month >= now.month and month_current.year >= now.year%}
+                {% if month_current.month != day.month %}
+                   <a href="{% url 'mrshow' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
+              	{% else %}
+                   <a href="{% url 'mrshow' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
+              {% endif %}
+ 			{%else%}
+ 				{% if month_current.month != day.month %}
+                  {{ day | date:"m/d" }}
+              {% else %}
+                  {{ day.day }}
+              {%endif%}
+          	{%endif%}
                 {%if month_current.month >= now.month and month_current.year >= now.year%}
 
                 <script>
@@ -96,20 +109,6 @@
                 	</script>
 
                  	{%endif%}
-
-				{%if month_current.month >= now.month and month_current.year >= now.year%}
-                {% if month_current.month != day.month %}
-                   <a href="{% url 'date' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
-              	{% else %}
-                   <a href="{% url 'date' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
-              {% endif %}
- 			{%else%}
- 				{% if month_current.month != day.month %}
-                  {{ day | date:"m/d" }}
-              {% else %}
-                  {{ day.day }}
-              {%endif%}
-          	{%endif%}
      		</td>
 
       	{% endfor %}

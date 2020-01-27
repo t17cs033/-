@@ -201,6 +201,7 @@ table.cal{
 
 table.cal tr:last-child td{
   border-bottom:2px solid #005ab3;
+   padding:20px;
 }
 
 table.cal td,th{
@@ -249,6 +250,7 @@ table.cal th{
  transform: rotate(-5deg);
 }
 
+/*ポジション*/
 .float {
   float:  left;
 }
@@ -263,6 +265,18 @@ margin-top:10px;
 
 .po2{
 margin-right:80px;
+}
+
+.pd1{
+margin-left:100px;
+}
+
+.pd2{
+	position:relative
+}
+
+.sp1{
+	padding-left:50px;
 }
 
 .kakomi-box13 {
@@ -766,5 +780,56 @@ body {background-color: #F5FFFA;}
 }
 
 .btn-animation-02:hover {
+  color: #FFF;
+}
+
+/*位置変更その１*/
+.btn-animation-13 {
+  display: inline-block;
+  width: 200px;
+  text-align: center;
+  background-color: #9ec34b;
+  border: 2px solid #9ec34b;
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 0;
+  margin-top:10px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.btn-animation-13 span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-animation-13::before,
+.btn-animation-13::after {
+  content: "";
+  display: block;
+  background-color: #FFF;
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: .2s;
+
+}
+.btn-animation-13::before {
+  left: 0;
+}
+.btn-animation-13::after {
+  right: 0;
+}
+
+.btn-animation-13:hover:before,
+.btn-animation-13:hover:after {
+  width: 0;
+  background-color: #FFF;
+}
+
+.btn-animation-13:hover {
   color: #FFF;
 }
