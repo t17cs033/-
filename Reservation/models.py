@@ -1,6 +1,7 @@
 from django.db import models
 import datetime as dt
 from django.core.validators import MaxValueValidator,MinValueValidator
+from django.template.defaultfilters import default
 # Create your models here.
 
 class Member(models.Model):
@@ -31,7 +32,7 @@ class Reserve(models.Model):
     projector = models.IntegerField(default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(5)])  #プロジェクター
-    charge = models.CharField(max_length = 50)      #料金
+    charge = models.IntegerField(max_length = 50)      #料金
     def __str__(self):
         return str(self.number)
     

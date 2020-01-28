@@ -41,6 +41,7 @@
         <th>会議室名</th>
         <th>開始時間</th>
         <th>終了時間</th>
+        <th>料金</th>
       </tr>
 
       <tbody>
@@ -50,6 +51,7 @@
               <td>{{ reserve.mrName }}</td>
               <td>{{ reserve.start_time }}</td>
               <td>{{ reserve.end_time }}</td>
+              <td>{{ reserve.charge }}円</td>
             </tr>
           {% endif %}
         {% endfor %}
@@ -57,9 +59,15 @@
     </table>
   </div>
 
+  <div style="position:absolute; top:600px; left:1200px;">
+  <p>{{ total }}</p>
+      <a href="{% url 'Reservation:fcl' %}">付属設備</a>
+      <a href="{% url 'Reservation:guide' %}">料金案内</a>
+  </div>
+  
   <div style="position:absolute; top:700px; left:1200px;">
   <form action="{% url 'Reservation:fcl' %}">
-    <input type = "submit" onclick="Reservation:fcl" value="予約確定">
+    <input type = "submit" value="予約確定">
   </form>
   </div>
 

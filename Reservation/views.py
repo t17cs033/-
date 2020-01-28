@@ -20,7 +20,6 @@ from .models import Billing
 from Reservation.models import MeetingRoom, Facility
 from Reservation import forms
 from django.db.models import Max
-import ast
 from token import STAR
 
 
@@ -122,7 +121,7 @@ class ReservationTest(UpdateView):
         context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
         return context
 
-class MRShowView(ListView):
+class MRShowView(ListView):  #会議室一覧
     model = Reserve
     template_name = 'Reservation/mr_show.html'
     
@@ -164,12 +163,23 @@ class BigMRReservationView(CreateView):
         mrName = self.request.POST.get('mrName')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
+        stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
+        time = etime-stime
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
-            reserve.end_time = end_time 
+            reserve.end_time = end_time
+            if str(time) == '1:00:00':
+                reserve.charge = 2000 
+            if str(time) == '2:00:00':
+                reserve.charge = 4000
+            if str(time) == '3:00:00':
+                reserve.charge = 5000
+            if str(time) == '7:00:00':
+                reserve.charge = 9000 
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
@@ -206,6 +216,7 @@ class MiddleMRReservationView(CreateView):
         context['pk'] = self.kwargs.get('pk')
         context['start_time'] = self.request.POST.get('start_time')
         context['end_time'] = self.request.POST.get('end_time')
+        #context['time'] = datetime.datetime.strptime(self.request.POST.get('end_time'), '%H:%M:%S') - datetime.datetime.strptime(self.request.POST.get('start_time'), '%H:%M:%S')
         return context
 
     def form_valid(self, form):
@@ -217,16 +228,30 @@ class MiddleMRReservationView(CreateView):
         mrName = self.request.POST.get('mrName')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
+        stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
+        time = etime-stime
+        #print(time)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
-            messages.error(self.request, 'すでに予約が入っています')        
+            messages.error(self.request, 'すでに予約が入っています')
+        if str(time) < '00:00:00':
+            messages.error(self.request, '時間を正しく設定してください')      
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
-            reserve.end_time = end_time 
+            reserve.end_time = end_time
+            if str(time) == '1:00:00':
+                reserve.charge = 1500 
+            if str(time) == '2:00:00':
+                reserve.charge = 3000
+            if str(time) == '3:00:00':
+                reserve.charge = 4000
+            if str(time) == '7:00:00':
+                reserve.charge = 7500
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
-            reserve.save()    
+            reserve.save() 
         return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
@@ -251,12 +276,23 @@ class SmallMRReservationView(CreateView):
         mrName = self.request.POST.get('mrName')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
+        stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
+        time = etime-stime
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time 
+            if str(time) == '1:00:00':
+                reserve.charge = 1000 
+            if str(time) == '2:00:00':
+                reserve.charge = 2000
+            if str(time) == '3:00:00':
+                reserve.charge = 2500
+            if str(time) == '7:00:00':
+                reserve.charge = 4000
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
@@ -304,12 +340,23 @@ class ACornerReservationView(CreateView):
         mrName = self.request.POST.get('mrName')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
+        stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
+        time = etime-stime
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
-            reserve.end_time = end_time 
+            reserve.end_time = end_time
+            if str(time) == '1:00:00':
+                reserve.charge = 500 
+            if str(time) == '2:00:00':
+                reserve.charge = 1000
+            if str(time) == '3:00:00':
+                reserve.charge = 1500
+            if str(time) == '7:00:00':
+                reserve.charge = 2500 
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
@@ -348,12 +395,23 @@ class BCornerReservationView(CreateView):
         mrName = self.request.POST.get('mrName')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
+        stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
+        time = etime-stime
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
-            reserve.end_time = end_time 
+            reserve.end_time = end_time
+            if str(time) == '1:00:00':
+                reserve.charge = 500 
+            if str(time) == '2:00:00':
+                reserve.charge = 1000
+            if str(time) == '3:00:00':
+                reserve.charge = 1500
+            if str(time) == '7:00:00':
+                reserve.charge = 2500 
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
