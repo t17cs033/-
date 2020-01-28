@@ -1,10 +1,16 @@
 from django.db import models
+import datetime as dt
 from django.core.validators import MaxValueValidator,MinValueValidator
-
 # Create your models here.
 
+def get_next():
+    try:
+        return Member.objects.latest('cmpId').cmpId + 1
+    except Member.DoesNotExist:
+        return 1
+
 class Member(models.Model):
-    cmpId = models.IntegerField()               #ID
+    cmpId = models.IntegerField(default = get_next)               #ID
     cmpName = models.CharField(max_length = 50) #企業名
     address = models.CharField(max_length = 50) #住所
     tel = models.CharField(max_length = 50)     #電話番号
@@ -14,14 +20,15 @@ class Member(models.Model):
     pay = models.CharField(max_length = 50)     #支払金額
     def __str__(self):
         return self.cmpName
-    
+
 class Reserve(models.Model):
-    number = models.IntegerField()                  #予約番号
-    cmpId = models.IntegerField()                   #ID
-    date = models.DateField(blank=False,null=False) #日付
-    start_time = models.TimeField()                 #利用開始時間
-    end_time = models.TimeField()                   #利用終了時間
-    mrName = models.CharField(max_length = 50)      #会議室名
+    number = models.IntegerField('予約番号')                  #予約番号
+    cmpId = models.IntegerField('企業')                   #ID
+    date = models.DateField('日付', blank=False,null=False) #日付
+    start_time = models.TimeField('開始時間', default=dt.time(9,0))                 #利用開始時間
+    end_time = models.TimeField('終了時間', default=dt.time(10,0))                   #利用終了時間
+    mrName = models.CharField('会議室名', max_length = 50)      #会議室名
+    fclName = models.CharField(max_length = 50)     #付属設備名
     whiteboard = models.IntegerField(default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(10)]) #ホワイトボード
@@ -31,7 +38,7 @@ class Reserve(models.Model):
     charge = models.CharField(max_length = 50)      #料金
     def __str__(self):
         return str(self.number)
-    
+
 class MeetingRoom(models.Model):
     mrName= models.CharField(max_length = 50)       #会議室名
     avail = models.IntegerField()                   #空き数
@@ -40,15 +47,15 @@ class MeetingRoom(models.Model):
     dayCharge = models.CharField(max_length = 50)   #一日貸し料金
     def __str__(self):
         return self.mrName
-    
+
 class Facility(models.Model):
     fclName = models.CharField(max_length = 50) #付属設備名
     stock = models.CharField(max_length = 50)   #在庫数
     charge = models.CharField(max_length = 50)  #料金
-    
+
     def __str__(self):
         return self.fclName
-    
+
 class Billing(models.Model):
     cmpId = models.IntegerField()               #ID
     amount = models.CharField(max_length = 50)  #請求額

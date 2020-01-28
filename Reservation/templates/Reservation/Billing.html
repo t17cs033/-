@@ -1,68 +1,58 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block main %}
 
-{% block main %}
-<div align="center">
-{% block title %} 請求ページ {% endblock %}
+<font color="teal"><h1 align="center">
+		<span>請求ページ</span>
+	</h1></font>
 <br>
-<a href="{% url 'select' %}/{{billing.cmpId}}">
-  <div align="left">
-  <button type="button">戻る</button>
-</a>
-</div>
-<br>
-<div align="right" style="
-display: inline-block; margin-bottom: 10px; margin-left: 450px; border: 2px double #000000; border-radius: 5px; padding: 5px;">
+<div class="kakomi-te1 float">
 
-<script>
+	<span class="title-maru4"><script>
+document.write("Today <br>");
+</script></span>
+
+	<script>
   today = new Date();
   year = today.getFullYear();
   month = today.getMonth()+1;
   day = today.getDate();
-  document.write("Today <br>");
   document.write(year,"年");
   document.write(month,"月");
   document.write(day,"日");
 </script>
+
 </div>
-<table border="1" style="border-collapse: collapse" width = "500">
-    <body class="billbase">  
+<div class="float1">
+	<table class="t2_2" align="center">
+		<body>
+		<tr>
+			<th>残額</th>
+			<td>{{ billing.remain }}</td>
+		</tr>
 
-      <!--   <tr>
-          <th> 請求先ID </th>
-            <td>
-            {{ billing.cmpId }}
-            </td>
-        </tr> -->
+		<tr>
+			<th>当月分</th>
+			<td>{{ billing.amount }}</td>
+		</tr>
 
-        <tr>
-          <th> 残額 </th>
-            <td>
-            {{ billing.remain }}
-            </td>
-        </tr>
-
-        <tr>
-        <th> 当月分 </th>
-          <td>
-          {{ billing.amount }}</td>
-        </tr>
-
-        <tr>
-          <th>合計</th>
-          <td>
-            <script>
+		<tr>
+			<th>合計</th>
+			<td><script>
               re = {{ billing.remain }};
               am = {{ billing.amount }};
               document.write(re+am);
-            </script>
+            </script></td>
+		</tr>
 
-          </td>
-        </tr>
+		</body>
+	</table>
 
-        <tr><th></th><td></td></tr>
-
-    </body>
-    </table>
- 
- </div>
- {% endblock %} 
+</div>
+<br>
+<br>
+<br>
+<br>
+<div align="left">
+	<a href="{% url 'select' %}/{{4}}" class="btn-animation-02"><span>戻る</span></a>
+	<!-- デバック用に4を代入する -->
+</div>
+{% endblock %}

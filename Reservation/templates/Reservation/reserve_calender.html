@@ -1,0 +1,141 @@
+{% extends 'calenderbase.html' %}
+
+{% block main %}
+
+	<div class ="clip-box-b float">
+		{{ month_current | date:"Y年m月" }}<br>
+	</div>
+
+	<div class ="kakomi-tape3 ">
+	<span class ="title-tape3">
+   		Today
+ 	</span>
+   		{{now}}
+	</div>
+
+
+	<div class = "pager">
+	<ul class = "pagination">
+		{%if month_current.month == month_max%}
+			<li class="pre"><a href="{% url 'month' pk month_previous.year month_previous.month %}"><span>前月</span></a></li>
+  	  		<li><a href="{% url 'reserve_calender' pk  %}"><span>今月</span></a></li>
+ 		{%elif month_current.month == month_min%}
+ 			&emsp;&emsp;
+ 	 		<li><a href="{% url 'reserve_calender' pk  %}"><span>今月</span></a></li>
+    		<li><a href="{% url 'month' pk month_next.year month_next.month %}"><span>次月</span></a></li>
+	  	{%else%}
+    		<li class="pre"><a href="{% url 'month' pk month_previous.year month_previous.month %}"><span>前月</span></a></li>
+   			<li><a href="{% url 'reserve_calender' pk  %}"><span>今月</span></a></li>
+    		<li class="next"><a href="{% url 'month' pk month_next.year month_next.month %}"><span>次月</span></a></li>
+  		{%endif%}
+	</ul>
+	</div>
+
+	<div class ="float" >
+	<table class="cal" width= "1400" height ="300" style="table-layout: fixed;">
+
+	<thead>
+   	<tr>
+	{% for w in week_names %}
+		<th>{{ w }}</th>
+	{% endfor %}
+	</tr>
+   	</thead>
+
+        {% for week in month_days %}
+            <tr>
+                {% for day in week %}
+                <td>
+                {%if month_current.month >= now.month and month_current.year >= now.year%}
+                {% if month_current.month != day.month %}
+                   <a href="{% url 'mrshow' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
+              	{% else %}
+                   <a href="{% url 'mrshow' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
+              {% endif %}
+ 			{%else%}
+ 				{% if month_current.month != day.month %}
+                  {{ day | date:"m/d" }}
+              {% else %}
+                  {{ day.day }}
+              {%endif%}
+          	{%endif%}
+                {%if month_current.month >= now.month and month_current.year >= now.year%}
+
+                <script>
+                	var flag = 5;
+
+                	var Max = 6;
+                	var Min = 6;
+                	var Mid = 6;
+                	var A = 7;
+                	var B = 7;
+                  var start_time = 0;
+                  var end_time = 0;
+               	var sum = 0;
+
+             	{%for reserve in object_list%}
+
+
+                 	  {%if reserve.date.month == day.month	and reserve.date.day == day.day%}
+                	    start_time = {{reserve.start_time.hour}}
+                	    end_time = {{reserve.end_time.hour}}
+                	  	flag =flag-1;
+
+
+            if(start_time == "9"){
+            	if(end_time == "16"){
+        	sum = sum + 7;
+          }else{
+          var diff = end_time-start_time;
+      		sum = sum+diff;
+          }
+          }else{
+          var diff = end_time-start_time;
+      		sum = sum+diff;
+      		}
+
+
+                	{%endif%}
+                	{%endfor%}
+
+                if(sum > 32){
+                	document.write("☓");
+                	}else if(flag != 5){
+              		document.write("△");
+              	}
+              	else if(flag == 5)
+              		document.write("○");
+
+                	</script>
+
+                 	{%endif%}
+     		</td>
+
+      	{% endfor %}
+ 	</tr>
+   	{% endfor %}
+
+   	</table>
+
+	<div align="left" class="po1">
+		<a href="{% url 'select' %}/{{pk}}" class="btn-animation-02"><span>戻る</span></a>
+	</div>
+</div>
+
+    <div align="right">
+  	{% for reserve in object_list  %}
+   		{%if reserve.cmpId == pk and reserve.date >= now%}
+   		<div class ="kakomi-tape2">
+   		 {{ reserve.date }}に予約が有ります<br>
+   		 </div>
+   		{%endif%}
+
+   	{% endfor %}
+
+   	<div class="po2">
+   	<a href="{% url 'reserve_list' %}/{{pk}}" class="btn-flat-vertical-border">一覧</a>
+    </div>
+    </div>
+
+
+{% endblock %}

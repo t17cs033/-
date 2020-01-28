@@ -1,32 +1,43 @@
+{% extends "base.html" %}{% block main %}
 <!doctype html>
 <html>
 
-{% block title %} 予約一覧 {% endblock %}
+<font color="teal">
+	<h1 align="center">
+		<span>予約一覧 </span>
+	</h1>
+</font>
 
-<table border="1">
-    <body>  
-    <tr>  
-    <th> 予約番号 </th>
-    <th> 日付 </th>
-    <th> 開始時間 </th>
-    <th> 終了時間 </th>
-    <th> </th>
-    <th></th>
-    </tr>
-    
-        {% for reserve in object_list %}
-        <tr>
-    
-    	 <td>{{ reserve.number }}</td>
-    	 <td>{{ reserve.date }}</td>	
-        <td>{{ reserve.start_time }}</td>
-        <td>{{ reserve.end_time }}</td>
-        <th><a href= "{% url 'reserve_detail' reserve.pk %}"> 詳細 </a></th>
-        <th><a href= "{% url 'delete' reserve.pk %}">キャンセル</a></th>
-        
-        </tr>
-        {% endfor %}
-    </body>
-    </table>
-<a href= "{% url "index" %}"> 戻る </a>
-<html>
+<div align="center">
+	<table border="1" class="t1">
+		<body>
+		<tr>
+			<th>予約番号</th>
+			<th>日付</th>
+			<th>開始時間</th>
+			<th>終了時間</th>
+			<th></th>
+			<th></th>
+		</tr>
+
+		{% for reserve in object_list %}
+		<tr>
+
+			<td>{{ reserve.number }}</td>
+			<td>{{ reserve.date }}</td>
+			<td>{{ reserve.start_time }}</td>
+			<td>{{ reserve.end_time }}</td>
+			<td><a href="{% url 'reserve_detail' reserve.pk %}"> 詳細 </font></a></td>
+			<td><a href="{% url 'delete' reserve.pk %}">キャンセル</a></td>
+
+		</tr>
+		{% endfor %}
+		</body>
+	</table>
+
+
+	<a href="{% url 'reserve_calender' %}/{{reserve.cmpId}}"
+		class="btn-animation-02"> <span>戻る<span></a>
+
+</div>
+<html>{% endblock %}

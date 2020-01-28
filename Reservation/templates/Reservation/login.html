@@ -1,11 +1,12 @@
 {% extends "base.html" %} {% block main %}
 
-<div class="box5">
-	<font color="red"><h1 align="center">ログイン</h1></font>
-</div>
 
-<td><a href="http://127.0.0.1:8000/admin/login/?next=/admin/"
-	class="btn-square">管理者</a></td>
+<font color="teal"><h1 align="center">
+		<span>ログイン</span>
+	</h1></font>
+
+
+<td><a href="/admin" class="btn-square">管理者</a></td>
 
 <div align="center">
 	<form action="{% url 'login' %}" method="post">
@@ -17,9 +18,9 @@
 <p align="center">ID:{{member.cmpId}} の {{member.cmpName}}
 	さんでよろしいですね？</p>
 <p align="center">
-   <a href="{% url 'select' %}/{{member.cmpId}}" class="btn-square-so-pop">
+	<a href="{% url 'select' %}/{{member.id}}" class="btn-square-so-pop">
 		<font size="4">ログイン</font>
-   </a>
+	</a>
 </p>
 
 <p align="center">
