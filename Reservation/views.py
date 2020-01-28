@@ -132,6 +132,7 @@ class MRShowView(ListView):
         context['year'] = self.kwargs.get('year')
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
+        context['date'] = datetime.date(year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
         context['pk'] = self.kwargs.get('pk')     
         return context
 
@@ -203,6 +204,8 @@ class MiddleMRReservationView(CreateView):
         context['month'] = self.kwargs.get('month')
         context['day'] = self.kwargs.get('day')
         context['pk'] = self.kwargs.get('pk')
+        context['start_time'] = self.request.POST.get('start_time')
+        context['end_time'] = self.request.POST.get('end_time')
         return context
 
     def form_valid(self, form):
@@ -215,9 +218,7 @@ class MiddleMRReservationView(CreateView):
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         if Reserve.objects.filter(date=date,mrName=mrName,start_time=start_time).exists():
-            messages.error(self.request, 'すでに予約が入っています')
-        if Reserve.objects.filter(start_time__lt=start_time).exists() and Reserve.objects.filter(end_time__lte=start_time).exists():
-            messages.error(self.request, 'すでに予約が入っています')            
+            messages.error(self.request, 'すでに予約が入っています')        
         else:
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
