@@ -23,26 +23,40 @@ document.write("Today <br>");
 </div>
 <div class="float1">
 	<table class="t2_2" align="center">
+
 		<body>
-		<tr>
-			<th>残額</th>
-			<td>{{ billing.remain }}</td>
-		</tr>
+			{% for billing in object_list %}
+			{% for member in object_list %}
+				
+			{% if billing.cmpId is member.cmpId and billing.cmpId is pk %}
+				
+			<tr>
+				<th>会員ID</th>
+				<td>{{member.cmpId}}</td>
+			</tr>
 
-		<tr>
-			<th>当月分</th>
-			<td>{{ billing.amount }}</td>
-		</tr>
+			<tr>
+				<th>残額</th>
+				<td>{{ billing.remain }}</td>
+			</tr>
 
-		<tr>
-			<th>合計</th>
-			<td><script>
-              re = {{ billing.remain }};
-              am = {{ billing.amount }};
-              document.write(re+am);
-            </script></td>
-		</tr>
 
+			<tr>
+				<th>当月分</th>
+				<td>{{ billing.amount }}</td>
+			</tr>
+
+			<tr>
+				<th>合計</th>
+				<td><script>
+       		       re = {{ billing.remain }};
+        	       am = {{ billing.amount }};
+            	  document.write(re+am);
+            	</script></td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+			{% endfor %}
 		</body>
 	</table>
 
@@ -52,7 +66,6 @@ document.write("Today <br>");
 <br>
 <br>
 <div align="left">
-	<a href="{% url 'select' %}/{{4}}" class="btn-animation-02"><span>戻る</span></a>
-	<!-- デバック用に4を代入する -->
+	<a href="{% url 'select' %}/{{pk}}" class="btn-animation-02"><span>戻る</span></a>
 </div>
 {% endblock %}
