@@ -10,11 +10,11 @@
  border-radius: 3em .8em 3em .7em/.9em 2em .8em 3em;
 }
 
-/*文字囲う交差(会議室名)*/
+/*黒板(会議室名)*/
 .kokuban-s2 {
  position: relative;
  margin: 10px auto;
- padding: 10px 20px;
+ padding: 0px 20px;
  width: 70%; /* ボックス幅 */
  background: #006633; /* ボックス背景色 */
  color: #fff; /* 文章色 */
@@ -192,6 +192,58 @@
   color: #FFF;
 }
 
+/*ボタン会議室などの*/
+
+.btn-box {
+  display: inline-block;
+  width: 200px;
+  text-align: center
+  font-size: 16px;
+  color: #FF8856;
+  text-decoration: none;
+  margin-bottom:10px;
+  font-weight: bold;
+  padding: 12px 24px;
+  position: relative;
+  border: 2px solid #FF8856;
+  transition: .4s;
+}
+
+.btn-box:hover {
+  border: 2px solid transparent;
+  color: #7B3CFF;
+}
+
+.btn-box:before, .btn-box:after {
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  transform: scale(0);
+  transition: .2s;
+}
+
+.btn-box:before {
+  border-bottom: 2px solid #7B3CFF;
+  border-left: 2px solid #7B3CFF;
+  transform-origin: 100% 0%;
+}
+
+.btn-box:after {
+  border-top: 2px solid #7B3CFF;
+  border-right: 2px solid #7B3CFF;
+  transform-origin: 0% 100%;
+}
+
+.btn-box:hover:after,
+.btn-box:hover:before {
+  transform: scale(1);
+}
+
 /*カレンダー*/
 table.cal{
   border-collapse:collapse;
@@ -250,6 +302,20 @@ table.cal th{
  transform: rotate(-5deg);
 }
 
+/*上太文字*/
+.box10 {
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #00BCD4;
+    background: #e4fcff;/*背景色*/
+    border-top: solid 6px #1dc1d6;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);/*影*/
+}
+.box10 p {
+    margin: 0; 
+    padding: 0;
+}
+
 /*ポジション*/
 .float {
   float:  left;
@@ -257,6 +323,21 @@ table.cal th{
 
 .float1{
   overflow:  hidden;
+}
+
+.float5 {
+  float:  left;
+  margin-right:50px;
+}
+
+.float2{
+  float:left;
+  margin-left:100px;
+}
+
+.float3{
+  overflow:  hidden;
+  margin-left:50px;
 }
 
 .po1{
@@ -545,6 +626,38 @@ table.t3 th + th,td{
   border-left:1px solid #666;
 }
 
+table02 th,td {
+  padding: 15px;
+  color: #1D739A;
+}
+.table02 th {
+  border-bottom: solid 3px #84B0C4;
+}
+.table02 td {
+  border-bottom: solid 1px #84B0C4;
+}
+
+/*囲い角丸*/
+.box2 {
+    padding: 0.5em 1em;
+    margin: 2em;
+    margin-left:2em;
+    font-weight: bold;
+    color: #6091d3;/*文字色*/
+    background: #FFF;
+    border: solid 3px #6091d3;/*線*/
+    border-radius: 10px;/*角の丸み*/
+}
+.box2 p {
+    margin: 0; 
+    padding: 0;
+}
+
+/*フォーム*/
+.form_pad{
+padding:50px;
+}
+
 /*背景の色をピンクにする*/
 body {background-color: #F5FFFA;}
 
@@ -786,6 +899,7 @@ body {background-color: #F5FFFA;}
 /*位置変更その１*/
 .btn-animation-13 {
   display: inline-block;
+  margin-bottom:10px;
   width: 200px;
   text-align: center;
   background-color: #9ec34b;
@@ -795,7 +909,7 @@ body {background-color: #F5FFFA;}
   text-decoration: none;
   font-weight: bold;
   padding: 10px 0;
-  margin-top:10px;
+  margin-top:5px;
   border-radius: 4px;
   position: relative;
 }

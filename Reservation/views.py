@@ -105,7 +105,7 @@ class BigMRReservationView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
 
 class MiddleMRReservationView(CreateView):
@@ -135,7 +135,7 @@ class MiddleMRReservationView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
 class SmallMRReservationView(CreateView):
     model = Reserve
@@ -164,7 +164,7 @@ class SmallMRReservationView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
 
 class ACornerReservationView(CreateView):
@@ -194,7 +194,7 @@ class ACornerReservationView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
 
 class BCornerReservationView(CreateView):
@@ -225,7 +225,7 @@ class BCornerReservationView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
 class BillingBase(ListView):
     model = Billing
