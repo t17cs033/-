@@ -36,7 +36,6 @@ class LoginView(TemplateView):
         context['form_id'] = MemberIdForm()
         return context
 
-
 class SelectView(TemplateView):
     model = Member
     template_name = 'Reservation/select.html'
@@ -227,13 +226,14 @@ class BCornerReservationView(CreateView):
     def get_success_url(self):
         return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
-class BillingBase(ListView):
-    model = Billing
-    template_name = "Reservation/BillBase.html"
-
-class BillingView(DetailView):
+class BillingView(ListView):
     model = Billing
     template_name = "Reservation/Billing.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['pk'] = self.kwargs.get('pk')
+        return ctx
 
 class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
     """月間カレンダーを表示するビュー"""
@@ -287,6 +287,8 @@ class GuideView(ListView):
                 'extra' : Facility.objects.all(),
             }
         )
+
+        ctx['pk'] = self.kwargs.get('pk')
         return ctx
     
 class ReserveDelete(DeleteView):
