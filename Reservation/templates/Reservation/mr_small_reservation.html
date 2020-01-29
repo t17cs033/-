@@ -9,7 +9,7 @@
  <div>
   <br>
   <h1>{{ year }}年 {{ month }}月 {{ day }}日</h1>
-    <a href="{% url 'Reservation:mrshow' pk year month day %}">戻る</a>
+    <a href="{% url 'mrshow' pk year month day %}">戻る</a>
  </div>
 
  <div>
@@ -18,7 +18,7 @@
  </div>
 
 <div style="position:absolute; top:120px; left:500px;">
-  <form action="{% url 'Reservation:mrsml' pk year month day %}" method="POST">
+  <form action="{% url 'mrsml' pk year month day %}" method="POST">
      {% csrf_token %}
      <br>
      <br>
@@ -28,7 +28,7 @@
      </table>
 </div>
 
-<div style="position:absolute; top:320px; left:700px;">
+<div style="position:absolute; top:400px; left:700px;">
   <input type = "submit" value="確定">
  </form>
 </div>

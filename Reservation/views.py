@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
 from .models import Reserve,Member
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
@@ -21,7 +20,6 @@ from Reservation.models import MeetingRoom, Facility
 from Reservation import forms
 from django.db.models import Max
 from token import STAR
-
 
 class LoginView(TemplateView):
     template_name = 'Reservation/login.html'
@@ -135,14 +133,14 @@ class MRShowView(ListView):  #会議室一覧
         context['pk'] = self.kwargs.get('pk')     
         return context
 
-class BigMRReservationView(CreateView):
+class BigMRReservationView(CreateView):  #大会議室
     model = Reserve
     form_class = ReserveForm
     template_name = 'Reservation/mr_big_reservation.html'    
 
     def get_form(self):
         form = super(BigMRReservationView, self).get_form()
-        form.initial['mrName'] = '大会議室'     
+        form.initial['mrName'] = '大会議室'
         return form
 
     def get_context_data(self, **kwargs):
@@ -163,6 +161,8 @@ class BigMRReservationView(CreateView):
         mrName = self.request.POST.get('mrName')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        whiteboard = self.request.POST.get('whiteboard')
+        projector = self.request.POST.get('projector')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
@@ -178,32 +178,36 @@ class BigMRReservationView(CreateView):
         if end_time == '13:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
             return super(BigMRReservationView, self).form_invalid(form)
-        if start_time < '12:00:00' and end_time > '12:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
+        if start_time < '12:00:00' and end_time > '13:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
             return super(BigMRReservationView, self).form_invalid(form)    
         else:
+            r_c = 0
+            f_p = 2000 * int(projector)
+            f_w = 1000 * int(whiteboard)
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time
             if str(time) == '1:00:00':
-                reserve.charge = 2000 
+                r_c=2000
             if str(time) == '2:00:00':
-                reserve.charge = 4000
+                r_c=4000
             if str(time) == '3:00:00':
-                reserve.charge = 5000
+                r_c=5000
             if str(time) == '7:00:00':
-                reserve.charge = 9000 
+                r_c=9000 
+            reserve.charge = r_c + f_p + f_w
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
             reserve.save()    
-        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))   
+        return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))   
    
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
     
-class MiddleMRReservationView(CreateView):
+class MiddleMRReservationView(CreateView):  #中会議室
     model = Reserve
     form_class = ReserveForm
     template_name = 'Reservation/mr_middle_reservation.html' 
@@ -229,7 +233,6 @@ class MiddleMRReservationView(CreateView):
         context['pk'] = self.kwargs.get('pk')
         context['start_time'] = self.request.POST.get('start_time')
         context['end_time'] = self.request.POST.get('end_time')
-        #context['time'] = datetime.datetime.strptime(self.request.POST.get('end_time'), '%H:%M:%S') - datetime.datetime.strptime(self.request.POST.get('start_time'), '%H:%M:%S')
         return context
 
     def form_valid(self, form):
@@ -239,6 +242,8 @@ class MiddleMRReservationView(CreateView):
         date = datetime.date(year=year, month=month, day=day)
         pk = self.kwargs.get('pk')
         mrName = self.request.POST.get('mrName')
+        whiteboard = self.request.POST.get('whiteboard')
+        projector = self.request.POST.get('projector')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -256,26 +261,33 @@ class MiddleMRReservationView(CreateView):
         if end_time == '13:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
             return super(MiddleMRReservationView, self).form_invalid(form)
-        if start_time < '12:00:00' and end_time > '12:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
+        if start_time < '12:00:00' and end_time > '13:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
-            return super(MiddleMRReservationView, self).form_invalid(form)                                         
-        else:     
+            return super(MiddleMRReservationView, self).form_invalid(form)
+        if int(projector) > 1:
+            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
+            return super(MiddleMRReservationView, self).form_invalid(form)                                                   
+        else:   
+            r_c = 0
+            f_p = 2000 * int(projector)
+            f_w = 1000 * int(whiteboard)  
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time            
             if str(time) == '1:00:00':
-                reserve.charge = 1500 
+                r_c=1500 
             if str(time) == '2:00:00':
-                reserve.charge = 3000
+                r_c=3000
             if str(time) == '3:00:00':
-                reserve.charge = 4000
+                r_c=4000
             if str(time) == '7:00:00':
-                reserve.charge = 7500
+                r_c=7500
+            reserve.charge = r_c + f_p + f_w
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
-            reserve.save() 
-        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
+            reserve.save()
+        return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
     
     def form_invalid(self, form):
         year = self.kwargs.get('year')
@@ -294,9 +306,9 @@ class MiddleMRReservationView(CreateView):
         return super(MiddleMRReservationView, self).form_invalid(form)
    
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
                
-class SmallMRReservationView(CreateView):
+class SmallMRReservationView(CreateView):  #小会議室
     model = Reserve
     form_class = ReserveForm
     template_name = 'Reservation/mr_small_reservation.html'    
@@ -313,6 +325,8 @@ class SmallMRReservationView(CreateView):
         date = datetime.date(year=year, month=month, day=day)
         pk = self.kwargs.get('pk')
         mrName = self.request.POST.get('mrName')
+        whiteboard = self.request.POST.get('whiteboard')
+        projector = self.request.POST.get('projector')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -330,26 +344,30 @@ class SmallMRReservationView(CreateView):
         if end_time == '13:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
             return super(SmallMRReservationView, self).form_invalid(form) 
-        if start_time < '12:00:00' and end_time > '12:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
+        if start_time < '12:00:00' and end_time > '13:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
             return super(SmallMRReservationView, self).form_invalid(form)              
         else:
+            r_c = 0
+            f_p = 2000 * int(projector)
+            f_w = 1000 * int(whiteboard)
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time 
             if str(time) == '1:00:00':
-                reserve.charge = 1000 
+                r_c=1000 
             if str(time) == '2:00:00':
-                reserve.charge = 2000
+                r_c= 2000
             if str(time) == '3:00:00':
-                reserve.charge = 2500
+                r_c= 2500
             if str(time) == '7:00:00':
-                reserve.charge = 4000
+                r_c= 4000
+            reserve.charge = r_c + f_p + f_w
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
             reserve.save()    
-        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
+        return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -361,10 +379,10 @@ class SmallMRReservationView(CreateView):
         return context    
    
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
     
-class ACornerReservationView(CreateView):
+class ACornerReservationView(CreateView):  #コーナーA
     model = Reserve
     form_class = ReserveForm
     template_name = 'Reservation/corner_a_reservation.html'    
@@ -390,6 +408,8 @@ class ACornerReservationView(CreateView):
         date = datetime.date(year=year, month=month, day=day)
         pk = self.kwargs.get('pk')
         mrName = self.request.POST.get('mrName')
+        whiteboard = self.request.POST.get('whiteboard')
+        projector = self.request.POST.get('projector')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -400,30 +420,34 @@ class ACornerReservationView(CreateView):
             return super(ACornerReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
-            return super(ACornerReservationView, self).form_invalid(form)  
+            return super(ACornerReservationView, self).form_invalid(form) 
         else:
+            r_c = 0
+            f_p = 2000 * int(projector)
+            f_w = 1000 * int(whiteboard)
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time
             if str(time) == '1:00:00':
-                reserve.charge = 500 
+                r_c= 500 
             if str(time) == '2:00:00':
-                reserve.charge = 1000
+                r_c = 1000
             if str(time) == '3:00:00':
-                reserve.charge = 1500
+                r_c = 1500
             if str(time) == '7:00:00':
-                reserve.charge = 2500 
+                r_c = 2500 
+            reserve.charge = r_c + f_p + f_w
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
             reserve.save()    
-        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
+        return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
     
-class BCornerReservationView(CreateView):
+class BCornerReservationView(CreateView):  #コーナーB
     model = Reserve
     form_class = ReserveForm
     template_name = 'Reservation/corner_b_reservation.html'    
@@ -449,6 +473,8 @@ class BCornerReservationView(CreateView):
         date = datetime.date(year=year, month=month, day=day)
         pk = self.kwargs.get('pk')
         mrName = self.request.POST.get('mrName')
+        whiteboard = self.request.POST.get('whiteboard')
+        projector = self.request.POST.get('projector')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -461,25 +487,29 @@ class BCornerReservationView(CreateView):
             messages.error(self.request, 'すでに予約が入っています')
             return super(BCornerReservationView, self).form_invalid(form)  
         else:
+            r_c = 0
+            f_p = 2000 * int(projector)
+            f_w = 1000 * int(whiteboard)
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time
             if str(time) == '1:00:00':
-                reserve.charge = 500 
+                r_c = 500 
             if str(time) == '2:00:00':
-                reserve.charge = 1000
+                r_c = 1000
             if str(time) == '3:00:00':
-                reserve.charge = 1500
+                r_c = 1500
             if str(time) == '7:00:00':
-                reserve.charge = 2500 
+                r_c = 2500 
+            reserve.charge = r_c + f_p + f_w
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
             reserve.save()    
-        return redirect('Reservation:mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
+        return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
-        return reverse('Reservation:mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
+        return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
 class BillingBase(ListView):
     model = Billing

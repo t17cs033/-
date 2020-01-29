@@ -9,7 +9,7 @@ from .views import BillingView, BillingBase, GuideView
 
 from Reservation.views import LoginView,SelectView,Select,BillingTestView, BillingTest, ReservationTestView,ReservationTest,ReserveList, ReserveDetail,ReserveDelete
 
-app_name = 'Reservation'
+appname = 'Reservation'
 
 urlpatterns = [
     path('login/',LoginView.as_view(),name='login'),

@@ -5,7 +5,7 @@
  {% block main %}
   <div>
     <br>
-    <a href="{% url 'Reservation:month' pk  year month %}">戻る</a>
+    <a href="{% url 'month' pk  year month %}">戻る</a>
   </div>
 
   <div>
@@ -16,9 +16,9 @@
 
   <div>
     <br>
-      <a href="{% url 'Reservation:mrbig' pk year month day %}">大会議室</a>
-      <a href="{% url 'Reservation:mrmid' pk year month day %}">中会議室</a>
-      <a href="{% url 'Reservation:mrsml' pk year month day %}">小会議室</a>
+      <a href="{% url 'mrbig' pk year month day %}">大会議室</a>
+      <a href="{% url 'mrmid' pk year month day %}">中会議室</a>
+      <a href="{% url 'mrsml' pk year month day %}">小会議室</a>
   </div>
 
   <div>
@@ -27,8 +27,8 @@
     <img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200" hspace="10"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200" hspace="10">
     <br>
     <br>
-      <a href="{% url 'Reservation:cora' pk year month day %}">コーナーA</a>
-      <a href="{% url 'Reservation:corb' pk year month day %}">コーナーB</a>
+      <a href="{% url 'cora' pk year month day %}">コーナーA</a>
+      <a href="{% url 'corb' pk year month day %}">コーナーB</a>
     <br>
     <br>
   </div>
@@ -39,6 +39,8 @@
         <th>会議室名</th>
         <th>開始時間</th>
         <th>終了時間</th>
+        <th>ホワイトボード</th>
+        <th>プロジェクター</th>
         <th>料金</th>
       </tr>
 
@@ -49,6 +51,8 @@
               <td>{{ reserve.mrName }}</td>
               <td>{{ reserve.start_time }}</td>
               <td>{{ reserve.end_time }}</td>
+              <td>{{ reserve.whiteboard }}</td>
+              <td>{{ reserve.projector }}</td>
               <td>{{ reserve.charge }}円</td>
             </tr>
           {% endif %}
@@ -58,13 +62,12 @@
   </div>
 
   <div style="position:absolute; top:600px; left:1200px;">
-  <p>{{ total }}</p>
-      <a href="{% url 'Reservation:fcl' %}">付属設備</a>
-      <a href="{% url 'Reservation:guide' %}">料金案内</a>
+      <a href="{% url 'fcl' %}">付属設備</a>
+      <a href="{% url 'guide' %}">料金案内</a>
   </div>
   
   <div style="position:absolute; top:700px; left:1200px;">
-  <form action="{% url 'Reservation:fcl' %}">
+  <form action="{% url 'fcl' %}">
     <input type = "submit" value="予約確定">
   </form>
   </div>

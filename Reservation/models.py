@@ -26,10 +26,10 @@ class Reserve(models.Model):
                                 default=dt.time(10,0))                   #利用終了時間
     mrName = models.CharField('会議室名', max_length = 50)      #会議室名
     fclName = models.CharField(max_length = 50)     #付属設備名
-    whiteboard = models.IntegerField(default = 0,
+    whiteboard = models.IntegerField('ホワイトボード', default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(10)]) #ホワイトボード
-    projector = models.IntegerField(default = 0,
+    projector = models.IntegerField('プロジェクター', default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(5)])  #プロジェクター
     charge = models.IntegerField(max_length = 50)      #料金
