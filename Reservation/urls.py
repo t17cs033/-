@@ -1,6 +1,6 @@
 from .views import MRShowView, BigMRReservationView, MiddleMRReservationView, SmallMRReservationView
 from .views import ACornerReservationView, BCornerReservationView
-from .views import BillingView, BillingBase, GuideView
+from .views import BillingView, GuideView
 from Reservation.views import LoginView,SelectView,Select, ReserveList, ReserveDetail,ReserveDelete,ReserveCalendar
 from django.urls import path
 from . import views
@@ -23,14 +23,14 @@ urlpatterns = [
     path('corb/<int:pk>/<int:year>-<int:month>-<int:day>/', BCornerReservationView.as_view(),name='corb'),
 
     path('reserve_list', ReserveList.as_view(), name = 'reserve_list'),
-    path('reserve_list/<int:pk>', ReserveDetail.as_view(), name = 'reserve_detail'),
+    path('reserve_list/<int:pk>/', ReserveDetail.as_view(), name = 'reserve_detail'),
 
     path('reserve_list/<int:pk>/delete/', ReserveDelete.as_view(), name = 'delete'),
     path('fcl_add/',views.fcl, name = 'fcl'),
-
-    path('Billing',BillingBase.as_view(),name='billbase'),
-    path('Billing/<int:pk>',BillingView.as_view(),name='billing'),
-    path('PriceGuide',GuideView.as_view(),name='guide'),
+ 
+    path('billing/', BillingView.as_view(), name = 'billing'),
+    path('billing/<int:pk>/', BillingView.as_view(),name = "bill"),
+    path('priceguide', GuideView.as_view(), name='guide'),
 
 
     path('month/<int:pk>/<int:year>/<int:month>/', views.ReserveCalendar.as_view(), name='month'),
@@ -38,4 +38,3 @@ urlpatterns = [
     path('reserve_calender/<int:pk>/', ReserveCalendar.as_view(), name = 'reserve_calender'),
     path('date/<int:pk>/<int:year>-<int:month>-<int:date>/', views.ReserveList.as_view(), name='date'),
 ]
-
