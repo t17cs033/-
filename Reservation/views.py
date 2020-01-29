@@ -180,6 +180,12 @@ class BigMRReservationView(CreateView):  #大会議室
             return super(BigMRReservationView, self).form_invalid(form)
         if start_time < '12:00:00' and end_time > '13:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
+            return super(BigMRReservationView, self).form_invalid(form) 
+        if int(projector) > 1:
+            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
+            return super(BigMRReservationView, self).form_invalid(form) 
+        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
+            messages.error(self.request, 'プロジェクターをすでに1台借りています')
             return super(BigMRReservationView, self).form_invalid(form)    
         else:
             r_c = 0
@@ -213,14 +219,7 @@ class MiddleMRReservationView(CreateView):  #中会議室
     template_name = 'Reservation/mr_middle_reservation.html' 
     
     def get_form(self):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
         form = super(MiddleMRReservationView, self).get_form()
-        reserve = Reserve.objects.filter(mrName='中会議室', date=date)
-        for time in reserve:
-            form.initial['start_time'] = time.start_time
         form.initial['mrName'] = '中会議室'
         return form
 
@@ -266,7 +265,10 @@ class MiddleMRReservationView(CreateView):  #中会議室
             return super(MiddleMRReservationView, self).form_invalid(form)
         if int(projector) > 1:
             messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
-            return super(MiddleMRReservationView, self).form_invalid(form)                                                   
+            return super(MiddleMRReservationView, self).form_invalid(form) 
+        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
+            messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(MiddleMRReservationView, self).form_invalid(form)                                                                        
         else:   
             r_c = 0
             f_p = 2000 * int(projector)
@@ -346,6 +348,12 @@ class SmallMRReservationView(CreateView):  #小会議室
             return super(SmallMRReservationView, self).form_invalid(form) 
         if start_time < '12:00:00' and end_time > '13:00:00' and start_time != '9:00:00' and end_time != '16:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
+            return super(SmallMRReservationView, self).form_invalid(form) 
+        if int(projector) > 1:
+            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
+            return super(SmallMRReservationView, self).form_invalid(form) 
+        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
+            messages.error(self.request, 'プロジェクターをすでに1台借りています')
             return super(SmallMRReservationView, self).form_invalid(form)              
         else:
             r_c = 0
@@ -420,7 +428,13 @@ class ACornerReservationView(CreateView):  #コーナーA
             return super(ACornerReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
+            return super(ACornerReservationView, self).form_invalid(form)
+        if int(projector) > 1:
+            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
             return super(ACornerReservationView, self).form_invalid(form) 
+        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
+            messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(ACornerReservationView, self).form_invalid(form)  
         else:
             r_c = 0
             f_p = 2000 * int(projector)
@@ -486,6 +500,12 @@ class BCornerReservationView(CreateView):  #コーナーB
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(BCornerReservationView, self).form_invalid(form)  
+        if int(projector) > 1:
+            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
+            return super(BCornerReservationView, self).form_invalid(form) 
+        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
+            messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(BCornerReservationView, self).form_invalid(form) 
         else:
             r_c = 0
             f_p = 2000 * int(projector)
