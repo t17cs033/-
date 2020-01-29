@@ -50,11 +50,12 @@
 			</div>
 		</div>
 		
-		<div class ="float">
-			<div class ="box10">
+		<div class ="float" >
+			<a href="{% url 'guide' pk year month day %}" class="simple_square_btn5">料金案内</a>
+			<a href="{% url 'reserve_calender' pk%}" class="simple_square_btn5">付属設備</a>
 		</div>
-	</div>
 
+	</div>
 </div>
 
 <div align="center" class ="float1">
@@ -63,6 +64,7 @@
 			<th>会議室名</th>
 			<th>開始時間</th>
 			<th>終了時間</th>
+			<th>料金</th>
 		</tr>
 
 		<tbody>
@@ -71,11 +73,12 @@
 				<td>{{ reserve.mrName }}</td>
 				<td>{{ reserve.start_time }}</td>
 				<td>{{ reserve.end_time }}</td>
+				<td>{{reserve.charge}}</td>
 			</tr>
 			{% endif %} {% endfor %}
 		</tbody>
 	</table>
-
+	
 	<div align="center" class ="po3">
 		<input type="submit" value="予約確定" class="radius-pixel-30">
 	</div>

@@ -302,18 +302,25 @@ table.cal th{
  transform: rotate(-5deg);
 }
 
-/*上太文字*/
-.box10 {
-    padding: 0.5em 1em;
-    margin: 2em 0;
-    color: #00BCD4;
-    background: #e4fcff;/*背景色*/
-    border-top: solid 6px #1dc1d6;
+.simple_square_btn5 {
+	display: block;
+	position: relative;
+	width: 160px;
+	padding: 0.8em;
+	margin-left:50px;
+	margin-top:50px;
+	text-align: center;
+	text-decoration: none;
+	color: #00BCD4;
+	font-size:30px;
+	background: #e4fcff;
+	border-top: solid 6px #1dc1d6;
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);/*影*/
 }
-.box10 p {
-    margin: 0; 
-    padding: 0;
+.simple_square_btn5:hover {
+	 opacity:0.8;
+	 cursor: pointer;
+	 text-decoration: none;
 }
 
 /*ポジション*/
@@ -623,12 +630,13 @@ table.t3 tbody tr:last-child td{
 }
 
 table.t3 th + th,td{
-  border-left:1px solid #666;
+  /*border-left:1px solid #666;*/
 }
 
 table02 th,td {
   padding: 15px;
   color: #1D739A;
+  text-align: center
 }
 .table02 th {
   border-bottom: solid 3px #84B0C4;

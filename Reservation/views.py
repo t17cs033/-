@@ -262,8 +262,25 @@ class GuideView(ListView):
     model = MeetingRoom
     template_name = "Reservation/Guide.html"
 
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        form = super(BigMRReservationView, self).get_form()
+        form.initial['mrName'] = '大会議室'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date
+        return form
+
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx['year'] = self.kwargs.get('year')
+        ctx['month'] = self.kwargs.get('month')
+        ctx['day'] = self.kwargs.get('day')
+        ctx['pk'] = self.kwargs.get('pk')
         ctx.update(
             {
                 'fcl_list' : Facility.objects.order_by('fclName'),
@@ -271,7 +288,7 @@ class GuideView(ListView):
             }
         )
         return ctx
-
+    
 class ReserveDelete(DeleteView):
     model = Reserve
     success_url = reverse_lazy('reserve_list')

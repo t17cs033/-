@@ -30,7 +30,7 @@ urlpatterns = [
 
     path('Billing',BillingBase.as_view(),name='billbase'),
     path('Billing/<int:pk>',BillingView.as_view(),name='billing'),
-    path('PriceGuide',GuideView.as_view(),name='guide'),
+    path('PriceGuide/<int:pk>/<int:year>-<int:month>-<int:day>/',GuideView.as_view(),name='guide'),
 
 
     path('month/<int:pk>/<int:year>/<int:month>/', views.ReserveCalendar.as_view(), name='month'),
