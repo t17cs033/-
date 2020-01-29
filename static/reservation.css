@@ -332,6 +332,10 @@ table.cal th{
   overflow:  hidden;
 }
 
+.float4{
+  position:relative
+}
+
 .float5 {
   float:  left;
   margin-right:50px;
@@ -652,7 +656,7 @@ table02 th,td {
     margin-left:2em;
     font-weight: bold;
     color: #6091d3;/*文字色*/
-    background: #FFF;
+    background: #E0FFFF;
     border: solid 3px #6091d3;/*線*/
     border-radius: 10px;/*角の丸み*/
 }
@@ -850,6 +854,48 @@ body {background-color: #F5FFFA;}
 .radius-pixel-30:hover {
   background-color: yellow;
   border-radius: 30px;
+}
+
+/*ログアウトボタン*/
+.btn-open {
+  display: inline-block;
+  width: 180px;
+  height:50px;
+  text-align: center;
+  background-color: #FF82B2;
+  font-size: 16px;
+  line-height: 52px;
+  color: #FFF;
+  text-decoration: none;
+  font-weight: bold;
+  border: 2px solid #FF82B2;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.btn-open:after{
+  width: 100%;
+  height: 0;
+  content:"";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background : #FFF;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transition: .2s;
+  z-index: -1;
+}
+.btn-open:hover{
+  color: #FF82B2;
+}
+.btn-open:hover:after{
+  height: 240%;
+  opacity: 1;
+}
+.btn-open:active:after{
+  height: 340%;
+  opacity: 1;
 }
 
 /*左右に広がって背景色変更*/

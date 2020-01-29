@@ -28,7 +28,7 @@ urlpatterns = [
     path('reserve_list/<int:pk>/delete/', ReserveDelete.as_view(), name = 'delete'),
     path('fcl_add/',views.fcl, name = 'fcl'),
 
-    path('billing/', BillingView.as_view(), name = 'billing'),
+    path('billing', BillingView.as_view(), name = 'billing'),
     path('billing/<int:pk>/', BillingView.as_view(),name = "bill"),
     path('PriceGuide/<int:pk>/<int:year>-<int:month>-<int:day>/',GuideView.as_view(),name='guide'),
 
