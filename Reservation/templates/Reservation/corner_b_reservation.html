@@ -1,34 +1,50 @@
+{% extends "base.html" %}
 <html>
 <head>
 <title>コーナーB</title>
 </head>
 
-{% block title %} コーナーB {% endblock %}
+{% block main %}
+<div class = "kokuban-s2" align="center" ><p>コーナーB</p></div>
 
 <div>
 <br>
-<a href="{% url 'mrshow' pk year month day %}">戻る</a>
+<a href="{% url 'mrshow' pk year month day %}" class="btn-animation-13"><span>戻る</span></a>
 </div>
 
-<div>
+<div class ="float5">
 {% load static %}
 <br>
 <img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="400" height="250">
 </div>
 
-<div style="position:absolute; top:100px; left:500px;">
+<div class ="box2 float3" align="center">
+<div align="center">
 <form action="{% url 'corb' pk year month day %}" method="post">
 {% csrf_token %}
 <br>
 <br>
-<table>
+<table class ="t2">
 {{ form.as_table }}
 </table>
 </div>
 
-<div style="position:absolute; top:300px; left:700px;">
-<input type = "submit" value="確定">
+<div>
+<br>
+<br>
+<button type="submit" onclick='return confirm("本当に確定しますか？\n確定以後内容を削除する場合は\n予約一覧でお願いします。");'>
+<input type = "submit" class ="btn" value="確定">
 </form>
 </div>
+<div>
+
+  {% if messages %}
+     <ul class="messages">
+         {% for message in messages %}
+             <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+         {% endfor %}
+     </ul>
+  {% endif %}
+{% endblock %}
 
 </html>

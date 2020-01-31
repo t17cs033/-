@@ -2,6 +2,7 @@ from django.db import models
 import datetime as dt
 from django.core.validators import MaxValueValidator,MinValueValidator
 from bokeh.themes import default
+from django.template.defaultfilters import default
 # Create your models here.
 
 def get_next():
@@ -34,17 +35,18 @@ class Reserve(models.Model):
     number = models.IntegerField('予約番号')                  #予約番号
     cmpId = models.IntegerField('企業')                   #ID
     date = models.DateField('日付', blank=False,null=False) #日付
-    start_time = models.TimeField('開始時間', default=dt.time(9,0))                 #利用開始時間
-    end_time = models.TimeField('終了時間', default=dt.time(10,0))                   #利用終了時間
+    start_time = models.TimeField('開始時間', 
+                                  default=dt.time(9,0))                 #利用開始時間
+    end_time = models.TimeField('終了時間', 
+                                default=dt.time(10,0))                   #利用終了時間
     mrName = models.CharField('会議室名', max_length = 50)      #会議室名
-    fclName = models.CharField(max_length = 50)     #付属設備名
-    whiteboard = models.IntegerField(default = 0,
+    whiteboard = models.IntegerField('ホワイトボード', default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(10)]) #ホワイトボード
-    projector = models.IntegerField(default = 0,
+    projector = models.IntegerField('プロジェクター', default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(5)])  #プロジェクター
-    charge = models.CharField(max_length = 50)      #料金
+    charge = models.IntegerField()      #料金
     def __str__(self):
         return str(self.number)
 

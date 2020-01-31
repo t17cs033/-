@@ -10,11 +10,31 @@
  border-radius: 3em .8em 3em .7em/.9em 2em .8em 3em;
 }
 
-/*文字囲う交差(会議室名)*/
+/*確定ボタン（会議室）*/
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/*黒板(会議室名)*/
 .kokuban-s2 {
  position: relative;
  margin: 10px auto;
- padding: 10px 20px;
+ padding: 0px 20px;
  width: 70%; /* ボックス幅 */
  background: #006633; /* ボックス背景色 */
  color: #fff; /* 文章色 */
@@ -192,6 +212,58 @@
   color: #FFF;
 }
 
+/*ボタン会議室などの*/
+
+.btn-box {
+  display: inline-block;
+  width: 200px;
+  text-align: center
+  font-size: 16px;
+  color: #FF8856;
+  text-decoration: none;
+  margin-bottom:10px;
+  font-weight: bold;
+  padding: 12px 24px;
+  position: relative;
+  border: 2px solid #FF8856;
+  transition: .4s;
+}
+
+.btn-box:hover {
+  border: 2px solid transparent;
+  color: #7B3CFF;
+}
+
+.btn-box:before, .btn-box:after {
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  transform: scale(0);
+  transition: .2s;
+}
+
+.btn-box:before {
+  border-bottom: 2px solid #7B3CFF;
+  border-left: 2px solid #7B3CFF;
+  transform-origin: 100% 0%;
+}
+
+.btn-box:after {
+  border-top: 2px solid #7B3CFF;
+  border-right: 2px solid #7B3CFF;
+  transform-origin: 0% 100%;
+}
+
+.btn-box:hover:after,
+.btn-box:hover:before {
+  transform: scale(1);
+}
+
 /*カレンダー*/
 table.cal{
   border-collapse:collapse;
@@ -250,6 +322,27 @@ table.cal th{
  transform: rotate(-5deg);
 }
 
+.simple_square_btn5 {
+	display: block;
+	position: relative;
+	width: 160px;
+	padding: 0.8em;
+	margin-left:50px;
+	margin-top:50px;
+	text-align: center;
+	text-decoration: none;
+	color: #00BCD4;
+	font-size:30px;
+	background: #e4fcff;
+	border-top: solid 6px #1dc1d6;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.32);/*影*/
+}
+.simple_square_btn5:hover {
+	 opacity:0.8;
+	 cursor: pointer;
+	 text-decoration: none;
+}
+
 /*ポジション*/
 .float {
   float:  left;
@@ -257,6 +350,25 @@ table.cal th{
 
 .float1{
   overflow:  hidden;
+}
+
+.float4{
+  position:relative
+}
+
+.float5 {
+  float:  left;
+  margin-right:20px;
+}
+
+.float2{
+  float:left;
+  margin-left:100px;
+}
+
+.float3{
+  overflow:  hidden;
+  margin-left:50px;
 }
 
 .po1{
@@ -277,6 +389,33 @@ margin-left:100px;
 
 .sp1{
 	padding-left:50px;
+}
+
+.box18{
+    margin:2em 0;
+    position: relative;
+    padding: 0.25em 0;
+    border: solid 2px #ffcb8a;
+    border-radius: 3px 0 3px 0;
+}
+.box18:after
+{
+    content: '';
+    position: absolute;
+    width:10px;
+    height: 10px;
+    border: solid 2px #ffcb8a;
+    border-radius: 50%;
+    background: #ffcb8a;
+}
+.box18:after {
+    top:-12px;
+    left:-12px;
+}
+
+.box18 p {
+    margin: 0; 
+    padding: 0;
 }
 
 .kakomi-box13 {
@@ -542,7 +681,40 @@ table.t3 tbody tr:last-child td{
 }
 
 table.t3 th + th,td{
-  border-left:1px solid #666;
+  /*border-left:1px solid #666;*/
+}
+
+table02 th,td {
+  padding: 15px;
+  color: #1D739A;
+  text-align: center
+}
+.table02 th {
+  border-bottom: solid 3px #84B0C4;
+}
+.table02 td {
+  border-bottom: solid 1px #84B0C4;
+}
+
+/*囲い角丸*/
+.box2 {
+    padding: 0.5em 1em;
+    margin: 2em;
+    margin-left:2em;
+    font-weight: bold;
+    color: #6091d3;/*文字色*/
+    background: #E0FFFF;
+    border: solid 3px #6091d3;/*線*/
+    border-radius: 10px;/*角の丸み*/
+}
+.box2 p {
+    margin: 0; 
+    padding: 0;
+}
+
+/*フォーム*/
+.form_pad{
+padding:50px;
 }
 
 /*背景の色をピンクにする*/
@@ -731,6 +903,48 @@ body {background-color: #F5FFFA;}
   border-radius: 30px;
 }
 
+/*ログアウトボタン*/
+.btn-open {
+  display: inline-block;
+  width: 180px;
+  height:50px;
+  text-align: center;
+  background-color: #FF82B2;
+  font-size: 16px;
+  line-height: 52px;
+  color: #FFF;
+  text-decoration: none;
+  font-weight: bold;
+  border: 2px solid #FF82B2;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.btn-open:after{
+  width: 100%;
+  height: 0;
+  content:"";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background : #FFF;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transition: .2s;
+  z-index: -1;
+}
+.btn-open:hover{
+  color: #FF82B2;
+}
+.btn-open:hover:after{
+  height: 240%;
+  opacity: 1;
+}
+.btn-open:active:after{
+  height: 340%;
+  opacity: 1;
+}
+
 /*左右に広がって背景色変更*/
 /*戻るボタン*/
 .btn-animation-02 {
@@ -786,6 +1000,7 @@ body {background-color: #F5FFFA;}
 /*位置変更その１*/
 .btn-animation-13 {
   display: inline-block;
+  margin-bottom:10px;
   width: 200px;
   text-align: center;
   background-color: #9ec34b;
@@ -795,7 +1010,7 @@ body {background-color: #F5FFFA;}
   text-decoration: none;
   font-weight: bold;
   padding: 10px 0;
-  margin-top:10px;
+  margin-top:5px;
   border-radius: 4px;
   position: relative;
 }
