@@ -228,11 +228,19 @@ class BCornerReservationView(CreateView):
 
 class BillingView(ListView):
     model = Billing
-    template_name = "Reservation/Billing.html"
+    template_name = "Reservation/Bill.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['pk'] = self.kwargs.get('pk')
+        ctx.update(
+            {
+                'rsv_list' : Reserve.objects.order_by('cmpId'),
+                'extra' : Reserve.objects.all(),
+            }
+        )
+        
+        
         return ctx
 
 class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
@@ -272,6 +280,9 @@ class GuideView(ListView):
         )
 
         ctx['pk'] = self.kwargs.get('pk')
+        ctx['year'] = self.kwargs.get('year')
+        ctx['month'] = self.kwargs.get('month')
+        ctx['date'] = self.kwargs.get('date')
         return ctx
 
 class ReserveDelete(DeleteView):
@@ -295,3 +306,7 @@ def fcl(request):
         'form' : form,
         }
     return render(request, 'Reservation/fcl_add.html', d)
+
+
+
+
