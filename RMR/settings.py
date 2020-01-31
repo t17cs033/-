@@ -24,8 +24,6 @@ SECRET_KEY = '1fau!9%_92k56t%euzv@i&7m6bwaa)4da(h9=vxc@!p%=1t#!x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,9 +81,9 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT =os.path.join(BASE_DIR, 'static') 
-
-
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
