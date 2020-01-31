@@ -14,15 +14,13 @@
 		</h1></font>
 	<form method="post">
 		{% csrf_token %}
-		<p class="box4" align="center">{{ reserve.date }} : {{
-			reserve.start_time }} ~ {{ reserve.end_time }}の予約をキャンセルしますか？</p>
+		<p class="box4" align="center">{{ reserve.date }} : {{ reserve.start_time }} ~ {{ reserve.end_time }}の予約をキャンセルしますか？</p>
 		<div align="center">
 			<input type="submit" value="確認" class="radius-pixel-30">
 		</div>
 	</form>
 </body>
 
-<a href="{% url " reserve_list" %}" class="btn-animation-02"> <span>戻る<span></a>
-</html>
+
 
 {% endblock %}

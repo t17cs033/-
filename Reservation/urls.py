@@ -22,10 +22,15 @@ urlpatterns = [
     path('reserve_list/', ReserveList.as_view(), name = 'reserve_list'),
     path('reserve_list/<int:pk>/', ReserveDetail.as_view(), name = 'reserve_detail'),
 
-    path('reserve_list', ReserveList.as_view(), name = 'reserve_list'),
-    path('reserve_list/<int:pk>/', ReserveDetail.as_view(), name = 'reserve_detail'),
 
-    path('reserve_list/<int:pk>/delete/', ReserveDelete.as_view(), name = 'delete'),
+    path('reserve_list/', ReserveList.as_view(), name = 'reserve_list'),
+    path('reserve_list/<int:mem_pk>/', ReserveList.as_view(), name = 'reserve_list'),
+    path('detail', ReserveDetail.as_view(), name = 'detail'),
+    path('detail/<int:mem_pk>/<int:pk>', ReserveDetail.as_view(), name = 'detail'),
+    
+    path('delete', ReserveDelete.as_view(), name = 'delete'), 
+    path('delete/<int:mem_pk>/<int:pk>/', ReserveDelete.as_view(), name = 'delete'),
+
     path('fcl_add/',views.fcl, name = 'fcl'),
 
     path('billing', BillingView.as_view(), name = 'billing'),

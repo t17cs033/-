@@ -18,6 +18,9 @@ from django.http.response import HttpResponseRedirect
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
 from . import forms
+from datetime import date
+from _datetime import timezone
+from . import forms
 from django.db.models import Max, Sum
 from token import STAR
 
@@ -672,14 +675,53 @@ class GuideView(ListView):
     
 class ReserveDelete(DeleteView):
     model = Reserve
-    success_url = reverse_lazy('reserve_list')
+    template_name = "Reservation/reserve_confirm_delete.html"
+#     success_url = reverse_lazy('reserve_list')
+     
+#     def delete_res(self, res_id):
+#         res = get_object_or_404(Reserve, id=res_id)
+#         res_id.delete()
+#         return redirect('app:index')
+#     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mem_pk'] = self.kwargs.get('mem_pk')
+        return context
+    
+    def get_success_url(self,**kwargs):
+        return reverse_lazy('reserve_list',kwargs={'mem_pk' : self.kwargs.get('mem_pk')})
+
+        
 
 class ReserveList(ListView):
-    #queryset = Reserve.objects.filter(cmpId = 1)
     model = Reserve
+    template_name = "Reservation/reserve_list.html"
+    paginate_by = 2;
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mem_pk'] = self.kwargs.get('mem_pk')
+        context['today'] = date.today()
+        context['res_list'] = Reserve.objects.filter(cmpId = self.kwargs.get('mem_pk')).order_by('date')
+        
+        return context
+     
 
 class ReserveDetail(DetailView):
     model = Reserve
+    template_name = "Reservation/reserve_detail.html"
+    
+    def post(self, request, *args, **kwargs):
+        re_id = self.request.POST.get('pk')
+        reserve = get_object_or_404(Reserve, pk=re_id)
+        return HttpResponseRedirect(reverse('reserve_list'))
+     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mem_pk'] = self.kwargs.get('mem_pk')
+        context['pk'] = self.kwargs.get('pk')
+           
+        return context
 
 def fcl(request):
     form = forms.FclForm(request.POST)
