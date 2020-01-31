@@ -1,23 +1,23 @@
-from django.http import HttpResponse
-from Reservation.models import Reserve,Member
-from django.views.generic.base import TemplateView
-from Reservation.forms import MemberIdForm, MemberForm,LoginningUser
-from django.shortcuts import get_object_or_404,render, redirect
-from django.views.generic.edit import UpdateView, DeleteView
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Reserve,Member
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from Reservation.models import Reserve
 from django.urls.base import reverse,reverse_lazy
-from django.urls import reverse
 from django.contrib import messages
 from .forms import ReserveForm
 import datetime
+from django.views.generic.base import TemplateView
+from Reservation.forms import MemberIdForm, MemberForm,LoginningUser, CornerForm
+from django.views.generic.edit import UpdateView,DeleteView
 from django.views import generic
 from . import Calender
 from django.http.response import HttpResponseRedirect
+from django.urls import reverse
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
-from . import forms
+from Reservation import forms
 from datetime import date
 from _datetime import timezone
 from . import forms
@@ -31,6 +31,7 @@ class LoginView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
+        #member = Member.objects.get(pk = cmpId)
         member =get_object_or_404(Member, pk=cmpId)
         context = super().get_context_data(**kwargs)
         context['form_id'] = MemberIdForm()
@@ -41,6 +42,7 @@ class LoginView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['form_id'] = MemberIdForm()
         return context
+
 
 class SelectView(TemplateView):
     model = Member
@@ -61,6 +63,58 @@ class SelectView(TemplateView):
 class Select(UpdateView):
     model = Member
     template_name = 'Reservation/select.html'
+    fields = ('cmpId','cmpName','address','tel','section','name','mail','pay')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
+        return context
+
+class BillingTestView(TemplateView):
+    model = Member
+    template_name = 'Reservation/test_billing.html'
+
+    def post(self,request,*args,**kwargs):
+        cmpId =self.request.POST.get('cmpId')
+        context = super().get_context_data(**kwargs)
+        context['member'] = MemberForm()
+        return self.render_to_response(context)
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_id'] = MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
+        context['form'] = MemberForm()
+        return context
+
+class BillingTest(UpdateView):
+    model = Member
+    template_name = 'Reservation/test_billing.html'
+    fields = ('cmpId','cmpName','address','tel','section','name','mail','pay')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_id']=MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
+        return context
+
+class ReservationTestView(TemplateView):
+    model = Member
+    template_name = 'Reservation/test_reservation.html'
+
+    def post(self,request,*args,**kwargs):
+        cmpId =self.request.POST.get('cmpId')
+        context = super().get_context_data(**kwargs)
+        context['member'] = MemberForm()
+        return self.render_to_response(context)
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_id'] = MemberIdForm(initial ={'cmpId':self.kwargs.get('pk')})
+        context['form'] = MemberForm()
+        return context
+
+class ReservationTest(UpdateView):
+    model = Member
+    template_name = 'Reservation/test_reservation.html'
     fields = ('cmpId','cmpName','address','tel','section','name','mail','pay')
 
     def get_context_data(self, **kwargs):
@@ -205,6 +259,7 @@ class BigMRReservationView(CreateView):  #大会議室
     def get_success_url(self):
         return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
+    
 class MiddleMRReservationView(CreateView):  #中会議室
     model = Reserve
     form_class = ReserveForm
@@ -320,7 +375,7 @@ class MiddleMRReservationView(CreateView):  #中会議室
    
     def get_success_url(self):
         return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
-
+               
 class SmallMRReservationView(CreateView):  #小会議室
     model = Reserve
     form_class = ReserveForm
@@ -419,27 +474,15 @@ class SmallMRReservationView(CreateView):  #小会議室
     def get_success_url(self):
         return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
-
-
+    
 class ACornerReservationView(CreateView):  #コーナーA
     model = Reserve
-    form_class = ReserveForm
+    form_class = CornerForm
     template_name = 'Reservation/corner_a_reservation.html'    
 
     def get_form(self):
         form = super(ACornerReservationView, self).get_form()
         form.initial['mrName'] = 'コーナーA'
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        if Reserve.objects.filter(date=date).exists():        
-            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
-            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
-            if int(w_sum['whiteboard__sum']) == 10:
-                messages.info(self.request, '在庫切れ：ホワイトボード')
-            if int(p_sum['projector__sum']) == 5:
-                messages.info(self.request, '在庫切れ：プロジェクター')    
         return form
 
     def get_context_data(self, **kwargs):
@@ -458,10 +501,6 @@ class ACornerReservationView(CreateView):  #コーナーA
         date = datetime.date(year=year, month=month, day=day)
         pk = self.kwargs.get('pk')
         mrName = self.request.POST.get('mrName')
-        whiteboard = self.request.POST.get('whiteboard')
-        projector = self.request.POST.get('projector')
-        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
-        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -476,23 +515,9 @@ class ACornerReservationView(CreateView):  #コーナーA
         if str(time) > '2:00:00' and start_time <= '12:00:00' and end_time >= '13:00:00' and (start_time != '9:00:00' or end_time != '16:00:00'):
             messages.error(self.request, '半日貸しは9:00〜12:00、13:00〜16:00です')
             messages.error(self.request, '1時間貸しは連続2時間までです')
-            return super(ACornerReservationView, self).form_invalid(form)             
-        if int(projector) > 1:
-            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
-            return super(ACornerReservationView, self).form_invalid(form) 
-        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
-            messages.error(self.request, 'プロジェクターをすでに1台借りています')
-            return super(ACornerReservationView, self).form_invalid(form)
-        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
-            messages.error(self.request, 'ホワイトボードの在庫がありません')
-            return super(ACornerReservationView, self).form_invalid(form)
-        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
-            messages.error(self.request, 'プロジェクターの在庫がありません')
-            return super(ACornerReservationView, self).form_invalid(form)  
+            return super(ACornerReservationView, self).form_invalid(form)               
         else:
             r_c = 0
-            f_p = 2000 * int(projector)
-            f_w = 1000 * int(whiteboard)
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time
@@ -504,36 +529,27 @@ class ACornerReservationView(CreateView):  #コーナーA
                 r_c = 1500
             if str(time) == '7:00:00':
                 r_c = 2500 
-            reserve.charge = r_c + f_p + f_w
+            reserve.charge = r_c
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
+            reserve.whiteboard = 0
+            reserve.projector = 0
             reserve.save()    
         return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
     def get_success_url(self):
         return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
-
+    
 class BCornerReservationView(CreateView):  #コーナーB
     model = Reserve
-    form_class = ReserveForm
+    form_class = CornerForm
     template_name = 'Reservation/corner_b_reservation.html'    
 
     def get_form(self):
         form = super(BCornerReservationView, self).get_form()
-        form.initial['mrName'] = 'コーナーB'
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        date = datetime.date(year=year, month=month, day=day)
-        if Reserve.objects.filter(date=date).exists():        
-            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
-            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
-            if int(w_sum['whiteboard__sum']) == 10:
-                messages.info(self.request, '在庫切れ：ホワイトボード')
-            if int(p_sum['projector__sum']) == 5:
-                messages.info(self.request, '在庫切れ：プロジェクター')   
+        form.initial['mrName'] = 'コーナーB'  
         return form
 
     def get_context_data(self, **kwargs):
@@ -552,10 +568,6 @@ class BCornerReservationView(CreateView):  #コーナーB
         date = datetime.date(year=year, month=month, day=day)
         pk = self.kwargs.get('pk')
         mrName = self.request.POST.get('mrName')
-        whiteboard = self.request.POST.get('whiteboard')
-        projector = self.request.POST.get('projector')
-        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
-        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -571,22 +583,8 @@ class BCornerReservationView(CreateView):  #コーナーB
             messages.error(self.request, '半日貸しは9:00〜12:00、13:00〜16:00です')
             messages.error(self.request, '1時間貸しは連続2時間までです')
             return super(BCornerReservationView, self).form_invalid(form)   
-        if int(projector) > 1:
-            messages.error(self.request, 'プロジェクターは1日に1台しか借りることができません')
-            return super(BCornerReservationView, self).form_invalid(form) 
-        if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
-            messages.error(self.request, 'プロジェクターをすでに1台借りています')
-            return super(BCornerReservationView, self).form_invalid(form)
-        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
-            messages.error(self.request, 'ホワイトボードの在庫がありません')
-            return super(BCornerReservationView, self).form_invalid(form)
-        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
-            messages.error(self.request, 'プロジェクターの在庫がありません')
-            return super(BCornerReservationView, self).form_invalid(form) 
         else:
             r_c = 0
-            f_p = 2000 * int(projector)
-            f_w = 1000 * int(whiteboard)
             reserve = form.save(commit=False)
             reserve.start_time = start_time 
             reserve.end_time = end_time
@@ -598,10 +596,12 @@ class BCornerReservationView(CreateView):  #コーナーB
                 r_c = 1500
             if str(time) == '7:00:00':
                 r_c = 2500 
-            reserve.charge = r_c + f_p + f_w
+            reserve.charge = r_c
             reserve.number = pk
             reserve.cmpId = pk
             reserve.date = date
+            reserve.whiteboard = 0
+            reserve.projector = 0
             reserve.save()    
         return redirect('mrshow', pk=self.kwargs.get('pk'), year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
    
@@ -732,4 +732,4 @@ def fcl(request):
     d = {
         'form' : form,
         }
-    return render(request, 'Reservation/fcl_add.html', d)
+    return render(request, 'Reservation/fcl_add.html', d)

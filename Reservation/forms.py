@@ -13,6 +13,12 @@ class ReserveForm(forms.ModelForm):
         fields = ['mrName', 'start_time', 'end_time', 'whiteboard', 'projector']
         widgets = {'start_time': forms.Select(choices=SHOUR_CHOICES), 'end_time': forms.Select(choices=EHOUR_CHOICES)}   
 
+class CornerForm(forms.ModelForm):
+    class Meta:
+        model = Reserve
+        fields = ['mrName', 'start_time', 'end_time']
+        widgets = {'start_time': forms.Select(choices=SHOUR_CHOICES), 'end_time': forms.Select(choices=EHOUR_CHOICES)}
+        
 class LoginningUser(forms.Form):
     class Meta:
         model = Reserve
