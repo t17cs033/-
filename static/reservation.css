@@ -358,7 +358,7 @@ table.cal th{
 
 .float5 {
   float:  left;
-  margin-right:50px;
+  margin-right:20px;
 }
 
 .float2{
@@ -389,6 +389,33 @@ margin-left:100px;
 
 .sp1{
 	padding-left:50px;
+}
+
+.box18{
+    margin:2em 0;
+    position: relative;
+    padding: 0.25em 0;
+    border: solid 2px #ffcb8a;
+    border-radius: 3px 0 3px 0;
+}
+.box18:after
+{
+    content: '';
+    position: absolute;
+    width:10px;
+    height: 10px;
+    border: solid 2px #ffcb8a;
+    border-radius: 50%;
+    background: #ffcb8a;
+}
+.box18:after {
+    top:-12px;
+    left:-12px;
+}
+
+.box18 p {
+    margin: 0; 
+    padding: 0;
 }
 
 .kakomi-box13 {
