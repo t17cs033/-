@@ -265,6 +265,17 @@ class MiddleMRReservationView(CreateView):  #中会議室
     def get_form(self):
         form = super(MiddleMRReservationView, self).get_form()
         form.initial['mrName'] = '中会議室'
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        if Reserve.objects.filter(date=date).exists():        
+            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
+            if int(w_sum['whiteboard__sum']) == 10:
+                messages.info(self.request, '在庫切れ：ホワイトボード')
+            if int(p_sum['projector__sum']) == 5:
+                messages.info(self.request, '在庫切れ：プロジェクター')
         return form
 
     def get_context_data(self, **kwargs):
@@ -289,6 +300,8 @@ class MiddleMRReservationView(CreateView):  #中会議室
         projector = self.request.POST.get('projector')
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
+        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
@@ -312,6 +325,12 @@ class MiddleMRReservationView(CreateView):  #中会議室
             return super(MiddleMRReservationView, self).form_invalid(form) 
         if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
             messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(MiddleMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
+            messages.error(self.request, 'ホワイトボードの在庫がありません')
+            return super(MiddleMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
+            messages.error(self.request, 'プロジェクターの在庫がありません')
             return super(MiddleMRReservationView, self).form_invalid(form)                                                                        
         else:   
             r_c = 0
@@ -362,6 +381,17 @@ class SmallMRReservationView(CreateView):  #小会議室
     def get_form(self):
         form = super(SmallMRReservationView, self).get_form()
         form.initial['mrName'] = '小会議室'
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        if Reserve.objects.filter(date=date).exists():        
+            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
+            if int(w_sum['whiteboard__sum']) == 10:
+                messages.info(self.request, '在庫切れ：ホワイトボード')
+            if int(p_sum['projector__sum']) == 5:
+                messages.info(self.request, '在庫切れ：プロジェクター')
         return form
    
     def form_valid(self, form):
@@ -373,6 +403,8 @@ class SmallMRReservationView(CreateView):  #小会議室
         mrName = self.request.POST.get('mrName')
         whiteboard = self.request.POST.get('whiteboard')
         projector = self.request.POST.get('projector')
+        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -398,6 +430,12 @@ class SmallMRReservationView(CreateView):  #小会議室
             return super(SmallMRReservationView, self).form_invalid(form) 
         if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
             messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(SmallMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
+            messages.error(self.request, 'ホワイトボードの在庫がありません')
+            return super(SmallMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
+            messages.error(self.request, 'プロジェクターの在庫がありません')
             return super(SmallMRReservationView, self).form_invalid(form)              
         else:
             r_c = 0
@@ -441,7 +479,18 @@ class ACornerReservationView(CreateView):  #コーナーA
 
     def get_form(self):
         form = super(ACornerReservationView, self).get_form()
-        form.initial['mrName'] = 'コーナーA'    
+        form.initial['mrName'] = 'コーナーA'
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        if Reserve.objects.filter(date=date).exists():        
+            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
+            if int(w_sum['whiteboard__sum']) == 10:
+                messages.info(self.request, '在庫切れ：ホワイトボード')
+            if int(p_sum['projector__sum']) == 5:
+                messages.info(self.request, '在庫切れ：プロジェクター')    
         return form
 
     def get_context_data(self, **kwargs):
@@ -462,6 +511,8 @@ class ACornerReservationView(CreateView):  #コーナーA
         mrName = self.request.POST.get('mrName')
         whiteboard = self.request.POST.get('whiteboard')
         projector = self.request.POST.get('projector')
+        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -478,6 +529,12 @@ class ACornerReservationView(CreateView):  #コーナーA
             return super(ACornerReservationView, self).form_invalid(form) 
         if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
             messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(ACornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
+            messages.error(self.request, 'ホワイトボードの在庫がありません')
+            return super(ACornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
+            messages.error(self.request, 'プロジェクターの在庫がありません')
             return super(ACornerReservationView, self).form_invalid(form)  
         else:
             r_c = 0
@@ -512,7 +569,18 @@ class BCornerReservationView(CreateView):  #コーナーB
 
     def get_form(self):
         form = super(BCornerReservationView, self).get_form()
-        form.initial['mrName'] = 'コーナーB'   
+        form.initial['mrName'] = 'コーナーB'
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        if Reserve.objects.filter(date=date).exists():        
+            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
+            if int(w_sum['whiteboard__sum']) == 10:
+                messages.info(self.request, '在庫切れ：ホワイトボード')
+            if int(p_sum['projector__sum']) == 5:
+                messages.info(self.request, '在庫切れ：プロジェクター')   
         return form
 
     def get_context_data(self, **kwargs):
@@ -533,6 +601,8 @@ class BCornerReservationView(CreateView):  #コーナーB
         mrName = self.request.POST.get('mrName')
         whiteboard = self.request.POST.get('whiteboard')
         projector = self.request.POST.get('projector')
+        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         start_time = self.request.POST.get('start_time')
         end_time = self.request.POST.get('end_time')
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
@@ -549,6 +619,12 @@ class BCornerReservationView(CreateView):  #コーナーB
             return super(BCornerReservationView, self).form_invalid(form) 
         if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
             messages.error(self.request, 'プロジェクターをすでに1台借りています')
+            return super(BCornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
+            messages.error(self.request, 'ホワイトボードの在庫がありません')
+            return super(BCornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
+            messages.error(self.request, 'プロジェクターの在庫がありません')
             return super(BCornerReservationView, self).form_invalid(form) 
         else:
             r_c = 0
