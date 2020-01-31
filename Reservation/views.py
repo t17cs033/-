@@ -124,13 +124,38 @@ class MRShowView(ListView):  #会議室一覧
     template_name = 'Reservation/mr_show.html'
     
     def get_context_data(self, **kwargs):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        pk = self.kwargs.get('pk')
         context = super().get_context_data(**kwargs)
-        context['member'] = Member.objects.get(cmpId=self.kwargs.get('pk'))
-        context['year'] = self.kwargs.get('year')
-        context['month'] = self.kwargs.get('month')
-        context['day'] = self.kwargs.get('day')
-        context['date'] = datetime.date(year=self.kwargs.get('year'), month=self.kwargs.get('month'), day=self.kwargs.get('day'))
-        context['pk'] = self.kwargs.get('pk')     
+        context['pk'] = pk
+        context['year'] = year
+        context['month'] = month
+        context['day'] = day
+        context['date'] = date
+        if Reserve.objects.filter(cmpId=pk, date=date).exists():
+            total = Reserve.objects.filter(cmpId=pk, date=date).aggregate(Sum('charge'))
+            context['total'] = int(total['charge__sum'])
+            white = Reserve.objects.filter(cmpId=pk, date=date).aggregate(Sum('whiteboard'))
+            context['whiteboard'] = int(white['whiteboard__sum'])
+            pro = Reserve.objects.filter(cmpId=pk, date=date).aggregate(Sum('projector'))
+            context['projector'] = int(pro['projector__sum'])
+        else:
+            context['total'] = 0 
+            context['whiteboard'] = 0
+            context['projector'] = 0          
+        if Reserve.objects.filter(date=date).exists():
+            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+            w_sto = 10 - int(w_sum['whiteboard__sum'])
+            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
+            p_sto = 5 - int(p_sum['projector__sum'])
+            context['w_stock'] = w_sto
+            context['p_stock'] = p_sto
+        else:
+            context['w_stock'] = 10
+            context['p_stock'] = 5    
         return context
 
 class BigMRReservationView(CreateView):  #大会議室
@@ -200,10 +225,10 @@ class BigMRReservationView(CreateView):  #大会議室
         if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
             messages.error(self.request, 'プロジェクターをすでに1台借りています')
             return super(BigMRReservationView, self).form_invalid(form)
-        if int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
+        if Reserve.objects.filter(date=date).exists() and int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
             messages.error(self.request, 'ホワイトボードの在庫がありません')
             return super(BigMRReservationView, self).form_invalid(form)
-        if int(p_sum['projector__sum'])+int(projector) > 5:
+        if Reserve.objects.filter(date=date).exists() and int(p_sum['projector__sum'])+int(projector) > 5:
             messages.error(self.request, 'プロジェクターの在庫がありません')
             return super(BigMRReservationView, self).form_invalid(form)                       
         else:

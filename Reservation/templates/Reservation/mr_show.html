@@ -32,6 +32,11 @@
     <br>
     <br>
   </div>
+  
+  <div>
+      <p>ホワイトボード在庫数：{{ w_stock }}</p>
+      <p>プロジェクター在庫数：{{ p_stock }}</p>
+  </div>
 
   <div style="position:absolute; top:200px; left:1100px;">
     <table border="1">
@@ -58,6 +63,17 @@
           {% endif %}
         {% endfor %}
        </tbody>
+       
+       <tfoot>
+         <tr>
+           <th>合計</th>
+           <td>  </td>
+           <td>  </td>
+           <td>{{ whiteboard }}</td>
+           <td>{{ projector }}</td>
+           <td>{{ total }}円</td>
+         </tr>
+       </tfoot>
     </table>
   </div>
 
