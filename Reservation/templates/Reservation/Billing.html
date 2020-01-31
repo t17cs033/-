@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block main %}
+
+<font color="teal"><h1 align="center">
+		<span>請求ページ</span>
+	</h1></font>
+<br>
+<div class="kakomi-te1 float">
+
+	<span class="title-maru4"><script>
+document.write("Today <br>");
+</script></span>
+
+	<script>
+  today = new Date();
+  year = today.getFullYear();
+  month = today.getMonth()+1;
+  day = today.getDate();
+  document.write(year,"年");
+  document.write(month,"月");
+  document.write(day,"日");
+</script>
+
+</div>
+<div class="float1">
+	<table class="t2_2" align="center">
+
+		<body>
+			{% for billing in object_list %}
+			{% for member in object_list %}
+				
+			{% if billing.cmpId is member.cmpId and billing.cmpId is pk %}
+				
+			<tr>
+				<th>会員ID</th>
+				<td>{{member.cmpId}}</td>
+			</tr>
+
+			<tr>
+				<th>残額</th>
+				<td>{{ billing.remain }}</td>
+			</tr>
+
+
+			<tr>
+				<th>当月分</th>
+				<td>{{ billing.amount }}</td>
+			</tr>
+
+			<tr>
+				<th>合計</th>
+				<td><script>
+       		       re = {{ billing.remain }};
+        	       am = {{ billing.amount }};
+            	  document.write(re+am);
+            	</script></td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+			{% endfor %}
+		</body>
+	</table>
+
+</div>
+<br>
+<br>
+<br>
+<br>
+<div align="left">
+	<a href="{% url 'select' %}/{{pk}}" class="btn-animation-02"><span>戻る</span></a>
+</div>
+{% endblock %}

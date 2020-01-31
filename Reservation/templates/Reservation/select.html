@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block main %}
+
+<div class="box25">
+	<h2 align="center">ようこそ {{member.cmpName}}さん</h2>
+</div>
+
+<div class="parent" style="position: relative; top: 10px;"">
+	<div class="inline-block_test">
+		<a href="{% url 'billing' %}/{{member.cmpId}}" class="button"> <font
+			size="6">請求</font>
+		</a>
+	</div>
+
+	<div class="inline-block_test">
+		<a href="{% url 'reserve_calender' %}/{{member.cmpId}}" class="button">
+			<font size="6">予約</font>
+		</a>
+	</div>
+</div>
+
+<div align="right">
+	<a href="{% url 'login' %}"> ログアウト </a>
+</div>
+
+{% endblock%}

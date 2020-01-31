@@ -1,19 +1,48 @@
+{% extends "base.html" %}{% block main %}
 <!doctype html>
 <html>
 
-{% block title %} 予約詳細 {% endblock %}
+<font color="teal"><h1 align="center">
+		<span>予約詳細</span>
+	</h1></font>
 
-<dvi class="reserve">
-    <body>
-        <p>予約番号:{{ reserve.number }}</p>
-    	 <p>日時：{{ reserve.date }}</p>	
-        <p>開始時間：{{ reserve.start_time }}</p>
-        <p>終了時間：{{ reserve.end_time }}</p>
-        <p>会議室：{{ reserve.mrName}}</p>
-        <p>附属設備：{{ reserve.fclName}}</p>
-        <p>料金：{{ reserve.charge}}</p>
-        
-    </body>
+<dvi align="center">
+<table class="t2" align="center">
+	<tr>
+		<th>予約番号</th>
+		<td>{{ reserve.number }}</td>
+	</tr>
+	<tr>
+		<th>日時</th>
+		<td>{{ reserve.date }}</td>
+	</tr>
+	<tr>
+		<th>開始時間</th>
+		<td>{{ reserve.start_time }}</td>
+	</tr>
+	<tr>
+		<th>終了時間</th>
+		<td>{{ reserve.end_time }}</td>
+	</tr>
+	<tr>
+		<th>会議室</th>
+		<td>{{ reserve.mrName }}</td>
+	</tr>
+	<tr>
+		<th>ホワイトボード</th>
+		<td>{{ reserve.whiteboard }}</td>
+	</tr>
+	<tr>
+		<th>プロジェクター</th>
+		<td>{{ reserve.projector }}</td>
+	</tr>
+	<tr>
+		<th>料金</th>
+		<td>{{ reserve.charge }}</td>
+	</tr>
+</table>
 </div>
-<a href= "{% url "reserve_list" %}"> 戻る </a>
-<html>
+<<<<<<< HEAD
+<a href="{% url " reserve_list" %}" class="btn-animation-02"> <span>戻る<span></a>
+
+<html>{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+<html>
+<head>
+<title>中会議室</title>
+</head>
+
+{% block main %}
+<div class = "kokuban-s2" align="center" ><p>中会議室 </p></div>
+
+<div>
+<br>
+<a href="{% url 'mrshow' pk year month day %}" class="btn-animation-13"><span>戻る</span></a>
+</div>
+
+<div class ="float5">
+{% load static %}
+<br>
+<img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="400" height="250">
+</div>
+
+<div class ="box2 float3" align="center">
+<div align="center">
+<form action="{% url 'mrmid' pk year month day %}" method="post">
+{% csrf_token %}
+<br>
+<br>
+<table class ="t2">
+{{ form.as_table }}
+</table>
+</div>
+
+
+<div>
+<br>
+<br>
+<input type = "submit"  value="確定">
+</form>
+</div>
+<div>
+{% endblock %}
+
+</html>
