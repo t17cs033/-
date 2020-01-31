@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 <html>
-<head>
-<title>中会議室</title>
-</head>
+ <head>
+  <title>中会議室</title>
+ </head>
 
 {% block main %}
 <div class = "kokuban-s2" align="center" ><p>中会議室 </p></div>
@@ -29,7 +29,6 @@
 </table>
 </div>
 
-
 <div>
 <br>
 <br>
@@ -37,6 +36,14 @@
 </form>
 </div>
 <div>
-{% endblock %}
 
+  {% if messages %}
+     <ul class="messages">
+         {% for message in messages %}
+             <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+         {% endfor %}
+     </ul>
+  {% endif %}
+ 
+{% endblock %}
 </html>
