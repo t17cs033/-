@@ -18,7 +18,7 @@ from django.urls import reverse
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
 from Reservation import forms
-from django.db.models import Max
+from django.db.models import Max, Sum
 from token import STAR
 
 class LoginView(TemplateView):
@@ -141,6 +141,17 @@ class BigMRReservationView(CreateView):  #大会議室
     def get_form(self):
         form = super(BigMRReservationView, self).get_form()
         form.initial['mrName'] = '大会議室'
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        if Reserve.objects.filter(date=date).exists():        
+            w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+            p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
+            if int(w_sum['whiteboard__sum']) == 10:
+                messages.info(self.request, '在庫切れ：ホワイトボード')
+            if int(p_sum['projector__sum']) == 5:
+                messages.info(self.request, '在庫切れ：プロジェクター')
         return form
 
     def get_context_data(self, **kwargs):
@@ -163,6 +174,8 @@ class BigMRReservationView(CreateView):  #大会議室
         end_time = self.request.POST.get('end_time')
         whiteboard = self.request.POST.get('whiteboard')
         projector = self.request.POST.get('projector')
+        w_sum = Reserve.objects.filter(date=date).aggregate(Sum('whiteboard'))
+        p_sum = Reserve.objects.filter(date=date).aggregate(Sum('projector'))
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S') 
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
@@ -186,7 +199,13 @@ class BigMRReservationView(CreateView):  #大会議室
             return super(BigMRReservationView, self).form_invalid(form) 
         if Reserve.objects.filter(cmpId=pk, date=date, projector='1').exists() and int(projector) == 1:
             messages.error(self.request, 'プロジェクターをすでに1台借りています')
-            return super(BigMRReservationView, self).form_invalid(form)    
+            return super(BigMRReservationView, self).form_invalid(form)
+        if int(w_sum['whiteboard__sum'])+int(whiteboard) > 10:
+            messages.error(self.request, 'ホワイトボードの在庫がありません')
+            return super(BigMRReservationView, self).form_invalid(form)
+        if int(p_sum['projector__sum'])+int(projector) > 5:
+            messages.error(self.request, 'プロジェクターの在庫がありません')
+            return super(BigMRReservationView, self).form_invalid(form)                       
         else:
             r_c = 0
             f_p = 2000 * int(projector)
