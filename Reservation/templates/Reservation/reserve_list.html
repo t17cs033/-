@@ -4,15 +4,15 @@
 
 <font color="teal">
 	<h1 align="center">
-		<span>予約一覧 </span>
+		<span> 予約一覧 </span>
 	</h1>
 </font>
 
 <div align="center">
 	<table border="1" class="t1">
 		<body>
+		
 		<tr>
-			<th>予約番号</th>
 			<th>日付</th>
 			<th>開始時間</th>
 			<th>終了時間</th>
@@ -20,24 +20,41 @@
 			<th></th>
 		</tr>
 
-		{% for reserve in object_list %}
+		{% for reserve in res_list %}
 		<tr>
-
-			<td>{{ reserve.number }}</td>
+		{% if reserve.date >= today %}
+		
+		
 			<td>{{ reserve.date }}</td>
 			<td>{{ reserve.start_time }}</td>
 			<td>{{ reserve.end_time }}</td>
-			<td><a href="{% url 'reserve_detail' reserve.pk %}"> 詳細 </font></a></td>
-			<td><a href="{% url 'delete' reserve.pk %}">キャンセル</a></td>
+			<td><a href="{% url 'detail' %}/{{mem_pk}}/{{reserve.id}}"> 詳細 </font></a></td>
+			
+			<td>
+			{% if reserve.date > today %}
+			<a href="{% url 'delete' %}/{{mem_pk}}/{{reserve.id}}"> キャンセル </a>
+			{% else %}
+			<p>当日キャンセル不可</p>
+			{% endif %}
+			</td>
+			
 
+		{% endif %}
 		</tr>
 		{% endfor %}
 		</body>
 	</table>
+	
+	
 
 
-	<a href="{% url 'reserve_calender' %}/{{reserve.cmpId}}"
+	<p>
+	<a href="{% url 'reserve_calender' %}/{{mem_pk}}"
 		class="btn-animation-02"> <span>戻る<span></a>
+	</p>	
+
+	
+
 
 </div>
 <html>{% endblock %}
