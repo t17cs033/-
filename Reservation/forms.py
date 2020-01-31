@@ -6,13 +6,13 @@ import datetime as dt
 
 SHOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(9,16)]
 EHOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(10,17)]
- 
+
 class ReserveForm(forms.ModelForm):
     class Meta:
         model = Reserve
         fields = ['mrName', 'start_time', 'end_time', 'whiteboard', 'projector']
         widgets = {'start_time': forms.Select(choices=SHOUR_CHOICES), 'end_time': forms.Select(choices=EHOUR_CHOICES)}   
-        
+
 class LoginningUser(forms.Form):
     class Meta:
         model = Reserve
@@ -30,7 +30,7 @@ class FclForm(forms.Form):
         max_value = 10,
         required = True,
         )
-    
+
     fcl_b = forms.IntegerField(
         label = 'プロジェクタ',
         min_value = 0,

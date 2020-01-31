@@ -1,70 +1,91 @@
-<!doctype html>
- <html>
-    {% block title %} 会議室一覧 {% endblock %}
+{% extends "base.html" %}{% block main %}
+<head>
+<title>会議室一覧</title>
+</head>
+<div class = "kokuban-s2" align="center" ><p>会議室一覧 </p></div>
 
- {% block main %}
-  <div>
-    <br>
-    <a href="{% url 'month' pk  year month %}">戻る</a>
-  </div>
+<div>
+	<br> <a href="{% url 'reserve_calender' pk%}" class="btn-animation-13"><span>戻る</span></a>
+</div>
 
-  <div>
-    {% load static %}
-    <br>
-    <img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="300" height="200" hspace="10"><img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="300" height="200" hspace="10">
-  </div>
+<div class ="float" align="center">
+	<div class ="float1" >
+		{% load static %}
+		<div class="float">
+			<img src="{% static "Reservation/大会議室.jpg" %}" alt="大会議室" width="400" height="300" hspace="10"> <br>
+			<div align="center">
+				<a href="{% url 'mrbig' pk year month day %}" class="btn-box">大会議室</a>
+			</div>
+		</div>
 
-  <div>
-    <br>
-      <a href="{% url 'mrbig' pk year month day %}">大会議室</a>
-      <a href="{% url 'mrmid' pk year month day %}">中会議室</a>
-      <a href="{% url 'mrsml' pk year month day %}">小会議室</a>
-  </div>
+		<div class="float">
+			<img src="{% static "Reservation/中会議室.jpg" %}" alt="中会議室" width="400" height="300" hspace="10"> <br>
+			<div align="center">
+				<a href="{% url 'mrmid' pk year month day %}" class="btn-box">中会議室</a>
+			</div>
+		</div>
 
-  <div>
-    {% load static %}
-    <br>
-    <img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="300" height="200" hspace="10"><img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="300" height="200" hspace="10">
-    <br>
-    <br>
-      <a href="{% url 'cora' pk year month day %}">コーナーA</a>
-      <a href="{% url 'corb' pk year month day %}">コーナーB</a>
-    <br>
-    <br>
-  </div>
+		<div class ="float">
+			<img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="400" height="300" hspace="10"> <br>
+			<div align="center">
+				<a href="{% url 'mrsml' pk year month day %}" class="btn-box">小会議室</a>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class ="flaot1" >
+		{% load static %}
+		<div class ="float2" >
+			<img src="{% static "Reservation/コーナーA.jpg" %}" alt="コーナーA" width="400" height="300" hspace="10"> <br>
+			<div align="center">
+				<a href="{% url 'cora' pk year month day %}" class="btn-box">コーナーA</a>
+			</div>
+		</div>
+		<div class ="float">
+			<img src="{% static "Reservation/コーナーB.jpg" %}" alt="コーナーB" width="400" height="300" hspace="10">
+			<div align="center">
+				 <a href="{% url 'corb' pk year month day %}" class="btn-box">コーナーB</a> <br> <br>
+			</div>
+		</div>
+		
+		<div class ="float">
+			<div class ="box10">
+		</div>
+	</div>
+
+</div>
   
   <div>
       <p>ホワイトボード在庫数：{{ w_stock }}</p>
       <p>プロジェクター在庫数：{{ p_stock }}</p>
   </div>
 
-  <div style="position:absolute; top:200px; left:1100px;">
-    <table border="1">
-      <tr>
-        <th>会議室名</th>
-        <th>開始時間</th>
-        <th>終了時間</th>
-        <th>ホワイトボード</th>
-        <th>プロジェクター</th>
-        <th>料金</th>
-      </tr>
+<div align="center" class ="float1">
+	<table class ="table02">
+		<tr>
+			<th>会議室名</th>
+			<th>開始時間</th>
+			<th>終了時間</th>
+          <th>ホワイトボード</th>
+          <th>プロジェクター</th>
+          <th>料金</th>
+		</tr>
 
-      <tbody>
-        {% for reserve in object_list %}
-          {% if reserve.cmpId == pk and reserve.date == date %}
-            <tr>
-              <td>{{ reserve.mrName }}</td>
-              <td>{{ reserve.start_time }}</td>
-              <td>{{ reserve.end_time }}</td>
+		<tbody>
+			{% for reserve in object_list %} {% if reserve.cmpId == pk and reserve.date == date  %}
+			<tr>
+				<td>{{ reserve.mrName }}</td>
+				<td>{{ reserve.start_time }}</td>
+				<td>{{ reserve.end_time }}</td>
               <td>{{ reserve.whiteboard }}</td>
               <td>{{ reserve.projector }}</td>
               <td>{{ reserve.charge }}円</td>
-            </tr>
-          {% endif %}
-        {% endfor %}
-       </tbody>
-       
-       <tfoot>
+			</tr>
+			{% endif %} {% endfor %}
+	   </tbody>
+	   <tfoot>
          <tr>
            <th>合計</th>
            <td>  </td>
@@ -74,18 +95,11 @@
            <td>{{ total }}円</td>
          </tr>
        </tfoot>
-    </table>
+	</table>
   </div>
 
-  <div style="position:absolute; top:600px; left:1200px;">
-      <a href="{% url 'guide' %}">料金案内</a>
-  </div>
-  
-  <div style="position:absolute; top:700px; left:1200px;">
-  <form action="{% url 'fcl' %}">
-    <input type = "submit" value="予約確定">
-  </form>
-  </div>
-
- {% endblock %}
-</html>
+	<div align="center" class ="po3">
+		<input type="submit" value="予約確定" class="radius-pixel-30">
+	</div>
+</div>
+{% endblock %}
