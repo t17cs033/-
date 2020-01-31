@@ -32,7 +32,7 @@ class Reserve(models.Model):
     projector = models.IntegerField('プロジェクター', default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(5)])  #プロジェクター
-    charge = models.IntegerField(max_length = 50)      #料金
+    charge = models.IntegerField()      #料金
     def __str__(self):
         return str(self.number)
     
