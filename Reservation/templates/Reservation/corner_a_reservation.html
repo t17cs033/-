@@ -29,14 +29,21 @@
 </table>
 </div>
 
-
 <div>
 <br>
 <br>
-<input type = "submit"  value="確定">
+<button type="submit" onclick='return confirm("本当に確定しますか？\n確定以後内容を削除する場合は\n予約一覧でお願いします。");'>
+<input type = "submit" class ="btn" value="確定">
 </form>
 </div>
 <div>
-{% endblock %}
 
+  {% if messages %}
+     <ul class="messages">
+         {% for message in messages %}
+             <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+         {% endfor %}
+     </ul>
+  {% endif %}
+{% endblock %}
 </html>
