@@ -56,6 +56,11 @@
 
 	</div>
 </div>
+  
+  <div>
+      <p>ホワイトボード在庫数：{{ w_stock }}</p>
+      <p>プロジェクター在庫数：{{ p_stock }}</p>
+  </div>
 
 <div align="center" class ="float1">
 	<table class ="table02">
@@ -63,24 +68,38 @@
 			<th>会議室名</th>
 			<th>開始時間</th>
 			<th>終了時間</th>
-			<th>料金</th>
+          <th>ホワイトボード</th>
+          <th>プロジェクター</th>
+          <th>料金</th>
 		</tr>
 
 		<tbody>
-			{% for reserve in object_list %} {% if reserve.cmpId == pk %}
+			{% for reserve in object_list %} {% if reserve.cmpId == pk and reserve.date == date  %}
 			<tr>
 				<td>{{ reserve.mrName }}</td>
 				<td>{{ reserve.start_time }}</td>
 				<td>{{ reserve.end_time }}</td>
-				<td>{{reserve.charge}}</td>
+              <td>{{ reserve.whiteboard }}</td>
+              <td>{{ reserve.projector }}</td>
+              <td>{{ reserve.charge }}円</td>
 			</tr>
 			{% endif %} {% endfor %}
-		</tbody>
+	   </tbody>
+	   <tfoot>
+         <tr>
+           <th>合計</th>
+           <td>  </td>
+           <td>  </td>
+           <td>{{ whiteboard }}</td>
+           <td>{{ projector }}</td>
+           <td>{{ total }}円</td>
+         </tr>
+       </tfoot>
 	</table>
-	
+  </div>
+
 	<div align="center" class ="po3">
 		<input type="submit" value="予約確定" class="radius-pixel-30">
 	</div>
 </div>
-
 {% endblock %}
