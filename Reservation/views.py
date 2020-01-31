@@ -18,6 +18,9 @@ from django.urls import reverse
 from .models import Billing
 from Reservation.models import MeetingRoom, Facility
 from Reservation import forms
+from datetime import date
+from _datetime import timezone
+from . import forms
 from django.db.models import Max, Sum
 from token import STAR
 
@@ -605,21 +608,20 @@ class BCornerReservationView(CreateView):  #コーナーB
     def get_success_url(self):
         return reverse('mrshow', kwargs={'pk':self.kwargs.get('pk'), 'year':self.kwargs.get('year'), 'month':self.kwargs.get('month'), 'day':self.kwargs.get('day')})
 
-class BillingBase(ListView):
-    model = Billing
-    template_name = "Reservation/BillBase.html"
-    
-class BillingView(DetailView):
+class BillingView(ListView):
     model = Billing
     template_name = "Reservation/Billing.html"
-    
-    
-    
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['pk'] = self.kwargs.get('pk')
+        return ctx
+
 class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
     """月間カレンダーを表示するビュー"""
     template_name = 'Reservation/reserve_calender.html'
     model = Reserve
-    
+
 
     def post(self, request, *args, **kwargs):
         cmpId = self.request.POST.get('cmpId')
@@ -636,33 +638,90 @@ class ReserveCalendar(Calender.MonthCalendarMixin, generic.ListView):
         context['pk'] = self.kwargs.get('pk')#html内でpkとして使える
         context.update(calendar_context)
         return context
-    
-   
+
 
 class GuideView(ListView):
     model = MeetingRoom
     template_name = "Reservation/Guide.html"
-    
+
+    def get_form(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        date = datetime.date(year=year, month=month, day=day)
+        cmpId = self.kwargs.get('pk')
+        form = super(BigMRReservationView, self).get_form()
+        form.initial['mrName'] = '大会議室'
+        form.initial['number'] = cmpId
+        form.initial['cmpId'] = cmpId
+        form.initial['date'] = date
+        return form
+
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx['year'] = self.kwargs.get('year')
+        ctx['month'] = self.kwargs.get('month')
+        ctx['day'] = self.kwargs.get('day')
+        ctx['pk'] = self.kwargs.get('pk')
         ctx.update(
             {
                 'fcl_list' : Facility.objects.order_by('fclName'),
                 'extra' : Facility.objects.all(),
             }
         )
+
+        ctx['pk'] = self.kwargs.get('pk')
         return ctx
     
 class ReserveDelete(DeleteView):
     model = Reserve
-    success_url = reverse_lazy('reserve_list')
-   
-class ReserveList(ListView):
-    queryset = Reserve.objects.filter(cmpId = 1)
-    model = Reserve
+    template_name = "Reservation/reserve_confirm_delete.html"
+#     success_url = reverse_lazy('reserve_list')
+     
+#     def delete_res(self, res_id):
+#         res = get_object_or_404(Reserve, id=res_id)
+#         res_id.delete()
+#         return redirect('app:index')
+#     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mem_pk'] = self.kwargs.get('mem_pk')
+        return context
     
+    def get_success_url(self,**kwargs):
+        return reverse_lazy('reserve_list',kwargs={'mem_pk' : self.kwargs.get('mem_pk')})
+
+        
+
+class ReserveList(ListView):
+    model = Reserve
+    template_name = "Reservation/reserve_list.html"
+    paginate_by = 2;
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mem_pk'] = self.kwargs.get('mem_pk')
+        context['today'] = date.today()
+        context['res_list'] = Reserve.objects.filter(cmpId = self.kwargs.get('mem_pk')).order_by('date')
+        
+        return context
+     
+
 class ReserveDetail(DetailView):
     model = Reserve
+    template_name = "Reservation/reserve_detail.html"
+    
+    def post(self, request, *args, **kwargs):
+        re_id = self.request.POST.get('pk')
+        reserve = get_object_or_404(Reserve, pk=re_id)
+        return HttpResponseRedirect(reverse('reserve_list'))
+     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mem_pk'] = self.kwargs.get('mem_pk')
+        context['pk'] = self.kwargs.get('pk')
+           
+        return context
 
 def fcl(request):
     form = forms.FclForm(request.POST)
@@ -673,4 +732,4 @@ def fcl(request):
     d = {
         'form' : form,
         }
-    return render(request, 'Reservation/fcl_add.html', d)
+    return render(request, 'Reservation/fcl_add.html', d)

@@ -5,7 +5,10 @@
 <div class = "kokuban-s2" align="center" ><p>会議室一覧 </p></div>
 
 <div>
-	<br> <a href="{% url 'reserve_calender' pk%}" class="btn-animation-13"><span>戻る</span></a>
+	<br> <div class =float><a href="{% url 'reserve_calender' pk%}" class="btn-animation-13"><span>戻る</span></a></div>
+	<div align="right" class ="po3">
+		<a href="{% url 'select' %}/{{pk}}" class="btn-open">終了</a>
+	</div>
 </div>
 
 <div class ="float" align="center">
@@ -25,12 +28,21 @@
 			</div>
 		</div>
 
-		<div class ="float">
+		<div class ="float5">
 			<img src="{% static "Reservation/小会議室.jpg" %}" alt="小会議室" width="400" height="300" hspace="10"> <br>
 			<div align="center">
 				<a href="{% url 'mrsml' pk year month day %}" class="btn-box">小会議室</a>
 			</div>
 		</div>
+		
+		<div class ="float">
+	    	<a href="{% url 'guide' pk year month day %}" class="simple_square_btn5">料金案内</a>
+		<div class ="box18">
+          <p>ホワイトボード在庫数：{{ w_stock }}</p>
+          <p>プロジェクター在庫数：{{ p_stock }}</p>
+        </div>
+      </div>
+		
 	</div>
 
 
@@ -50,21 +62,9 @@
 			</div>
 		</div>
 		
-		<div class ="float">
-			<div class ="box10">
-		</div>
-	</div>
-
-</div>
-  
-  <div>
-      <p>ホワイトボード在庫数：{{ w_stock }}</p>
-      <p>プロジェクター在庫数：{{ p_stock }}</p>
-  </div>
-
-<div align="center" class ="float1">
-	<table class ="table02">
-		<tr>
+		<div align="center" >
+		  <table class ="table02">
+		   <tr>
 			<th>会議室名</th>
 			<th>開始時間</th>
 			<th>終了時間</th>
@@ -97,9 +97,10 @@
        </tfoot>
 	</table>
   </div>
+</div>
 
-	<div align="center" class ="po3">
-		<input type="submit" value="予約確定" class="radius-pixel-30">
 	</div>
 </div>
+  
+
 {% endblock %}

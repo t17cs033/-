@@ -24,10 +24,6 @@ SECRET_KEY = '1fau!9%_92k56t%euzv@i&7m6bwaa)4da(h9=vxc@!p%=1t#!x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -85,12 +81,9 @@ DATABASES = {
     }
 }
 
-STATIC_URL = '/static/'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -128,4 +121,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+#STATIC_URL = '/static/'
 STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
+INSTALLED_ROOT =os.path.join(BASE_DIR, 'static')
+#ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1','.pythonanywhere.com']

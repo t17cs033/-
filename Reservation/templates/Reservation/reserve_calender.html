@@ -48,7 +48,7 @@
                 <td>
                 {%if month_current.month >= now.month and month_current.year >= now.year%}
                    {%if  month_current.month == now.month%}
-            	     {%if now.day <= day.day or day.month == month_next.month%}
+            	     {%if now.day < day.day or day.month == month_next.month%}
             	        {%if day.month != month_previous.month%}
             	           {% if month_current.month != day.month %}
                               <a href="{% url 'mrshow' pk month_current.year day.month  day.day %}">  {{ day | date:"m/d" }}</a>
@@ -57,30 +57,41 @@
                            {% endif %}
                         {%else%}
                 	   {% if month_current.month != day.month %}
-                               {{ day | date:"m/d" }}
+                             <font color="black">  {{ day | date:"m/d" }}</font>
                            {% else %}
-                                {{ day.day }}
+                              <font color="black">  {{ day.day }}</font>
                            {%endif%}
                         {%endif%}
                      {%else%}
                 	 {% if month_current.month != day.month %}
-                            {{ day | date:"m/d" }}
+                           <font color="black"> {{ day | date:"m/d" }}</font>
                          {% else %}
-                            {{ day.day }}
+                          <font color="black">  {{ day.day }}</font>
                          {%endif%}
              
                      {%endif%}
                    {%elif month_current.month > now.month%}	
                       {% if month_current.month != day.month %}
+							{%if now.day < day.day or day.month > now.month%}
                          <a href="{% url 'mrshow' pk month_current.year day.month  day.day %}">  {{ day | date:"m/d" }}</a>
-                      {% else %}
+                	 {%else%}
+                          <font color="black"> {{ day | date:"m/d" }} </font>
+                         {%endif%}     
+		{% else %}
                          <a href="{% url 'mrshow' pk month_current.year  day.month  day.day %}"> {{ day.day }}</a>
                     {% endif %}
                    {%else%}
                 	 {% if month_current.month != day.month %}
-                             {{ day | date:"m/d" }}
+                           <font color="black">  {{ day | date:"m/d" }}</font>
                    {% else %}
-                       {{ day.day }}
+                       <font color="black">{{ day.day }}</font>
+                   {%endif%}
+		{%endif%}
+		{%else%}
+		 {% if month_current.month != day.month %}
+                           <font color="black">  {{ day | date:"m/d" }}</font>
+                   {% else %}
+                    <font color="black">   {{ day.day }}</font>
                    {%endif%}
 		{%endif%}
                 {%if month_current.month >= now.month and month_current.year >= now.year%}
@@ -157,7 +168,7 @@
    	{% endfor %}
 
    	<div class="po2">
-   	<a href="{% url 'reserve_list' %}/{{pk}}" class="btn-flat-vertical-border">一覧</a>
+   	<a href="{% url 'reserve_list' %}{{pk}}" class="btn-flat-vertical-border">一覧</a>
     </div>
     </div>
 

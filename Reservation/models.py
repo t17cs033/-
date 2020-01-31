@@ -31,7 +31,6 @@ class Reserve(models.Model):
     end_time = models.TimeField('終了時間', 
                                 default=dt.time(10,0))                   #利用終了時間
     mrName = models.CharField('会議室名', max_length = 50)      #会議室名
-    fclName = models.CharField(max_length = 50)     #付属設備名
     whiteboard = models.IntegerField('ホワイトボード', default = 0,
                 validators=[MinValueValidator(0),
                             MaxValueValidator(10)]) #ホワイトボード

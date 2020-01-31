@@ -19,19 +19,21 @@ urlpatterns = [
     path('mrsml/<int:pk>/<int:year>-<int:month>-<int:day>/', SmallMRReservationView.as_view(),name='mrsml'),  #小会議室
     path('cora/<int:pk>/<int:year>-<int:month>-<int:day>/', ACornerReservationView.as_view(),name='cora'),  #コーナーA
     path('corb/<int:pk>/<int:year>-<int:month>-<int:day>/', BCornerReservationView.as_view(),name='corb'),  #コーナーB
+
+
     path('reserve_list/', ReserveList.as_view(), name = 'reserve_list'),
-    path('reserve_list/<int:pk>/', ReserveDetail.as_view(), name = 'reserve_detail'),
+    path('reserve_list/<int:mem_pk>/', ReserveList.as_view(), name = 'reserve_list'),
+    path('detail', ReserveDetail.as_view(), name = 'detail'),
+    path('detail/<int:mem_pk>/<int:pk>', ReserveDetail.as_view(), name = 'detail'),
+    
+    path('delete', ReserveDelete.as_view(), name = 'delete'), 
+    path('delete/<int:mem_pk>/<int:pk>/', ReserveDelete.as_view(), name = 'delete'),
 
-    path('reserve_list', ReserveList.as_view(), name = 'reserve_list'),
-    path('reserve_list/<int:pk>/', ReserveDetail.as_view(), name = 'reserve_detail'),
-
-    path('reserve_list/<int:pk>/delete/', ReserveDelete.as_view(), name = 'delete'),
     path('fcl_add/',views.fcl, name = 'fcl'),
- 
-    path('billing/', BillingView.as_view(), name = 'billing'),
-    path('billing/<int:pk>/', BillingView.as_view(),name = "bill"),
-    path('priceguide', GuideView.as_view(), name='guide'),
 
+    path('billing', BillingView.as_view(), name = 'billing'),
+    path('billing/<int:pk>/', BillingView.as_view(),name = "bill"),
+    path('PriceGuide/<int:pk>/<int:year>-<int:month>-<int:day>/',GuideView.as_view(),name='guide'),
 
     path('month/<int:pk>/<int:year>/<int:month>/', views.ReserveCalendar.as_view(), name='month'),
     path('reserve_calender', ReserveCalendar.as_view(), name = 'reserve_calender'),
