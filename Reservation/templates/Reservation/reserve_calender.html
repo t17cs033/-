@@ -47,18 +47,42 @@
                 {% for day in week %}
                 <td>
                 {%if month_current.month >= now.month and month_current.year >= now.year%}
-                {% if month_current.month != day.month %}
-                   <a href="{% url 'mrshow' pk month_current.year month_current.month  day.day %}">  {{ day | date:"m/d" }}</a>
-              	{% else %}
-                   <a href="{% url 'mrshow' pk month_current.year  month_current.month  day.day %}"> {{ day.day }}</a>
-              {% endif %}
- 			{%else%}
- 				{% if month_current.month != day.month %}
-                  {{ day | date:"m/d" }}
-              {% else %}
-                  {{ day.day }}
-              {%endif%}
-          	{%endif%}
+                   {%if  month_current.month == now.month%}
+            	     {%if now.day <= day.day or day.month == month_next.month%}
+            	        {%if day.month != month_previous.month%}
+            	           {% if month_current.month != day.month %}
+                              <a href="{% url 'mrshow' pk month_current.year day.month  day.day %}">  {{ day | date:"m/d" }}</a>
+                           {% else %}
+                               <a href="{% url 'mrshow' pk month_current.year  day.month  day.day %}"> {{ day.day }}</a>
+                           {% endif %}
+                        {%else%}
+                	   {% if month_current.month != day.month %}
+                               {{ day | date:"m/d" }}
+                           {% else %}
+                                {{ day.day }}
+                           {%endif%}
+                        {%endif%}
+                     {%else%}
+                	 {% if month_current.month != day.month %}
+                            {{ day | date:"m/d" }}
+                         {% else %}
+                            {{ day.day }}
+                         {%endif%}
+             
+                     {%endif%}
+                   {%elif month_current.month > now.month%}	
+                      {% if month_current.month != day.month %}
+                         <a href="{% url 'mrshow' pk month_current.year day.month  day.day %}">  {{ day | date:"m/d" }}</a>
+                      {% else %}
+                         <a href="{% url 'mrshow' pk month_current.year  day.month  day.day %}"> {{ day.day }}</a>
+                    {% endif %}
+                   {%else%}
+                	 {% if month_current.month != day.month %}
+                             {{ day | date:"m/d" }}
+                   {% else %}
+                       {{ day.day }}
+                   {%endif%}
+		{%endif%}
                 {%if month_current.month >= now.month and month_current.year >= now.year%}
 
                 <script>
