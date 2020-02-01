@@ -1,7 +1,6 @@
 from django.db import models
 import datetime as dt
 from django.core.validators import MaxValueValidator,MinValueValidator
-from bokeh.themes import default
 from django.template.defaultfilters import default
 # Create your models here.
 
