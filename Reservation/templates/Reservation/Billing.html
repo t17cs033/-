@@ -23,17 +23,16 @@ document.write("Today <br>");
 </div>
 <div class="float1">
 	<table class="t2_2" align="center">
-
 		<body>
 			{% for billing in object_list %}
 			{% for member in object_list %}
 				
+			<script type="text/javascript">
 			{% if billing.cmpId is member.cmpId and billing.cmpId is pk %}
-				
-			<tr>
-				<th>会員ID</th>
-				<td>{{member.cmpId}}</td>
-			</tr>
+			re ={{member.cmpId}};
+			re += 5;
+				document.write("<th>会員ID</th><td>"+ re +"</td>");
+			</script>
 
 			<tr>
 				<th>残額</th>
@@ -69,3 +68,5 @@ document.write("Today <br>");
 	<a href="{% url 'select' %}/{{pk}}" class="btn-animation-02"><span>戻る</span></a>
 </div>
 {% endblock %}
+
+

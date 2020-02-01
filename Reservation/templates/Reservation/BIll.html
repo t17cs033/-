@@ -1,0 +1,92 @@
+{% extends "base.html" %} {% block main %}
+
+<font color="teal"><h1 align="center">
+		<span>請求ページ</span>
+	</h1></font>
+<br>
+<div class="kakomi-te1 float">
+
+	<span class="title-maru4"><script>
+document.write("Today <br>");
+</script></span>
+
+	<script>
+  today = new Date();
+  year = today.getFullYear();
+  month = today.getMonth()+1;
+  day = today.getDate();
+  document.write(year,"年");
+  document.write(month,"月");
+  document.write(day,"日");
+</script>
+
+</div>
+<div class="float1">
+	<table class="t2_2" align="center">
+
+		<body>
+			<script>
+				var billing = 0;
+				var amount = 0;
+				var remain = 0;
+				today = new Date();
+				year = today.getFullYear();
+				month = today.getMonth()+1;
+				date = today.getDate();
+				{% for member in object_list %}
+					var bill = 0;
+
+					{% for billing in object_list %}
+						if ({{billing.cmpId}} == {{pk}} && {{billing.cmpId}} == {{member.cmpId}}) {
+							bill += {{billing.bill}};
+						}
+					{% endfor %}
+
+					var am = 0;
+					var rem = 0;
+					{% for billing in extra %}
+						if ({{billing.cmpId}} == {{member.cmpId}} && {{billing.cmpId}} == {{pk}}) {
+							if (year == {{billing.date.year}} && month == {{billing.date.month}}) {
+								am += {{billing.charge}};
+							}
+							if (year > {{billing.date.year}} || (year == {{billing.date.year}} && month > {{billing.date.month}})) {
+								rem += {{billing.charge}};
+							}
+						}
+					{% endfor %}
+					billing = bill;
+					amount = am;
+					remain = rem;
+				{% endfor %}
+				var temp = remain -billing;
+				if (temp < 0) {
+					if (amount > 0 && amount +temp > 0) {
+						amount += temp;
+					}
+					else{
+						amount = 0;
+					}
+					remain = 0;
+				}
+				else{
+					remain -= billing;
+				}
+
+				document.write("<tr><th>未払い金</th><td>"+ remain +"</td></tr>");
+				document.write("<tr><th>今月</th><td>"+ amount +"</td></tr>");
+
+			</script>
+		</body>
+	</table>
+
+</div>
+<br>
+<br>
+<br>
+<br>
+<div align="left">
+	<a href="{% url 'select' %}/{{pk}}" class="btn-animation-02"><span>戻る</span></a>
+</div>
+{% endblock %}
+
+
