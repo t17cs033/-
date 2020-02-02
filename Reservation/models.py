@@ -26,7 +26,7 @@ class Member(models.Model):
     name = models.CharField(max_length = 50)    #担当者名
     mail = models.CharField(max_length = 50)    #メールアドレス
     pay = models.ForeignKey(Billing,on_delete=models.CASCADE)     #支払金額
-    
+
     def __str__(self):
         return self.cmpName
 
@@ -34,9 +34,9 @@ class Reserve(models.Model):
     number = models.IntegerField('予約番号')                  #予約番号
     cmpId = models.IntegerField('企業')                   #ID
     date = models.DateField('日付', blank=False,null=False) #日付
-    start_time = models.TimeField('開始時間', 
+    start_time = models.TimeField('開始時間',
                                   default=dt.time(9,0))                 #利用開始時間
-    end_time = models.TimeField('終了時間', 
+    end_time = models.TimeField('終了時間',
                                 default=dt.time(10,0))                   #利用終了時間
     mrName = models.CharField('会議室名', max_length = 50)      #会議室名
     whiteboard = models.IntegerField('ホワイトボード', default = 0,
