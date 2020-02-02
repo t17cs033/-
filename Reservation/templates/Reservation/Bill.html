@@ -37,7 +37,7 @@ document.write("Today <br>");
 					var bill = 0;
 
 					{% for billing in object_list %}
-						if ({{billing.cmpId}} == {{pk}} && {{billing.cmpId}} == {{member.cmpId}}) {
+						if ({{billing.cmpId}} == {{pk}}) {
 							bill += {{billing.bill}};
 						}
 					{% endfor %}
@@ -45,7 +45,7 @@ document.write("Today <br>");
 					var am = 0;
 					var rem = 0;
 					{% for billing in extra %}
-						if ({{billing.cmpId}} == {{member.cmpId}} && {{billing.cmpId}} == {{pk}}) {
+						if ({{billing.cmpId}} == {{pk}}) {
 							if (year == {{billing.date.year}} && month == {{billing.date.month}}) {
 								am += {{billing.charge}};
 							}
@@ -53,6 +53,7 @@ document.write("Today <br>");
 								rem += {{billing.charge}};
 							}
 						}
+
 					{% endfor %}
 					billing = bill;
 					amount = am;
