@@ -156,10 +156,16 @@ class BigMRReservationView(CreateView):  #大会議室
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S')
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
-        if etime < stime:
+        if etime <= stime:
             messages.error(self.request, '時間を正しく設定してください')
             return super(BigMRReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(BigMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__lt=end_time,end_time__gt=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(BigMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(BigMRReservationView, self).form_invalid(form)
         if start_time == '12:00:00':
@@ -257,10 +263,16 @@ class MiddleMRReservationView(CreateView):  #中会議室
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S')
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
-        if etime < stime:
+        if etime <= stime:
             messages.error(self.request, '時間を正しく設定してください')
             return super(MiddleMRReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(MiddleMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__lt=end_time,end_time__gt=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(MiddleMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(MiddleMRReservationView, self).form_invalid(form)
         if start_time == '12:00:00':
@@ -362,11 +374,17 @@ class SmallMRReservationView(CreateView):  #小会議室
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S')
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
-        if etime < stime:
+        if etime <= stime:
             messages.error(self.request, '時間を正しく設定してください')
             return super(SmallMRReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')            
+            return super(SmallMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__lt=end_time,end_time__gt=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
+            return super(SmallMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')            
             return super(SmallMRReservationView, self).form_invalid(form)
         if start_time == '12:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
@@ -455,10 +473,16 @@ class ACornerReservationView(CreateView):  #コーナーA
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S')
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
-        if etime < stime:
+        if etime <= stime:
             messages.error(self.request, '時間を正しく設定してください')
             return super(ACornerReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(ACornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__lt=end_time,end_time__gt=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(ACornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(ACornerReservationView, self).form_invalid(form)
         if str(time) !='7:00:00' and str(time) > '2:00:00' and start_time <= '12:00:00' and end_time >= '13:00:00' and (start_time != '9:00:00' or end_time != '16:00:00'):
@@ -522,10 +546,16 @@ class BCornerReservationView(CreateView):  #コーナーB
         etime = datetime.datetime.strptime(end_time, '%H:%M:%S')
         stime = datetime.datetime.strptime(start_time, '%H:%M:%S')
         time = etime-stime
-        if etime < stime:
+        if etime <= stime:
             messages.error(self.request, '時間を正しく設定してください')
             return super(BCornerReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(BCornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__lt=end_time,end_time__gt=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(BCornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(BCornerReservationView, self).form_invalid(form)
         if str(time) !='7:00:00' and str(time) > '2:00:00' and start_time <= '12:00:00' and end_time >= '13:00:00' and (start_time != '9:00:00' or end_time != '16:00:00'):
