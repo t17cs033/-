@@ -162,6 +162,9 @@ class BigMRReservationView(CreateView):  #大会議室
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(BigMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(BigMRReservationView, self).form_invalid(form)
         if start_time == '12:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
             return super(BigMRReservationView, self).form_invalid(form)
@@ -261,6 +264,9 @@ class MiddleMRReservationView(CreateView):  #中会議室
             messages.error(self.request, '時間を正しく設定してください')
             return super(MiddleMRReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(MiddleMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(MiddleMRReservationView, self).form_invalid(form)
         if start_time == '12:00:00':
@@ -366,7 +372,10 @@ class SmallMRReservationView(CreateView):  #小会議室
             messages.error(self.request, '時間を正しく設定してください')
             return super(SmallMRReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
-            messages.error(self.request, 'すでに予約が入っています')
+            messages.error(self.request, 'すでに予約が入っています')            
+            return super(SmallMRReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')            
             return super(SmallMRReservationView, self).form_invalid(form)
         if start_time == '12:00:00':
             messages.error(self.request, '12時〜13時は使用できません')
@@ -461,6 +470,9 @@ class ACornerReservationView(CreateView):  #コーナーA
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(ACornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(ACornerReservationView, self).form_invalid(form)
         if str(time) !='7:00:00' and str(time) > '2:00:00' and start_time <= '12:00:00' and end_time >= '13:00:00' and (start_time != '9:00:00' or end_time != '16:00:00'):
             messages.error(self.request, '半日貸しは9:00〜12:00、13:00〜16:00です')
             messages.error(self.request, '1時間貸しは連続2時間までです')
@@ -526,6 +538,9 @@ class BCornerReservationView(CreateView):  #コーナーB
             messages.error(self.request, '時間を正しく設定してください')
             return super(BCornerReservationView, self).form_invalid(form)
         if Reserve.objects.filter(date=date,mrName=mrName,start_time__lte=start_time,end_time__gt=start_time).exists():
+            messages.error(self.request, 'すでに予約が入っています')
+            return super(BCornerReservationView, self).form_invalid(form)
+        if Reserve.objects.filter(date=date,mrName=mrName,start_time__gte=start_time,end_time__lte=end_time).exists():
             messages.error(self.request, 'すでに予約が入っています')
             return super(BCornerReservationView, self).form_invalid(form)
         if str(time) !='7:00:00' and str(time) > '2:00:00' and start_time <= '12:00:00' and end_time >= '13:00:00' and (start_time != '9:00:00' or end_time != '16:00:00'):
