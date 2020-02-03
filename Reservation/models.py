@@ -46,7 +46,7 @@ class Reserve(models.Model):
                             MaxValueValidator(5)])  #プロジェクター
     charge = models.IntegerField()      #料金
     def __str__(self):
-        return str(self.)
+        return str(self.cmpId)
 
 class MeetingRoom(models.Model):
     mrName= models.CharField(max_length = 50)       #会議室名
